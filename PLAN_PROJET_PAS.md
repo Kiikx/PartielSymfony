@@ -32,11 +32,11 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 2 - Modele de donnees Doctrine
 
-- [ ] Commit 05 - `Ajouter le modele utilisateur avec heritage`
-  - [ ] Creer `User` avec email, password, roles, nom, prenom, actif.
-  - [ ] Ajouter l'heritage Doctrine pour `AdminUser`, `ManagerUser`, `GuardUser`.
-  - [ ] Ajouter les champs specifiques : service, superAdmin, managedBuilding, badgeNumber, assignedZone.
-  - [ ] Ajouter contraintes de validation et index utiles.
+- [x] Commit 05 - `Ajouter le modele utilisateur avec heritage`
+  - [x] Creer `User` avec email, password, roles, nom, prenom, actif.
+  - [x] Ajouter l'heritage Doctrine pour `AdminUser`, `ManagerUser`, `GuardUser`.
+  - [x] Ajouter les champs specifiques : service, superAdmin, managedBuilding, badgeNumber, assignedZone.
+  - [x] Ajouter contraintes de validation et index utiles.
 
 - [ ] Commit 06 - `Ajouter les entites de structure penitentiaire`
   - [ ] Creer `Building`, `Wing`, `Cell`.
