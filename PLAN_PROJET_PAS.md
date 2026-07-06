@@ -6,8 +6,8 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 - Source de verite fonctionnelle : `Sujet.md`.
 - Le plan ci-dessous sert de feuille de route operationnelle et doit rester aligne avec les criteres du sujet.
-- Branche de travail courante : `feature/auth-security-foundation`, deja pushee sur `origin`.
-- Priorite immediate : rendre l'authentification testable avec des comptes de demo fixtures avant d'empiler les pages metier.
+- Branche de travail courante : `feature/access-control-and-business-services`.
+- Priorite immediate : finaliser le controle d'acces puis avancer sur les services metier testables.
 
 ## Rappels des criteres du sujet
 
@@ -103,40 +103,40 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [ ] Ajouter les `access_control`.
   - [ ] Verifier la hierarchy ROLE_ADMIN > ROLE_MANAGER > ROLE_GUARD > ROLE_USER.
 
-- [ ] Commit 12 - `Ajouter le voter des incidents`
-  - [ ] Creer `IncidentVoter`.
-  - [ ] Admin : tout.
-  - [ ] Manager : incidents de son batiment.
-  - [ ] Guard : creation et modification de ses incidents ouverts/brouillons.
-  - [ ] Ajouter tests unitaires du voter.
+- [x] Commit 12 - `Ajouter le voter des incidents`
+  - [x] Creer `IncidentVoter`.
+  - [x] Admin : tout.
+  - [x] Manager : incidents de son batiment.
+  - [x] Guard : creation et modification de ses incidents ouverts/brouillons.
+  - [x] Ajouter tests unitaires du voter.
 
 ## Phase 4 - Services metier
 
-- [ ] Commit 13 - `Ajouter le service d affectation`
-  - [ ] Empecher depassement de capacite.
-  - [ ] Empecher affectation si statut SORTI ou TRANSFERE_EXTERNE.
-  - [ ] Garantir une seule affectation active par detenu.
-  - [ ] Journaliser l'action dans `AuditLog`.
-  - [ ] Ajouter test unitaire obligatoire.
+- [x] Commit 13 - `Ajouter le service d affectation`
+  - [x] Empecher depassement de capacite.
+  - [x] Empecher affectation si statut SORTI ou TRANSFERE_EXTERNE.
+  - [x] Garantir une seule affectation active par detenu.
+  - [x] Journaliser l'action dans `AuditLog`.
+  - [x] Ajouter test unitaire obligatoire.
 
-- [ ] Commit 14 - `Ajouter le service de transfert`
-  - [ ] Gerer transfert interne.
-  - [ ] Gerer transfert externe.
-  - [ ] Cloturer l'affectation source.
-  - [ ] Creer nouvelle affectation si transfert interne.
-  - [ ] Preparer notification email.
+- [x] Commit 14 - `Ajouter le service de transfert`
+  - [x] Gerer transfert interne.
+  - [x] Gerer transfert externe.
+  - [x] Cloturer l'affectation source.
+  - [x] Creer nouvelle affectation si transfert interne.
+  - [x] Preparer notification email.
 
-- [ ] Commit 15 - `Ajouter les services incidents et notifications`
-  - [ ] Creer incidents via service.
-  - [ ] Notifier les managers en gravite elevee.
-  - [ ] Historiser les notifications.
-  - [ ] Journaliser creation et traitement.
+- [x] Commit 15 - `Ajouter les services incidents et notifications`
+  - [x] Creer incidents via service.
+  - [x] Notifier les managers en gravite elevee.
+  - [x] Historiser les notifications.
+  - [x] Journaliser creation et traitement.
 
-- [ ] Commit 16 - `Ajouter le service d information externe`
-  - [ ] Integrer HttpClient.
-  - [ ] Encapsuler une API externe meteo ou geocodage.
-  - [ ] Configurer les variables d'environnement.
-  - [ ] Ajouter un fallback propre si API indisponible.
+- [x] Commit 16 - `Ajouter le service d information externe`
+  - [x] Integrer HttpClient.
+  - [x] Encapsuler une API externe meteo ou geocodage.
+  - [x] Configurer les variables d'environnement.
+  - [x] Ajouter un fallback propre si API indisponible.
 
 ## Phase 5 - Back-office Twig
 
@@ -273,7 +273,7 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 - [ ] Les regles metier critiques sont testees.
 - [ ] Les pages Twig principales sont accessibles selon droits.
 - [ ] Les endpoints API repondent en JSON.
-- [ ] Les notifications email sont historisees.
+- [x] Les notifications email sont historisees.
 - [ ] HttpClient est utilise via un service testable.
 - [ ] La CI passe.
 - [ ] Le README permet a une personne externe de lancer le projet.
