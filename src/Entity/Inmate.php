@@ -95,10 +95,24 @@ class Inmate
     #[ORM\OrderBy(['scheduledAt' => 'DESC'])]
     private Collection $transfers;
 
+    /**
+     *  Collection<int, ActivityParticipation>
+     */
+    #[ORM\OneToMany(mappedBy: 'inmate', targetEntity: ActivityParticipation::class, orphanRemoval: true)]
+    private Collection $activityParticipations;
+
+    /**
+     *  Collection<int, Incident>
+     */
+    #[ORM\ManyToMany(targetEntity: Incident::class, mappedBy: 'inmates')]
+    private Collection $incidents;
+
     public function __construct()
     {
         $this->assignments = new ArrayCollection();
         $this->transfers = new ArrayCollection();
+        $this->activityParticipations = new ArrayCollection();
+        $this->incidents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -259,5 +273,20 @@ class Inmate
         }
 
         return $this;
+    }
+    /**
+     *  Collection<int, ActivityParticipation>
+     */
+    public function getActivityParticipations(): Collection
+    {
+        return $this->activityParticipations;
+    }
+
+    /**
+     *  Collection<int, Incident>
+     */
+    public function getIncidents(): Collection
+    {
+        return $this->incidents;
     }
 }

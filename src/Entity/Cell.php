@@ -69,11 +69,18 @@ class Cell
     #[ORM\OneToMany(mappedBy: 'toCell', targetEntity: Transfer::class)]
     private Collection $incomingTransfers;
 
+    /**
+     *  Collection<int, Incident>
+     */
+    #[ORM\OneToMany(mappedBy: 'cell', targetEntity: Incident::class)]
+    private Collection $incidents;
+
     public function __construct()
     {
         $this->assignments = new ArrayCollection();
         $this->outgoingTransfers = new ArrayCollection();
         $this->incomingTransfers = new ArrayCollection();
+        $this->incidents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,5 +157,12 @@ class Cell
     public function getIncomingTransfers(): Collection
     {
         return $this->incomingTransfers;
+    }
+    /**
+     *  Collection<int, Incident>
+     */
+    public function getIncidents(): Collection
+    {
+        return $this->incidents;
     }
 }
