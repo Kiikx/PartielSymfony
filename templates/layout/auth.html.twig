@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body_class %}auth-page{% endblock %}
+
+{% block body %}
+    <main class="auth-shell">
+        {% block auth_body %}{% endblock %}
+    </main>
+{% endblock %}

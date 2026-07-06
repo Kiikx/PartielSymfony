@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body_class %}app-page{% endblock %}
+
+{% block body %}
+    <div class="app-shell">
+        <aside class="app-sidebar" aria-label="Navigation principale">
+            <a class="app-brand" href="{{ path('app_home') }}">
+                <span class="app-brand-mark">PAS</span>
+                <span class="app-brand-text">Pilotage penitentiaire</span>
+            </a>
+
+            <nav class="app-nav">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_dashboard') }}">Administration</a>
+                {% endif %}
+
+                {% if is_granted('ROLE_MANAGER') %}
+                    <a href="{{ path('app_manager_dashboard') }}">Management</a>
+                {% endif %}
+
+                {% if is_granted('ROLE_GUARD') %}
+                    <a href="{{ path('app_guard_dashboard') }}">Surveillance</a>
+                {% endif %}
+            </nav>
+        </aside>
+
+        <div class="app-main">
+            <header class="app-topbar">
+                <div>
+                    <p class="app-eyebrow">{% block page_eyebrow %}PAS{% endblock %}</p>
+                    <h1>{% block page_title %}{% endblock %}</h1>
+                </div>
+
+                <div class="app-user">
+                    {% if app.user %}
+                        <span>{{ app.user.fullName ?: app.user.userIdentifier }}</span>
+                        <a class="button button-secondary" href="{{ path('app_logout') }}">Deconnexion</a>
+                    {% endif %}
+                </div>
+            </header>
+
+            <main class="app-content">
+                {% block app_body %}{% endblock %}
+            </main>
+        </div>
+    </div>
+{% endblock %}
