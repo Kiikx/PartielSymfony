@@ -59,10 +59,10 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Creer `Notification`.
   - [x] Ajouter les ManyToMany : Inmate-Incident et Inmate-Activity via participation.
 
-- [ ] Commit 09 - `Ajouter la migration Doctrine initiale`
-  - [ ] Generer la migration.
-  - [ ] Relire la migration.
-  - [ ] Tester `doctrine:migrations:migrate`.
+- [x] Commit 09 - `Ajouter la migration Doctrine initiale`
+  - [x] Generer la migration.
+  - [x] Relire la migration.
+  - [x] Tester `doctrine:migrations:migrate`.
 
 ## Phase 3 - Authentification et droits
 
