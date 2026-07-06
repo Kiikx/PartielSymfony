@@ -3,23 +3,21 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 class ManagerUser extends User
 {
-    #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(max: 100)]
-    private ?string $managedBuilding = null;
+    #[ORM\ManyToOne(inversedBy: 'managers')]
+    private ?Building $managedBuilding = null;
 
-    public function getManagedBuilding(): ?string
+    public function getManagedBuilding(): ?Building
     {
         return $this->managedBuilding;
     }
 
-    public function setManagedBuilding(?string $managedBuilding): self
+    public function setManagedBuilding(?Building $managedBuilding): self
     {
-        $this->managedBuilding = $managedBuilding !== null ? trim($managedBuilding) : null;
+        $this->managedBuilding = $managedBuilding;
 
         return $this;
     }

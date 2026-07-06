@@ -38,11 +38,11 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Ajouter les champs specifiques : service, superAdmin, managedBuilding, badgeNumber, assignedZone.
   - [x] Ajouter contraintes de validation et index utiles.
 
-- [ ] Commit 06 - `Ajouter les entites de structure penitentiaire`
-  - [ ] Creer `Building`, `Wing`, `Cell`.
-  - [ ] Ajouter les relations Building 1-N Wing et Wing 1-N Cell.
-  - [ ] Ajouter capacite, statut cellule, code batiment, activation.
-  - [ ] Ajouter contrainte unique cellule par aile.
+- [x] Commit 06 - `Ajouter les entites de structure penitentiaire`
+  - [x] Creer `Building`, `Wing`, `Cell`.
+  - [x] Ajouter les relations Building 1-N Wing et Wing 1-N Cell.
+  - [x] Ajouter capacite, statut cellule, code batiment, activation.
+  - [x] Ajouter contrainte unique cellule par aile.
 
 - [ ] Commit 07 - `Ajouter les entites detenus et mouvements`
   - [ ] Creer `Inmate`.

@@ -13,9 +13,8 @@ class GuardUser extends User
     #[Assert\Length(max: 50)]
     private string $badgeNumber = '';
 
-    #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(max: 100)]
-    private ?string $assignedZone = null;
+    #[ORM\ManyToOne(inversedBy: 'guards')]
+    private ?Wing $assignedZone = null;
 
     public function getBadgeNumber(): string
     {
@@ -29,14 +28,14 @@ class GuardUser extends User
         return $this;
     }
 
-    public function getAssignedZone(): ?string
+    public function getAssignedZone(): ?Wing
     {
         return $this->assignedZone;
     }
 
-    public function setAssignedZone(?string $assignedZone): self
+    public function setAssignedZone(?Wing $assignedZone): self
     {
-        $this->assignedZone = $assignedZone !== null ? trim($assignedZone) : null;
+        $this->assignedZone = $assignedZone;
 
         return $this;
     }
