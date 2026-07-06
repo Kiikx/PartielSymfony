@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CellRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -47,6 +49,32 @@ class Cell
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull]
     private ?Wing $wing = null;
+
+
+    /**
+     *  Collection<int, Assignment>
+     */
+    #[ORM\OneToMany(mappedBy: 'cell', targetEntity: Assignment::class)]
+    private Collection $assignments;
+
+    /**
+     *  Collection<int, Transfer>
+     */
+    #[ORM\OneToMany(mappedBy: 'fromCell', targetEntity: Transfer::class)]
+    private Collection $outgoingTransfers;
+
+    /**
+     *  Collection<int, Transfer>
+     */
+    #[ORM\OneToMany(mappedBy: 'toCell', targetEntity: Transfer::class)]
+    private Collection $incomingTransfers;
+
+    public function __construct()
+    {
+        $this->assignments = new ArrayCollection();
+        $this->outgoingTransfers = new ArrayCollection();
+        $this->incomingTransfers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -99,5 +127,28 @@ class Cell
         $this->wing = $wing;
 
         return $this;
+    }
+    /**
+     *  Collection<int, Assignment>
+     */
+    public function getAssignments(): Collection
+    {
+        return $this->assignments;
+    }
+
+    /**
+     *  Collection<int, Transfer>
+     */
+    public function getOutgoingTransfers(): Collection
+    {
+        return $this->outgoingTransfers;
+    }
+
+    /**
+     *  Collection<int, Transfer>
+     */
+    public function getIncomingTransfers(): Collection
+    {
+        return $this->incomingTransfers;
     }
 }

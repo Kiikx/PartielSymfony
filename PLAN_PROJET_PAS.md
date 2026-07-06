@@ -44,12 +44,12 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Ajouter capacite, statut cellule, code batiment, activation.
   - [x] Ajouter contrainte unique cellule par aile.
 
-- [ ] Commit 07 - `Ajouter les entites detenus et mouvements`
-  - [ ] Creer `Inmate`.
-  - [ ] Creer `Assignment`.
-  - [ ] Creer `Transfer`.
-  - [ ] Ajouter UID unique et statuts detenus.
-  - [ ] Ajouter historique cellule/detenu et dates d'affectation.
+- [x] Commit 07 - `Ajouter les entites detenus et mouvements`
+  - [x] Creer `Inmate`.
+  - [x] Creer `Assignment`.
+  - [x] Creer `Transfer`.
+  - [x] Ajouter UID unique et statuts detenus.
+  - [x] Ajouter historique cellule/detenu et dates d'affectation.
 
 - [ ] Commit 08 - `Ajouter les entites activites incidents et audit`
   - [ ] Creer `Activity`.
