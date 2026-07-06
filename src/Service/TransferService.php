@@ -17,6 +17,7 @@ final class TransferService
         private readonly AssignmentRepository $assignmentRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly AuditLogger $auditLogger,
+        private readonly TransferNotificationFactory $notificationFactory,
     ) {
     }
 
@@ -45,6 +46,7 @@ final class TransferService
             $sourceCell,
             $targetCell,
         );
+        $notification = $this->notificationFactory->createTransferPreparedNotification($transfer, $actor);
 
         $newAssignment = (new Assignment())
             ->setInmate($inmate)
@@ -52,10 +54,11 @@ final class TransferService
             ->setReason('Transfert interne: '.$reason)
             ->setCreatedBy($actor);
 
-        $this->entityManager->wrapInTransaction(function (EntityManagerInterface $entityManager) use ($activeAssignment, $actor, $newAssignment, $targetCell, $transfer): void {
+        $this->entityManager->wrapInTransaction(function (EntityManagerInterface $entityManager) use ($activeAssignment, $actor, $newAssignment, $notification, $targetCell, $transfer): void {
             $activeAssignment->setEndAt(new \DateTimeImmutable());
             $entityManager->persist($transfer);
             $entityManager->persist($newAssignment);
+            $entityManager->persist($notification);
             $entityManager->flush();
 
             $entityManager->persist($this->auditLogger->create($actor, 'TRANSFER_INTERNAL_CREATED', $transfer, [
@@ -91,11 +94,13 @@ final class TransferService
             null,
             $externalDestination,
         );
+        $notification = $this->notificationFactory->createTransferPreparedNotification($transfer, $actor);
 
-        $this->entityManager->wrapInTransaction(function (EntityManagerInterface $entityManager) use ($activeAssignment, $actor, $externalDestination, $inmate, $transfer): void {
+        $this->entityManager->wrapInTransaction(function (EntityManagerInterface $entityManager) use ($activeAssignment, $actor, $externalDestination, $inmate, $notification, $transfer): void {
             $activeAssignment->setEndAt(new \DateTimeImmutable());
             $inmate->setStatus(Inmate::STATUS_EXTERNAL_TRANSFER);
             $entityManager->persist($transfer);
+            $entityManager->persist($notification);
             $entityManager->flush();
 
             $entityManager->persist($this->auditLogger->create($actor, 'TRANSFER_EXTERNAL_CREATED', $transfer, [

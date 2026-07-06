@@ -119,12 +119,12 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Journaliser l'action dans `AuditLog`.
   - [x] Ajouter test unitaire obligatoire.
 
-- [ ] Commit 14 - `Ajouter le service de transfert`
+- [x] Commit 14 - `Ajouter le service de transfert`
   - [x] Gerer transfert interne.
   - [x] Gerer transfert externe.
   - [x] Cloturer l'affectation source.
   - [x] Creer nouvelle affectation si transfert interne.
-  - [ ] Preparer notification email.
+  - [x] Preparer notification email.
 
 - [x] Commit 15 - `Ajouter les services incidents et notifications`
   - [x] Creer incidents via service.
@@ -273,7 +273,7 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 - [ ] Les regles metier critiques sont testees.
 - [ ] Les pages Twig principales sont accessibles selon droits.
 - [ ] Les endpoints API repondent en JSON.
-- [ ] Les notifications email sont historisees.
+- [x] Les notifications email sont historisees.
 - [ ] HttpClient est utilise via un service testable.
 - [ ] La CI passe.
 - [ ] Le README permet a une personne externe de lancer le projet.

@@ -7,12 +7,14 @@ use App\Entity\AuditLog;
 use App\Entity\Cell;
 use App\Entity\GuardUser;
 use App\Entity\Inmate;
+use App\Entity\Notification;
 use App\Entity\Transfer;
 use App\Entity\User;
 use App\Exception\TransferException;
 use App\Repository\AssignmentRepository;
 use App\Service\AuditLogger;
 use App\Service\TransferService;
+use App\Service\TransferNotificationFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -33,7 +35,7 @@ final class TransferServiceTest extends TestCase
 
         $entityManager = $this->createTransactionalEntityManager($persisted);
 
-        $transfer = (new TransferService($repository, $entityManager, new AuditLogger()))
+        $transfer = (new TransferService($repository, $entityManager, new AuditLogger(), new TransferNotificationFactory()))
             ->transferInternally($inmate, $targetCell, $actor, 'Changement aile');
 
         self::assertSame(Transfer::TYPE_INTERNAL, $transfer->getType());
@@ -43,8 +45,12 @@ final class TransferServiceTest extends TestCase
         self::assertSame($transfer, $persisted[0]);
         self::assertInstanceOf(Assignment::class, $persisted[1]);
         self::assertSame($targetCell, $persisted[1]->getCell());
-        self::assertInstanceOf(AuditLog::class, $persisted[2]);
-        self::assertSame('TRANSFER_INTERNAL_CREATED', $persisted[2]->getAction());
+        self::assertInstanceOf(Notification::class, $persisted[2]);
+        self::assertSame($actor, $persisted[2]->getRecipient());
+        self::assertSame(Notification::CHANNEL_EMAIL, $persisted[2]->getChannel());
+        self::assertSame(Notification::STATUS_PENDING, $persisted[2]->getStatus());
+        self::assertInstanceOf(AuditLog::class, $persisted[3]);
+        self::assertSame('TRANSFER_INTERNAL_CREATED', $persisted[3]->getAction());
     }
 
     public function testTransferExternallyClosesAssignmentAndUpdatesInmateStatus(): void
@@ -60,7 +66,7 @@ final class TransferServiceTest extends TestCase
 
         $entityManager = $this->createTransactionalEntityManager($persisted);
 
-        $transfer = (new TransferService($repository, $entityManager, new AuditLogger()))
+        $transfer = (new TransferService($repository, $entityManager, new AuditLogger(), new TransferNotificationFactory()))
             ->transferExternally($inmate, 'Centre externe Nord', $actor, 'Extraction definitive');
 
         self::assertSame(Transfer::TYPE_EXTERNAL, $transfer->getType());
@@ -70,8 +76,10 @@ final class TransferServiceTest extends TestCase
         self::assertSame(Inmate::STATUS_EXTERNAL_TRANSFER, $inmate->getStatus());
         self::assertNotNull($activeAssignment->getEndAt());
         self::assertSame($transfer, $persisted[0]);
-        self::assertInstanceOf(AuditLog::class, $persisted[1]);
-        self::assertSame('TRANSFER_EXTERNAL_CREATED', $persisted[1]->getAction());
+        self::assertInstanceOf(Notification::class, $persisted[1]);
+        self::assertStringContainsString('Centre externe Nord', $persisted[1]->getSubject());
+        self::assertInstanceOf(AuditLog::class, $persisted[2]);
+        self::assertSame('TRANSFER_EXTERNAL_CREATED', $persisted[2]->getAction());
     }
 
     public function testTransferRequiresActiveAssignment(): void
@@ -84,6 +92,7 @@ final class TransferServiceTest extends TestCase
             $repository,
             $this->createStub(EntityManagerInterface::class),
             new AuditLogger(),
+            new TransferNotificationFactory(),
         );
 
         $this->expectException(TransferException::class);
@@ -104,6 +113,7 @@ final class TransferServiceTest extends TestCase
             $repository,
             $this->createStub(EntityManagerInterface::class),
             new AuditLogger(),
+            new TransferNotificationFactory(),
         );
 
         $this->expectException(TransferException::class);
@@ -117,6 +127,7 @@ final class TransferServiceTest extends TestCase
             $this->createStub(AssignmentRepository::class),
             $this->createStub(EntityManagerInterface::class),
             new AuditLogger(),
+            new TransferNotificationFactory(),
         );
 
         $this->expectException(TransferException::class);
