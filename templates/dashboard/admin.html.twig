@@ -1,0 +1,24 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}Administration - PAS{% endblock %}
+{% block page_eyebrow %}Espace administrateur{% endblock %}
+{% block page_title %}Administration{% endblock %}
+
+{% block app_body %}
+    <section class="content-grid">
+        <article class="panel">
+            <h2>Utilisateurs</h2>
+            <p>Gestion des comptes, roles et acces au systeme.</p>
+        </article>
+
+        <article class="panel">
+            <h2>Referentiels</h2>
+            <p>Batiments, ailes, cellules et parametres operationnels.</p>
+        </article>
+
+        <article class="panel">
+            <h2>Audit</h2>
+            <p>Consultation des actions sensibles et des traces applicatives.</p>
+        </article>
+    </section>
+{% endblock %}

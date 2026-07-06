@@ -4,51 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}PAS{% endblock %}</title>
-        <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('styles/pas.css') }}">
-        {% block stylesheets %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </head>
-    <body class="app-body">
-        {% set currentRoute = app.request.attributes.get('_route') %}
-        <details class="mobile-menu">
-            <summary aria-label="Ouvrir la navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </summary>
-            <nav class="mobile-nav" aria-label="Navigation mobile">
-                <a class="side-link {{ currentRoute in ['app_home', 'app_dashboard'] ? 'is-active' }}" href="{{ path('app_home') }}">
-                    <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h7V4H4v9Zm0 7h7v-5H4v5Zm9 0h7v-9h-7v9Zm0-16v5h7V4h-7Z"/></svg>
-                    Tableau de bord
-                </a>
-                <a class="side-link {{ currentRoute starts with 'app_inmate' ? 'is-active' }}" href="{{ path('app_inmate_index') }}">
-                    <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-7 9a7 7 0 0 1 14 0H5Z"/></svg>
-                    Detenus
-                </a>
-                <a class="side-link {{ currentRoute starts with 'app_structure' ? 'is-active' }}" href="{{ path('app_structure_cells') }}">
-                    <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V3h16v18H4Zm4-12h3V6H8v3Zm5 0h3V6h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Z"/></svg>
-                    Cellules
-                </a>
-                <a class="side-link {{ currentRoute starts with 'app_incident' ? 'is-active' }}" href="{{ path('app_incident_index') }}">
-                    <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 20h20L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V8h2v5Z"/></svg>
-                    Incidents
-                </a>
-            </nav>
-        </details>
-        <div class="app-shell">
-            <aside class="app-sidebar" aria-label="Navigation principale">
-                <a class="brand" href="{{ path('app_home') }}">
-                    <img class="brand-logo" src="{{ asset('logo.png') }}" alt="PAS">
-                    <span class="brand-copy">
-                        <strong>Prison</strong>
-                        <small>Administrator System</small>
-                    </span>
-                </a>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+        {% block stylesheets %}
+        {% endblock %}
 
                 <nav class="side-nav">
                     <a class="side-link {{ currentRoute in ['app_home', 'app_dashboard'] ? 'is-active' }}" href="{{ path('app_home') }}">
@@ -102,5 +61,14 @@
         <a class="tablet-launcher {{ currentRoute starts with 'app_tablet' ? 'is-active' }}" href="{{ path('app_tablet_guard') }}" aria-label="Acces tablette detenu">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 3v14h10V5H7Zm4 15h2v1h-2v-1Z"/></svg>
         </a>
+        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphpHotReload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+    </head>
+    <body class="{% block body_class %}{% endblock %}">
+        {% block body %}{% endblock %}
     </body>
 </html>

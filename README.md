@@ -36,6 +36,24 @@ Password: symfony
 Root password: root
 ```
 
+## Donnees de demonstration
+
+Appliquer les migrations puis charger les fixtures:
+
+```bash
+docker compose exec app php bin/console doctrine:migrations:migrate --no-interaction
+docker compose exec app php bin/console doctrine:fixtures:load --no-interaction
+```
+
+Les fixtures creent une structure minimale et trois comptes de test.
+
+```text
+Admin: admin@pas.test
+Manager: manager@pas.test
+Surveillant: guard@pas.test
+Mot de passe commun: Password123!
+```
+
 ## Commandes utiles
 
 Installer ou mettre a jour les dependances Composer:
