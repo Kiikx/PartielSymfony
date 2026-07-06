@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Incidents - PAS{% endblock %}
+{% block page_title %}Incidents{% endblock %}
+
+{% block body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Surete</span>
+            <h1>Declaration et suivi des incidents</h1>
+            <p>Suivez les signalements existants, leur gravite et leur statut de traitement.</p>
+        </div>
+        <div class="button-row">
+            <button class="button button-primary" type="button" disabled>Declarer</button>
+            <a class="button" href="{{ path('app_tablet_guard') }}">Mode tablette</a>
+        </div>
+    </section>
+
+    <section class="metric-strip page-metrics" aria-label="Synthese incidents">
+        <article class="metric-card metric-card-dark">
+            <svg class="metric-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 20h20L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V8h2v5Z"/></svg>
+            <div><p class="metric-label">Ouverts</p><p class="metric-value">{{ stats.open }}</p><p class="metric-meta">A traiter</p></div>
+        </article>
+        <article class="metric-card"><div><p class="metric-label">En traitement</p><p class="metric-value">{{ stats.processing }}</p><p class="metric-meta">Suivi en cours</p></div></article>
+        <article class="metric-card"><div><p class="metric-label">Clos</p><p class="metric-value">{{ stats.closed }}</p><p class="metric-meta">Resolus</p></div></article>
+        <article class="metric-card"><div><p class="metric-label">Critiques</p><p class="metric-value">{{ stats.critical }}</p><p class="metric-meta">Priorite maximale</p></div></article>
+    </section>
+
+    <section class="entity-layout incident-layout">
+        <article class="panel insight-panel">
+            <div class="panel-header">
+                <h2>Priorites</h2>
+                <span class="tag">Statuts</span>
+            </div>
+            <ul class="priority-list">
+                <li><span class="priority-dot red"></span><span>Critiques</span><strong>{{ stats.critical }}</strong></li>
+                <li><span class="priority-dot orange"></span><span>Ouverts</span><strong>{{ stats.open }}</strong></li>
+                <li><span class="priority-dot blue"></span><span>En traitement</span><strong>{{ stats.processing }}</strong></li>
+                <li><span class="priority-dot green"></span><span>Clos</span><strong>{{ stats.closed }}</strong></li>
+            </ul>
+        </article>
+
+        <article class="panel entity-list-panel">
+        <div class="panel-header">
+            <h2>Journal incidents</h2>
+            <span class="tag">{{ databaseReady ? 'Base disponible' : 'Migration requise' }}</span>
+        </div>
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Gravite</th>
+                        <th scope="col">Statut</th>
+                        <th scope="col">Lieu</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for incident in incidents %}
+                    <tr>
+                        <th scope="row">{{ incident.title }}</th>
+                        <td><span class="severity-pill severity-{{ incident.severity|lower }}">{{ incident.severity }}</span></td>
+                        <td><span class="status-badge status-{{ incident.status|lower|replace({'_': '-'}) }}">{{ incident.status }}</span></td>
+                        <td>{{ incident.cell ? incident.cell.number : '-' }}</td>
+                        <td>{{ incident.occurredAt|date('d/m/Y H:i') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="empty-state" colspan="5">Aucun incident a afficher pour le moment.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </article>
+    </section>
+{% endblock %}

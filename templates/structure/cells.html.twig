@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cellules - PAS{% endblock %}
+{% block page_title %}Cellules{% endblock %}
+
+{% block body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Structure penitentiaire</span>
+            <h1>Batiments, ailes et cellules</h1>
+            <p>Suivez les capacites, disponibilites et cellules indisponibles depuis les donnees en base.</p>
+        </div>
+        <div class="button-row">
+            <button class="button button-primary" type="button" disabled>Nouvelle cellule</button>
+            <button class="button" type="button" disabled>Voir batiments</button>
+        </div>
+    </section>
+
+    <section class="metric-strip page-metrics" aria-label="Synthese cellules">
+        <article class="metric-card metric-card-dark">
+            <svg class="metric-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V3h16v18H4Zm4-12h3V6H8v3Zm5 0h3V6h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Z"/></svg>
+            <div>
+                <p class="metric-label">Cellules</p>
+                <p class="metric-value">{{ stats.cells }}</p>
+                <p class="metric-meta">{{ stats.buildings }} batiment(s), {{ stats.wings }} aile(s)</p>
+            </div>
+        </article>
+        <article class="metric-card"><div><p class="metric-label">Disponibles</p><p class="metric-value">{{ stats.available }}</p><p class="metric-meta">Statut disponible</p></div></article>
+        <article class="metric-card"><div><p class="metric-label">Pleines</p><p class="metric-value">{{ stats.full }}</p><p class="metric-meta">Occupation complete</p></div></article>
+        <article class="metric-card"><div><p class="metric-label">Maintenance</p><p class="metric-value">{{ stats.maintenance }}</p><p class="metric-meta">Indisponibles</p></div></article>
+    </section>
+
+    <section class="entity-layout structure-layout">
+        <article class="panel structure-visual-panel">
+            <div class="panel-header">
+                <h2>Etat des cellules</h2>
+                <span class="tag">{{ databaseReady ? 'Synchronise' : 'Migration requise' }}</span>
+            </div>
+            <div class="cell-status-board">
+                <div class="donut cell-donut">
+                    <strong>{{ stats.cells }}</strong>
+                    <span>Cellules</span>
+                </div>
+                <div class="insight-stack">
+                    <div class="insight-row"><span>Disponibles</span><strong>{{ stats.available }}</strong></div>
+                    <div class="progress-track"><span style="width: {{ stats.cells > 0 ? (stats.available / stats.cells * 100)|round : 0 }}%"></span></div>
+                    <div class="insight-row"><span>Pleines</span><strong>{{ stats.full }}</strong></div>
+                    <div class="progress-track is-danger"><span style="width: {{ stats.cells > 0 ? (stats.full / stats.cells * 100)|round : 0 }}%"></span></div>
+                    <div class="insight-row"><span>Maintenance</span><strong>{{ stats.maintenance }}</strong></div>
+                    <div class="progress-track is-warning"><span style="width: {{ stats.cells > 0 ? (stats.maintenance / stats.cells * 100)|round : 0 }}%"></span></div>
+                </div>
+            </div>
+        </article>
+
+        <article class="panel entity-list-panel">
+        <div class="panel-header">
+            <h2>Inventaire cellules</h2>
+            <span class="tag">{{ stats.cells }} cellule(s)</span>
+        </div>
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Cellule</th>
+                        <th scope="col">Aile</th>
+                        <th scope="col">Batiment</th>
+                        <th scope="col">Capacite</th>
+                        <th scope="col">Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for cell in cells %}
+                    <tr>
+                        <th scope="row">{{ cell.number }}</th>
+                        <td>{{ cell.wing ? cell.wing.name : '-' }}</td>
+                        <td>{{ cell.wing and cell.wing.building ? cell.wing.building.name : '-' }}</td>
+                        <td>{{ cell.capacity }}</td>
+                        <td><span class="status-badge status-{{ cell.status|lower }}">{{ cell.status }}</span></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="empty-state" colspan="5">Aucune cellule a afficher pour le moment.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </article>
+    </section>
+{% endblock %}
