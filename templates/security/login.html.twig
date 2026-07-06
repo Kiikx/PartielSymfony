@@ -1,0 +1,49 @@
+{% extends 'layout/auth.html.twig' %}
+
+{% block title %}Connexion - PAS{% endblock %}
+
+{% block auth_body %}
+    <section class="auth-panel" aria-labelledby="login-title">
+        <header class="auth-header">
+            <p class="auth-kicker">PAS</p>
+            <h1 class="auth-title" id="login-title">Connexion securisee</h1>
+            <p class="auth-subtitle">Acces reserve aux administrateurs, managers et surveillants autorises.</p>
+        </header>
+
+        <form class="auth-form" method="post" action="{{ path('app_login') }}">
+            {% if error %}
+                <div class="auth-alert" role="alert">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <div class="form-field">
+                <label for="inputEmail">Adresse email</label>
+                <input
+                    type="email"
+                    value="{{ last_username }}"
+                    name="_username"
+                    id="inputEmail"
+                    autocomplete="email"
+                    required
+                    autofocus
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="inputPassword">Mot de passe</label>
+                <input
+                    type="password"
+                    name="_password"
+                    id="inputPassword"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button class="button button-primary auth-submit" type="submit">Se connecter</button>
+        </form>
+    </section>
+{% endblock %}
