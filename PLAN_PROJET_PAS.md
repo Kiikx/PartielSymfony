@@ -4,54 +4,54 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 0 - Socle projet
 
-- [x] Commit 01 - `chore: finalize docker and environment setup`
+- [x] Commit 01 - `Finaliser la configuration Docker et environnement`
   - [x] Garder `.env` comme configuration par defaut versionnee.
   - [x] Ignorer `.env.local` et `.env.*.local`.
   - [x] Corriger Docker pour Git `safe.directory`.
   - [x] Verifier `docker compose up --build`.
   - [x] Mettre a jour le README avec le lancement Docker.
 
-- [x] Commit 02 - `chore: add project roadmap`
+- [x] Commit 02 - `Ajouter la feuille de route du projet`
   - [x] Ajouter ce plan de suivi.
   - [x] Relier le plan au cahier des charges dans le README.
 
 ## Phase 1 - Dependances et configuration Symfony
 
-- [x] Commit 03 - `chore: install core Symfony bundles`
+- [x] Commit 03 - `Installer les bundles Symfony principaux`
   - [x] Installer Doctrine ORM, Migrations, MakerBundle.
   - [x] Installer Twig, SecurityBundle, Validator, Form, Asset.
   - [x] Installer DoctrineFixturesBundle et Faker en dev.
   - [x] Installer Serializer, Mailer, HttpClient.
   - [x] Ajouter PHPUnit, PHPStan et outils de lint.
 
-- [ ] Commit 04 - `config: configure database and security defaults`
-  - [ ] Configurer Doctrine avec MySQL.
-  - [ ] Ajouter `security.yaml` avec hierarchy des roles.
-  - [ ] Configurer le password hasher.
-  - [ ] Preparer les routes publiques et protegees.
+- [x] Commit 04 - `Configurer la base de donnees et la securite`
+  - [x] Configurer Doctrine avec MySQL.
+  - [x] Ajouter `security.yaml` avec hierarchy des roles.
+  - [x] Configurer le password hasher.
+  - [x] Preparer les routes publiques et protegees.
 
 ## Phase 2 - Modele de donnees Doctrine
 
-- [ ] Commit 05 - `feat: add user inheritance model`
+- [ ] Commit 05 - `Ajouter le modele utilisateur avec heritage`
   - [ ] Creer `User` avec email, password, roles, nom, prenom, actif.
   - [ ] Ajouter l'heritage Doctrine pour `AdminUser`, `ManagerUser`, `GuardUser`.
   - [ ] Ajouter les champs specifiques : service, superAdmin, managedBuilding, badgeNumber, assignedZone.
   - [ ] Ajouter contraintes de validation et index utiles.
 
-- [ ] Commit 06 - `feat: add prison structure entities`
+- [ ] Commit 06 - `Ajouter les entites de structure penitentiaire`
   - [ ] Creer `Building`, `Wing`, `Cell`.
   - [ ] Ajouter les relations Building 1-N Wing et Wing 1-N Cell.
   - [ ] Ajouter capacite, statut cellule, code batiment, activation.
   - [ ] Ajouter contrainte unique cellule par aile.
 
-- [ ] Commit 07 - `feat: add inmate and movement entities`
+- [ ] Commit 07 - `Ajouter les entites detenus et mouvements`
   - [ ] Creer `Inmate`.
   - [ ] Creer `Assignment`.
   - [ ] Creer `Transfer`.
   - [ ] Ajouter UID unique et statuts detenus.
   - [ ] Ajouter historique cellule/detenu et dates d'affectation.
 
-- [ ] Commit 08 - `feat: add activity incident audit entities`
+- [ ] Commit 08 - `Ajouter les entites activites incidents et audit`
   - [ ] Creer `Activity`.
   - [ ] Creer `ActivityParticipation`.
   - [ ] Creer `Incident`.
@@ -59,25 +59,25 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [ ] Creer `Notification`.
   - [ ] Ajouter les ManyToMany : Inmate-Incident et Inmate-Activity via participation.
 
-- [ ] Commit 09 - `db: add initial Doctrine migration`
+- [ ] Commit 09 - `Ajouter la migration Doctrine initiale`
   - [ ] Generer la migration.
   - [ ] Relire la migration.
   - [ ] Tester `doctrine:migrations:migrate`.
 
 ## Phase 3 - Authentification et droits
 
-- [ ] Commit 10 - `feat: add login and logout`
+- [ ] Commit 10 - `Ajouter la connexion et la deconnexion`
   - [ ] Ajouter le formulaire de connexion Twig.
   - [ ] Ajouter logout.
   - [ ] Protections CSRF.
   - [ ] Redirection selon role apres connexion.
 
-- [ ] Commit 11 - `feat: add role based access control`
+- [ ] Commit 11 - `Ajouter le controle d acces par roles`
   - [ ] Proteger dashboard, admin, manager, guard.
   - [ ] Ajouter les `access_control`.
   - [ ] Verifier la hierarchy ROLE_ADMIN > ROLE_MANAGER > ROLE_GUARD > ROLE_USER.
 
-- [ ] Commit 12 - `feat: add incident voter`
+- [ ] Commit 12 - `Ajouter le voter des incidents`
   - [ ] Creer `IncidentVoter`.
   - [ ] Admin : tout.
   - [ ] Manager : incidents de son batiment.
@@ -86,27 +86,27 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 4 - Services metier
 
-- [ ] Commit 13 - `feat: add assignment service`
+- [ ] Commit 13 - `Ajouter le service d affectation`
   - [ ] Empecher depassement de capacite.
   - [ ] Empecher affectation si statut SORTI ou TRANSFERE_EXTERNE.
   - [ ] Garantir une seule affectation active par detenu.
   - [ ] Journaliser l'action dans `AuditLog`.
   - [ ] Ajouter test unitaire obligatoire.
 
-- [ ] Commit 14 - `feat: add transfer service`
+- [ ] Commit 14 - `Ajouter le service de transfert`
   - [ ] Gerer transfert interne.
   - [ ] Gerer transfert externe.
   - [ ] Cloturer l'affectation source.
   - [ ] Creer nouvelle affectation si transfert interne.
   - [ ] Preparer notification email.
 
-- [ ] Commit 15 - `feat: add incident and notification services`
+- [ ] Commit 15 - `Ajouter les services incidents et notifications`
   - [ ] Creer incidents via service.
   - [ ] Notifier les managers en gravite elevee.
   - [ ] Historiser les notifications.
   - [ ] Journaliser creation et traitement.
 
-- [ ] Commit 16 - `feat: add external information service`
+- [ ] Commit 16 - `Ajouter le service d information externe`
   - [ ] Integrer HttpClient.
   - [ ] Encapsuler une API externe meteo ou geocodage.
   - [ ] Configurer les variables d'environnement.
@@ -114,52 +114,52 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 5 - Back-office Twig
 
-- [ ] Commit 17 - `feat: add base Twig layout`
+- [ ] Commit 17 - `Ajouter la mise en page Twig principale`
   - [ ] Template base.
   - [ ] Navigation selon role.
   - [ ] Flash messages.
   - [ ] Styles simples et responsive desktop/tablette.
 
-- [ ] Commit 18 - `feat: add dashboard`
+- [ ] Commit 18 - `Ajouter le tableau de bord`
   - [ ] Statistiques occupation.
   - [ ] Incidents recents.
   - [ ] Mouvements recents.
   - [ ] Activites du jour.
   - [ ] Alertes capacite/incidents.
 
-- [ ] Commit 19 - `feat: add inmate management pages`
+- [ ] Commit 19 - `Ajouter les pages de gestion des detenus`
   - [ ] Liste detenus avec recherche UID.
   - [ ] Filtres statut/niveau.
   - [ ] Fiche detenu.
   - [ ] Formulaire creation/modification.
   - [ ] Historique affectations, activites, incidents.
 
-- [ ] Commit 20 - `feat: add prison structure pages`
+- [ ] Commit 20 - `Ajouter les pages de structure penitentiaire`
   - [ ] Liste batiments/ailes/cellules.
   - [ ] Fiche cellule.
   - [ ] Occupants actifs.
   - [ ] Historique cellule.
   - [ ] CRUD admin des referentiels principaux.
 
-- [ ] Commit 21 - `feat: add assignment and transfer forms`
+- [ ] Commit 21 - `Ajouter les formulaires d affectation et transfert`
   - [ ] Formulaire affectation dynamique.
   - [ ] Cellules disponibles selon batiment/aile/capacite.
   - [ ] Formulaire transfert interne/externe.
   - [ ] Validation serveur complete.
 
-- [ ] Commit 22 - `feat: add activity and guard tablet views`
+- [ ] Commit 22 - `Ajouter les vues activites et tablette surveillant`
   - [ ] Interface tablette surveillant.
   - [ ] Pointage activite par UID/zone.
   - [ ] Gestion activites : cantine, promenade, atelier.
   - [ ] UX rapide et responsive.
 
-- [ ] Commit 23 - `feat: add incident and audit pages`
+- [ ] Commit 23 - `Ajouter les pages incidents et audit`
   - [ ] Liste incidents avec filtres.
   - [ ] Creation incident.
   - [ ] Traitement incident selon role.
   - [ ] Journal d'audit filtre par utilisateur, entite, action, date.
 
-- [ ] Commit 24 - `feat: add user administration`
+- [ ] Commit 24 - `Ajouter l administration des utilisateurs`
   - [ ] Liste utilisateurs.
   - [ ] Creation/modification.
   - [ ] Roles.
@@ -168,12 +168,12 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 6 - API JSON
 
-- [ ] Commit 25 - `feat: add API serialization groups`
+- [ ] Commit 25 - `Ajouter les groupes de serialisation API`
   - [ ] Ajouter groupes Serializer sur entites exposees.
   - [ ] Masquer donnees sensibles.
   - [ ] Normaliser les erreurs JSON.
 
-- [ ] Commit 26 - `feat: add operational API endpoints`
+- [ ] Commit 26 - `Ajouter les endpoints API operationnels`
   - [ ] `GET /api/v1/inmates/{uid}`.
   - [ ] `GET /api/v1/cells/{id}/occupancy`.
   - [ ] `POST /api/v1/activities/{id}/participations`.
@@ -183,7 +183,7 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 7 - Fixtures et donnees de demonstration
 
-- [ ] Commit 27 - `feat: add demo fixtures`
+- [ ] Commit 27 - `Ajouter les fixtures de demonstration`
   - [ ] Comptes `admin@pas.test`, `manager@pas.test`, `guard@pas.test`.
   - [ ] Mot de passe documente dans README.
   - [ ] 2 batiments, 4 ailes, 20 cellules.
@@ -192,22 +192,22 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 8 - Tests et qualite
 
-- [ ] Commit 28 - `test: cover assignment business rules`
+- [ ] Commit 28 - `Tester les regles metier d affectation`
   - [ ] Tester depassement capacite.
   - [ ] Tester statut non affectable.
   - [ ] Tester affectation active unique.
 
-- [ ] Commit 29 - `test: add functional security coverage`
+- [ ] Commit 29 - `Ajouter les tests fonctionnels de securite`
   - [ ] WebTestCase login admin.
   - [ ] Acces dashboard selon role.
   - [ ] Refus acces routes admin pour guard.
 
-- [ ] Commit 30 - `test: cover API and dynamic forms`
+- [ ] Commit 30 - `Tester l API et les formulaires dynamiques`
   - [ ] Tester `/api/v1/inmates/{uid}`.
   - [ ] Tester creation incident API.
   - [ ] Tester formulaire affectation dynamique.
 
-- [ ] Commit 31 - `ci: add lint phpstan and tests workflow`
+- [ ] Commit 31 - `Ajouter le workflow de qualite et tests`
   - [ ] Ajouter workflow CI.
   - [ ] Installer dependances.
   - [ ] Lancer lint container/config/Twig.
@@ -216,7 +216,7 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 9 - Documentation et livraison
 
-- [ ] Commit 32 - `docs: complete installation and usage guide`
+- [ ] Commit 32 - `Completer le guide d installation et d utilisation`
   - [ ] Prerequis Docker et hors Docker.
   - [ ] Configuration `.env.local`.
   - [ ] Commandes database, migrations, fixtures.
@@ -224,13 +224,13 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [ ] Identifiants de demo.
   - [ ] Architecture du projet.
 
-- [ ] Commit 33 - `docs: add deployment notes`
+- [ ] Commit 33 - `Ajouter les notes de deploiement`
   - [ ] Choisir plateforme de deploiement.
   - [ ] Documenter variables d'environnement de production.
   - [ ] Ajouter URL publique si disponible.
   - [ ] Documenter limites connues.
 
-- [ ] Commit 34 - `release: prepare final project delivery`
+- [ ] Commit 34 - `Preparer la livraison finale du projet`
   - [ ] Verifier criteres d'acceptation.
   - [ ] Verifier au moins 10 pages Twig.
   - [ ] Verifier au moins 10 entites, heritage, relations attendues.
