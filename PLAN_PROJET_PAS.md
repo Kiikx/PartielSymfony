@@ -132,11 +132,11 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Historiser les notifications.
   - [x] Journaliser creation et traitement.
 
-- [ ] Commit 16 - `Ajouter le service d information externe`
-  - [ ] Integrer HttpClient.
-  - [ ] Encapsuler une API externe meteo ou geocodage.
-  - [ ] Configurer les variables d'environnement.
-  - [ ] Ajouter un fallback propre si API indisponible.
+- [x] Commit 16 - `Ajouter le service d information externe`
+  - [x] Integrer HttpClient.
+  - [x] Encapsuler une API externe meteo ou geocodage.
+  - [x] Configurer les variables d'environnement.
+  - [x] Ajouter un fallback propre si API indisponible.
 
 ## Phase 5 - Back-office Twig
 
