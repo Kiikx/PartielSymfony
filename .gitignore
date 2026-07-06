@@ -54,3 +54,8 @@
 # Environment files
 /.env.local
 /.env.*.local
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
