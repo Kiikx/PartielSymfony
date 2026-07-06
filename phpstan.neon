@@ -7,3 +7,6 @@ parameters:
         -
             identifier: function.alreadyNarrowedType
             path: tests/bootstrap.php
+        -
+            identifier: property.unusedType
+            path: src/Entity/*.php
