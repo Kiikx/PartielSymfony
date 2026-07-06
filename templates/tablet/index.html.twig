@@ -1,0 +1,61 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}Tablette terrain - PAS{% endblock %}
+{% block page_eyebrow %}Espace surveillant{% endblock %}
+{% block page_title %}Tablette terrain{% endblock %}
+
+{% block app_body %}
+    <section class="content-grid content-grid-2">
+        <article class="panel">
+            <h2>Recherche detenu</h2>
+
+            <form class="tablet-search" method="get" action="{{ path('app_guard_tablet') }}">
+                <label for="tablet-uid">Numero d'ecrou (UID)</label>
+                <div class="tablet-search-row">
+                    <input id="tablet-uid" type="text" name="uid" value="{{ searchedUid }}" placeholder="Ex : ECR-00042" autocomplete="off" autofocus>
+                    <button class="button button-primary" type="submit">Rechercher</button>
+                </div>
+            </form>
+
+            {% if searchedUid is not empty %}
+                {% if inmate %}
+                    <dl class="tablet-result">
+                        <div><dt>Detenu</dt><dd>{{ inmate.fullName }}</dd></div>
+                        <div><dt>UID</dt><dd>{{ inmate.uid }}</dd></div>
+                        <div><dt>Statut</dt><dd>{{ inmate.status|lower|replace({'_': ' '})|capitalize }}</dd></div>
+                        <div>
+                            <dt>Cellule actuelle</dt>
+                            <dd>
+                                {% if activeAssignment and activeAssignment.cell %}
+                                    {{ activeAssignment.cell.number }}
+                                    {%- if activeAssignment.cell.wing %} ({{ activeAssignment.cell.wing.name }}){% endif %}
+                                {% else %}
+                                    Aucune affectation active
+                                {% endif %}
+                            </dd>
+                        </div>
+                    </dl>
+                {% else %}
+                    <p class="tablet-not-found" role="status">Aucun detenu trouve pour l'UID "{{ searchedUid }}".</p>
+                {% endif %}
+            {% endif %}
+        </article>
+
+        <article class="panel">
+            <h2>Ma zone</h2>
+            {% if assignedZone %}
+                <p>Zone assignee : <strong>{{ assignedZone.name }}</strong>{% if assignedZone.building %} ({{ assignedZone.building.name }}){% endif %}.</p>
+            {% else %}
+                <p class="panel-empty">Aucune zone ne vous est assignee.</p>
+            {% endif %}
+
+            <h2>Pointage activite</h2>
+            <p class="panel-empty">Le pointage des participations arrive dans une prochaine version.</p>
+            <div class="tablet-actions" aria-hidden="true">
+                {% for type in activityTypes %}
+                    <button class="button button-secondary" type="button" disabled>{{ type|lower|replace({'_': ' '})|capitalize }}</button>
+                {% endfor %}
+            </div>
+        </article>
+    </section>
+{% endblock %}

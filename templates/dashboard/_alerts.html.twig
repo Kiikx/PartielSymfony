@@ -1,0 +1,7 @@
+{% if summary.alerts is not empty %}
+    <section class="alert-stack" aria-label="Alertes">
+        {% for alert in summary.alerts %}
+            <div class="alert alert-{{ alert.level }}" role="alert">{{ alert.message }}</div>
+        {% endfor %}
+    </section>
+{% endif %}

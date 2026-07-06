@@ -6,8 +6,8 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 - Source de verite fonctionnelle : `Sujet.md`.
 - Le plan ci-dessous sert de feuille de route operationnelle et doit rester aligne avec les criteres du sujet.
-- Branche de travail courante : `feature/access-control-and-business-services`.
-- Priorite immediate : finaliser le controle d'acces puis avancer sur les services metier testables.
+- Branche de travail courante : `feature/back-office-dashboard`.
+- Priorite immediate : Phase 5 back-office Twig (layout + dashboard faits, pages de gestion a suivre).
 
 ## Rappels des criteres du sujet
 
@@ -140,18 +140,19 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 5 - Back-office Twig
 
-- [ ] Commit 17 - `Ajouter la mise en page Twig principale`
-  - [ ] Template base.
-  - [ ] Navigation selon role.
-  - [ ] Flash messages.
-  - [ ] Styles simples et responsive desktop/tablette.
+- [x] Commit 17 - `Ajouter la mise en page Twig principale`
+  - [x] Template base.
+  - [x] Navigation selon role.
+  - [x] Flash messages.
+  - [x] Styles simples et responsive desktop/tablette.
 
-- [ ] Commit 18 - `Ajouter le tableau de bord`
-  - [ ] Statistiques occupation.
-  - [ ] Incidents recents.
-  - [ ] Mouvements recents.
-  - [ ] Activites du jour.
-  - [ ] Alertes capacite/incidents.
+- [x] Commit 18 - `Ajouter le tableau de bord`
+  - [x] Statistiques occupation.
+  - [x] Incidents recents.
+  - [x] Mouvements recents.
+  - [x] Activites du jour.
+  - [x] Alertes capacite/incidents.
+  - [x] Bonus : squelette tablette surveillant `/guard/tablet` (recherche UID reelle, pointage a venir au Commit 22).
 
 - [ ] Commit 19 - `Ajouter les pages de gestion des detenus`
   - [ ] Liste detenus avec recherche UID.

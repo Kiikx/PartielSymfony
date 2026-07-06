@@ -2,23 +2,23 @@
 
 {% block title %}Administration - PAS{% endblock %}
 {% block page_eyebrow %}Espace administrateur{% endblock %}
-{% block page_title %}Administration{% endblock %}
+{% block page_title %}Vue d'ensemble de l'etablissement{% endblock %}
 
 {% block app_body %}
-    <section class="content-grid">
-        <article class="panel">
-            <h2>Utilisateurs</h2>
-            <p>Gestion des comptes, roles et acces au systeme.</p>
-        </article>
+    {{ include('dashboard/_alerts.html.twig') }}
+    {{ include('dashboard/_stat_tiles.html.twig') }}
+
+    <section class="content-grid content-grid-2">
+        {{ include('dashboard/_recent_incidents.html.twig') }}
+        {{ include('dashboard/_recent_transfers.html.twig') }}
+    </section>
+
+    <section class="content-grid content-grid-2">
+        {{ include('dashboard/_today_activities.html.twig') }}
 
         <article class="panel">
-            <h2>Referentiels</h2>
-            <p>Batiments, ailes, cellules et parametres operationnels.</p>
-        </article>
-
-        <article class="panel">
-            <h2>Audit</h2>
-            <p>Consultation des actions sensibles et des traces applicatives.</p>
+            <h2>Administration</h2>
+            <p>Gestion des comptes, des referentiels (batiments, ailes, cellules) et consultation du journal d'audit.</p>
         </article>
     </section>
 {% endblock %}

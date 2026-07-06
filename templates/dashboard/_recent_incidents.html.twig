@@ -1,0 +1,39 @@
+{% set severityClasses = {
+    'FAIBLE': 'badge-low',
+    'MOYENNE': 'badge-medium',
+    'ELEVEE': 'badge-high',
+    'CRITIQUE': 'badge-critical',
+} %}
+
+<article class="panel">
+    <h2>Incidents recents</h2>
+
+    {% if summary.recentIncidents is empty %}
+        <p class="panel-empty">Aucun incident enregistre.</p>
+    {% else %}
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Gravite</th>
+                        <th scope="col">Statut</th>
+                        <th scope="col">Cellule</th>
+                        <th scope="col">Survenu le</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for incident in summary.recentIncidents %}
+                        <tr>
+                            <td>{{ incident.title }}</td>
+                            <td><span class="badge {{ severityClasses[incident.severity] ?? 'badge-low' }}">{{ incident.severity|lower|capitalize }}</span></td>
+                            <td>{{ incident.status|lower|replace({'_': ' '})|capitalize }}</td>
+                            <td>{{ incident.cell ? incident.cell.number : '-' }}</td>
+                            <td>{{ incident.occurredAt|date('d/m/Y H:i') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</article>
