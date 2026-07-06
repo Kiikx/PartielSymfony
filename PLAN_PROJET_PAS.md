@@ -2,6 +2,21 @@
 
 Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspond a un commit logique pour garder un historique Git lisible.
 
+## Source de verite et suivi courant
+
+- Source de verite fonctionnelle : `Sujet.md`.
+- Le plan ci-dessous sert de feuille de route operationnelle et doit rester aligne avec les criteres du sujet.
+- Branche de travail courante : `feature/auth-security-foundation`, deja pushee sur `origin`.
+- Priorite immediate : rendre l'authentification testable avec des comptes de demo fixtures avant d'empiler les pages metier.
+
+## Rappels des criteres du sujet
+
+- Documentation : cahier des charges, schema BDD, fixtures, README d'installation et comptes de test.
+- Donnees : au moins 10 entites, heritage d'entite, 2 relations ManyToMany, 8 relations OneToMany.
+- Securite : authentification securisee, 3 roles differents, au moins 1 voter personnalise.
+- Fonctionnalites : API JSON dediee, envoi de mail, API externe, forms dynamiques, espace admin, 10 pages Twig minimum.
+- Qualite : au moins 1 test unitaire, 1 test fonctionnel, repositories avec QueryBuilder, CI avec tests/lint/PHPStan.
+
 ## Phase 0 - Socle projet
 
 - [x] Commit 01 - `Finaliser la configuration Docker et environnement`
@@ -66,11 +81,22 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 3 - Authentification et droits
 
-- [ ] Commit 10 - `Ajouter la connexion et la deconnexion`
-  - [ ] Ajouter le formulaire de connexion Twig.
-  - [ ] Ajouter logout.
-  - [ ] Protections CSRF.
-  - [ ] Redirection selon role apres connexion.
+- [x] Commit 10 - `Ajouter la connexion et la deconnexion`
+  - [x] Ajouter le formulaire de connexion Twig.
+  - [x] Ajouter logout.
+  - [x] Protections CSRF.
+  - [x] Redirection selon role apres connexion.
+  - [x] Ajouter des layouts Twig de base `auth` et `app`.
+  - [x] Ajouter un CSS global dedie dans `public/styles/app.css`.
+  - [x] Ajouter les pages protegees minimales `/admin`, `/manager`, `/guard`.
+  - [x] Verifier `lint:twig`, `lint:yaml`, `lint:container`, `debug:router` et les reponses HTTP principales.
+
+- [x] Commit 10b - `Ajouter les comptes de demonstration`
+  - [x] Creer les comptes `admin@pas.test`, `manager@pas.test`, `guard@pas.test`.
+  - [x] Hasher les mots de passe dans les fixtures.
+  - [x] Charger une structure minimale compatible avec `ManagerUser` et `GuardUser`.
+  - [x] Documenter les identifiants de demo dans le README.
+  - [x] Verifier un login reel et les redirections par role.
 
 - [ ] Commit 11 - `Ajouter le controle d acces par roles`
   - [ ] Proteger dashboard, admin, manager, guard.
