@@ -120,10 +120,10 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Ajouter test unitaire obligatoire.
 
 - [ ] Commit 14 - `Ajouter le service de transfert`
-  - [ ] Gerer transfert interne.
-  - [ ] Gerer transfert externe.
-  - [ ] Cloturer l'affectation source.
-  - [ ] Creer nouvelle affectation si transfert interne.
+  - [x] Gerer transfert interne.
+  - [x] Gerer transfert externe.
+  - [x] Cloturer l'affectation source.
+  - [x] Creer nouvelle affectation si transfert interne.
   - [ ] Preparer notification email.
 
 - [ ] Commit 15 - `Ajouter les services incidents et notifications`
