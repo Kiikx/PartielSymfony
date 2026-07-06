@@ -126,11 +126,11 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Creer nouvelle affectation si transfert interne.
   - [ ] Preparer notification email.
 
-- [ ] Commit 15 - `Ajouter les services incidents et notifications`
-  - [ ] Creer incidents via service.
-  - [ ] Notifier les managers en gravite elevee.
-  - [ ] Historiser les notifications.
-  - [ ] Journaliser creation et traitement.
+- [x] Commit 15 - `Ajouter les services incidents et notifications`
+  - [x] Creer incidents via service.
+  - [x] Notifier les managers en gravite elevee.
+  - [x] Historiser les notifications.
+  - [x] Journaliser creation et traitement.
 
 - [ ] Commit 16 - `Ajouter le service d information externe`
   - [ ] Integrer HttpClient.
