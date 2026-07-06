@@ -51,13 +51,13 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Ajouter UID unique et statuts detenus.
   - [x] Ajouter historique cellule/detenu et dates d'affectation.
 
-- [ ] Commit 08 - `Ajouter les entites activites incidents et audit`
-  - [ ] Creer `Activity`.
-  - [ ] Creer `ActivityParticipation`.
-  - [ ] Creer `Incident`.
-  - [ ] Creer `AuditLog`.
-  - [ ] Creer `Notification`.
-  - [ ] Ajouter les ManyToMany : Inmate-Incident et Inmate-Activity via participation.
+- [x] Commit 08 - `Ajouter les entites activites incidents et audit`
+  - [x] Creer `Activity`.
+  - [x] Creer `ActivityParticipation`.
+  - [x] Creer `Incident`.
+  - [x] Creer `AuditLog`.
+  - [x] Creer `Notification`.
+  - [x] Ajouter les ManyToMany : Inmate-Incident et Inmate-Activity via participation.
 
 - [ ] Commit 09 - `Ajouter la migration Doctrine initiale`
   - [ ] Generer la migration.
