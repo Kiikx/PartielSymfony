@@ -6,8 +6,8 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 - Source de verite fonctionnelle : `Sujet.md`.
 - Le plan ci-dessous sert de feuille de route operationnelle et doit rester aligne avec les criteres du sujet.
-- Branche de travail courante : `feature/auth-security-foundation`, deja pushee sur `origin`.
-- Priorite immediate : rendre l'authentification testable avec des comptes de demo fixtures avant d'empiler les pages metier.
+- Branche de travail courante : `feature/access-control-and-business-services`.
+- Priorite immediate : finaliser le controle d'acces puis avancer sur les services metier testables.
 
 ## Rappels des criteres du sujet
 
@@ -103,21 +103,21 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [ ] Ajouter les `access_control`.
   - [ ] Verifier la hierarchy ROLE_ADMIN > ROLE_MANAGER > ROLE_GUARD > ROLE_USER.
 
-- [ ] Commit 12 - `Ajouter le voter des incidents`
-  - [ ] Creer `IncidentVoter`.
-  - [ ] Admin : tout.
-  - [ ] Manager : incidents de son batiment.
-  - [ ] Guard : creation et modification de ses incidents ouverts/brouillons.
-  - [ ] Ajouter tests unitaires du voter.
+- [x] Commit 12 - `Ajouter le voter des incidents`
+  - [x] Creer `IncidentVoter`.
+  - [x] Admin : tout.
+  - [x] Manager : incidents de son batiment.
+  - [x] Guard : creation et modification de ses incidents ouverts/brouillons.
+  - [x] Ajouter tests unitaires du voter.
 
 ## Phase 4 - Services metier
 
-- [ ] Commit 13 - `Ajouter le service d affectation`
-  - [ ] Empecher depassement de capacite.
-  - [ ] Empecher affectation si statut SORTI ou TRANSFERE_EXTERNE.
-  - [ ] Garantir une seule affectation active par detenu.
-  - [ ] Journaliser l'action dans `AuditLog`.
-  - [ ] Ajouter test unitaire obligatoire.
+- [x] Commit 13 - `Ajouter le service d affectation`
+  - [x] Empecher depassement de capacite.
+  - [x] Empecher affectation si statut SORTI ou TRANSFERE_EXTERNE.
+  - [x] Garantir une seule affectation active par detenu.
+  - [x] Journaliser l'action dans `AuditLog`.
+  - [x] Ajouter test unitaire obligatoire.
 
 - [ ] Commit 14 - `Ajouter le service de transfert`
   - [ ] Gerer transfert interne.

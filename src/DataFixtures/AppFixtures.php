@@ -84,23 +84,28 @@ class AppFixtures extends Fixture
      */
     private function createUsers(Building $building, Wing $wing): array
     {
-        $admin = (new AdminUser())
+        $admin = new AdminUser();
+        $admin
             ->setEmail('admin@pas.test')
-            ->setFirstName('Alice')
-            ->setLastName('Martin')
+            ->setFirstName('David')
+            ->setLastName('Mgr');
+        $admin
             ->setService('Direction')
             ->setSuperAdmin(true);
 
-        $manager = (new ManagerUser())
+        $manager = new ManagerUser();
+        $manager
             ->setEmail('manager@pas.test')
-            ->setFirstName('Mehdi')
-            ->setLastName('Benali')
-            ->setManagedBuilding($building);
+            ->setFirstName('Kiki')
+            ->setLastName('White');
+        $manager->setManagedBuilding($building);
 
-        $guard = (new GuardUser())
+        $guard = new GuardUser();
+        $guard
             ->setEmail('guard@pas.test')
-            ->setFirstName('Claire')
-            ->setLastName('Dubois')
+            ->setFirstName('Ness')
+            ->setLastName('Cake');
+        $guard
             ->setBadgeNumber('PAS-G-001')
             ->setAssignedZone($wing);
 
