@@ -4,25 +4,25 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 0 - Socle projet
 
-- [ ] Commit 01 - `chore: finalize docker and environment setup`
-  - [ ] Garder `.env` comme configuration par defaut versionnee.
-  - [ ] Ignorer `.env.local` et `.env.*.local`.
-  - [ ] Corriger Docker pour Git `safe.directory`.
-  - [ ] Verifier `docker compose up --build`.
-  - [ ] Mettre a jour le README avec le lancement Docker.
+- [x] Commit 01 - `chore: finalize docker and environment setup`
+  - [x] Garder `.env` comme configuration par defaut versionnee.
+  - [x] Ignorer `.env.local` et `.env.*.local`.
+  - [x] Corriger Docker pour Git `safe.directory`.
+  - [x] Verifier `docker compose up --build`.
+  - [x] Mettre a jour le README avec le lancement Docker.
 
-- [ ] Commit 02 - `chore: add project roadmap`
-  - [ ] Ajouter ce plan de suivi.
-  - [ ] Relier le plan au cahier des charges dans le README.
+- [x] Commit 02 - `chore: add project roadmap`
+  - [x] Ajouter ce plan de suivi.
+  - [x] Relier le plan au cahier des charges dans le README.
 
 ## Phase 1 - Dependances et configuration Symfony
 
-- [ ] Commit 03 - `chore: install core Symfony bundles`
-  - [ ] Installer Doctrine ORM, Migrations, MakerBundle.
-  - [ ] Installer Twig, SecurityBundle, Validator, Form, Asset.
-  - [ ] Installer DoctrineFixturesBundle et Faker en dev.
-  - [ ] Installer Serializer, Mailer, HttpClient.
-  - [ ] Ajouter PHPUnit, PHPStan et outils de lint.
+- [x] Commit 03 - `chore: install core Symfony bundles`
+  - [x] Installer Doctrine ORM, Migrations, MakerBundle.
+  - [x] Installer Twig, SecurityBundle, Validator, Form, Asset.
+  - [x] Installer DoctrineFixturesBundle et Faker en dev.
+  - [x] Installer Serializer, Mailer, HttpClient.
+  - [x] Ajouter PHPUnit, PHPStan et outils de lint.
 
 - [ ] Commit 04 - `config: configure database and security defaults`
   - [ ] Configurer Doctrine avec MySQL.
