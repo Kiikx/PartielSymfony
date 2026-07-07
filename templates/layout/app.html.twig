@@ -17,6 +17,7 @@
 
                 {% if is_granted('ROLE_MANAGER') %}
                     <a href="{{ path('app_manager_dashboard') }}">Management</a>
+                    <a href="{{ path('app_building_index') }}">Batiments</a>
                 {% endif %}
 
                 {% if is_granted('ROLE_GUARD') %}

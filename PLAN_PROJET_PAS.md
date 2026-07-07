@@ -170,12 +170,12 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Historique affectations, transferts, activites, incidents (relations existantes de `Inmate`).
   - [x] Acces : consultation `ROLE_GUARD`, creation/modification `ROLE_MANAGER`.
 
-- [ ] Commit 20 - `Ajouter les pages de structure penitentiaire`
-  - [ ] Liste batiments/ailes/cellules.
-  - [ ] Fiche cellule.
-  - [ ] Occupants actifs.
-  - [ ] Historique cellule.
-  - [ ] CRUD admin des referentiels principaux.
+- [x] Commit 20 - `Ajouter les pages de structure penitentiaire`
+  - [x] Liste batiments/ailes/cellules (`/buildings`, fiche batiment avec ses ailes, `/cells`).
+  - [x] Fiche cellule (`/cells/{id}`).
+  - [x] Occupants actifs.
+  - [x] Historique cellule (affectations passees et en cours).
+  - [x] CRUD admin des referentiels principaux : `Building`, `Wing`, `Cell` (`BuildingType`, `WingType`, `CellType`), creation/modification `ROLE_ADMIN`, suppression bloquee si des enfants existent (pas de cascade destructive).
 
 - [ ] Commit 21 - `Ajouter les formulaires d affectation et transfert`
   - [ ] Formulaire affectation dynamique.

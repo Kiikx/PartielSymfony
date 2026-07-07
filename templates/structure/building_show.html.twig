@@ -1,0 +1,55 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}{{ building.name }} - PAS{% endblock %}
+{% block page_eyebrow %}Structure penitentiaire{% endblock %}
+{% block page_title %}{{ building.name }}{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>Code {{ building.code }}{% if building.address %} - {{ building.address }}{% endif %} - <span class="badge {{ building.active ? 'badge-low' : 'badge-neutral' }}">{{ building.active ? 'Actif' : 'Inactif' }}</span></p>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="button-row">
+                <a class="button button-secondary" href="{{ path('app_building_edit', { id: building.id }) }}">Modifier</a>
+                <a class="button button-primary" href="{{ path('app_wing_new', { building: building.id }) }}">Nouvelle aile</a>
+                <form method="post" action="{{ path('app_building_delete', { id: building.id }) }}" onsubmit="return confirm('Supprimer ce batiment ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete-building-' ~ building.id) }}">
+                    <button class="button button-secondary" type="submit">Supprimer</button>
+                </form>
+            </div>
+        {% endif %}
+    </section>
+
+    <article class="panel">
+        <h2>Ailes</h2>
+        {% if building.wings is empty %}
+            <p class="panel-empty">Aucune aile enregistree.</p>
+        {% else %}
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Etage</th>
+                            <th scope="col">Cellules</th>
+                            {% if is_granted('ROLE_ADMIN') %}<th scope="col">Actions</th>{% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for wing in building.wings %}
+                            <tr>
+                                <td>{{ wing.name }}</td>
+                                <td>{{ wing.floor }}</td>
+                                <td>{{ wing.cells|length }}</td>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <td>
+                                        <a href="{{ path('app_wing_edit', { id: wing.id }) }}">Modifier</a>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}
