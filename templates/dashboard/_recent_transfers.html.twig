@@ -1,0 +1,32 @@
+<article class="panel">
+    <h2>Mouvements recents</h2>
+
+    {% if summary.recentTransfers is empty %}
+        <p class="panel-empty">Aucun transfert enregistre.</p>
+    {% else %}
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Detenu</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Depuis</th>
+                        <th scope="col">Vers</th>
+                        <th scope="col">Prevu le</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transfer in summary.recentTransfers %}
+                        <tr>
+                            <td>{{ transfer.inmate ? transfer.inmate.fullName : '-' }}</td>
+                            <td>{{ transfer.type|lower|capitalize }}</td>
+                            <td>{{ transfer.fromCell ? transfer.fromCell.number : '-' }}</td>
+                            <td>{{ transfer.toCell ? transfer.toCell.number : (transfer.externalDestination ?: '-') }}</td>
+                            <td>{{ transfer.scheduledAt|date('d/m/Y H:i') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</article>

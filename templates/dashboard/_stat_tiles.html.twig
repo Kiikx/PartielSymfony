@@ -1,0 +1,25 @@
+<section class="stat-grid" aria-label="Statistiques d'occupation">
+    <article class="stat-tile">
+        <p class="stat-label">Taux d'occupation</p>
+        <p class="stat-value">{{ summary.occupancyRate }}%</p>
+        <p class="stat-hint">{{ summary.activeOccupants }} occupant(s) / {{ summary.operationalCapacity }} places</p>
+    </article>
+
+    <article class="stat-tile">
+        <p class="stat-label">Detenus incarceres</p>
+        <p class="stat-value">{{ summary.incarceratedCount }}</p>
+        <p class="stat-hint">Statut incarcere, tous batiments</p>
+    </article>
+
+    <article class="stat-tile">
+        <p class="stat-label">Cellules disponibles</p>
+        <p class="stat-value">{{ summary.cellCount('AVAILABLE') }}</p>
+        <p class="stat-hint">{{ summary.cellCount('FULL') }} pleine(s), {{ summary.cellCount('MAINTENANCE') }} en maintenance</p>
+    </article>
+
+    <article class="stat-tile">
+        <p class="stat-label">Incidents a traiter</p>
+        <p class="stat-value">{{ summary.openHighSeverityIncidents }}</p>
+        <p class="stat-hint">Gravite elevee ou critique</p>
+    </article>
+</section>

@@ -15,4 +15,22 @@ class ActivityRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Activity::class);
     }
+
+    /**
+     * @return list<Activity>
+     */
+    public function findScheduledForDay(\DateTimeImmutable $day, int $limit = 10): array
+    {
+        $dayStart = $day->setTime(0, 0);
+
+        return $this->createQueryBuilder('activity')
+            ->andWhere('activity.scheduledAt >= :dayStart')
+            ->andWhere('activity.scheduledAt < :dayEnd')
+            ->setParameter('dayStart', $dayStart)
+            ->setParameter('dayEnd', $dayStart->modify('+1 day'))
+            ->orderBy('activity.scheduledAt', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

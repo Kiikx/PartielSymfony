@@ -2,23 +2,33 @@
 
 {% block title %}Management - PAS{% endblock %}
 {% block page_eyebrow %}Espace manager{% endblock %}
-{% block page_title %}Pilotage du batiment{% endblock %}
+{% block page_title %}
+    {%- if building -%}
+        Pilotage du batiment {{ building.name }}
+    {%- else -%}
+        Pilotage de l'etablissement
+    {%- endif -%}
+{% endblock %}
 
 {% block app_body %}
-    <section class="content-grid">
-        <article class="panel">
-            <h2>Occupation</h2>
-            <p>Suivi des capacites, affectations et mouvements recents.</p>
-        </article>
+    {{ include('dashboard/_alerts.html.twig') }}
+    {{ include('dashboard/_stat_tiles.html.twig') }}
+
+    <section class="content-grid content-grid-2">
+        {{ include('dashboard/_recent_incidents.html.twig') }}
+        {{ include('dashboard/_recent_transfers.html.twig') }}
+    </section>
+
+    <section class="content-grid content-grid-2">
+        {{ include('dashboard/_today_activities.html.twig') }}
 
         <article class="panel">
-            <h2>Incidents</h2>
-            <p>Traitement des signalements et priorisation des alertes.</p>
-        </article>
-
-        <article class="panel">
-            <h2>Activites</h2>
-            <p>Organisation des activites et consultation des participations.</p>
+            <h2>Perimetre</h2>
+            {% if building %}
+                <p>Les indicateurs d'occupation, incidents et mouvements sont limites au batiment {{ building.name }} ({{ building.code }}).</p>
+            {% else %}
+                <p>Aucun batiment ne vous est rattache : les indicateurs couvrent l'ensemble de l'etablissement.</p>
+            {% endif %}
         </article>
     </section>
 {% endblock %}

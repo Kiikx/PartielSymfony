@@ -48,7 +48,11 @@ security:
         - { path: '^/admin', roles: ROLE_ADMIN }
         - { path: '^/manager', roles: ROLE_MANAGER }
         - { path: '^/guard', roles: ROLE_GUARD }
-        - { path: '^/dashboard', roles: ROLE_MANAGER }
+        - { path: '^/tablet', roles: ROLE_GUARD }
+        - { path: '^/inmates', roles: ROLE_GUARD }
+        - { path: '^/cells', roles: ROLE_GUARD }
+        - { path: '^/incidents', roles: ROLE_GUARD }
+        - { path: '^.*$', roles: ROLE_USER }
 
 when@test:
     security:

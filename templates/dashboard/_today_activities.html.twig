@@ -1,0 +1,17 @@
+<article class="panel">
+    <h2>Activites du jour</h2>
+
+    {% if summary.todayActivities is empty %}
+        <p class="panel-empty">Aucune activite planifiee aujourd'hui.</p>
+    {% else %}
+        <ul class="activity-list">
+            {% for activity in summary.todayActivities %}
+                <li class="activity-item">
+                    <span class="activity-time">{{ activity.scheduledAt|date('H:i') }}</span>
+                    <span class="activity-label">{{ activity.label }}</span>
+                    <span class="activity-meta">{{ activity.type|lower|replace({'_': ' '})|capitalize }}{% if activity.location %} - {{ activity.location }}{% endif %}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</article>

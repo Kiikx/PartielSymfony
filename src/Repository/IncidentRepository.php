@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Building;
 use App\Entity\Incident;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,16 +21,40 @@ class IncidentRepository extends ServiceEntityRepository
     /**
      * @return list<Incident>
      */
-    public function findRecentForBuilding(Building $building, int $limit = 10): array
+    public function findRecent(?Building $building = null, int $limit = 10): array
     {
-        return $this->createQueryBuilder('incident')
-            ->innerJoin('incident.cell', 'cell')
+        $qb = $this->createQueryBuilder('incident')
+            ->orderBy('incident.occurredAt', 'DESC')
+            ->setMaxResults($limit);
+
+        $this->applyBuildingFilter($qb, $building);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countOpenHighSeverity(?Building $building = null): int
+    {
+        $qb = $this->createQueryBuilder('incident')
+            ->select('COUNT(incident.id)')
+            ->andWhere('incident.status IN (:openStatuses)')
+            ->andWhere('incident.severity IN (:severities)')
+            ->setParameter('openStatuses', [Incident::STATUS_OPEN, Incident::STATUS_PROCESSING])
+            ->setParameter('severities', [Incident::SEVERITY_HIGH, Incident::SEVERITY_CRITICAL]);
+
+        $this->applyBuildingFilter($qb, $building);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function applyBuildingFilter(QueryBuilder $qb, ?Building $building): void
+    {
+        if ($building === null) {
+            return;
+        }
+
+        $qb->innerJoin('incident.cell', 'cell')
             ->innerJoin('cell.wing', 'wing')
             ->andWhere('wing.building = :building')
-            ->setParameter('building', $building)
-            ->orderBy('incident.occurredAt', 'DESC')
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
+            ->setParameter('building', $building);
     }
 }

@@ -1,133 +1,94 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/app.html.twig' %}
+
+{% set statusClasses = {
+    'INCARCERE': 'badge-medium',
+    'SORTI': 'badge-low',
+    'TRANSFERE_EXTERNE': 'badge-high',
+    'PERMISSION_MEDICALE': 'badge-neutral',
+} %}
 
 {% block title %}Detenus - PAS{% endblock %}
+{% block page_eyebrow %}Dossiers detenus{% endblock %}
 {% block page_title %}Detenus{% endblock %}
 
-{% block body %}
+{% block app_body %}
     <section class="page-head">
-        <div>
-            <span class="eyebrow">Dossiers detenus</span>
-            <h1>Recherche et suivi des detenus</h1>
-            <p>Consultez les dossiers, statuts et niveaux de securite remontes par la base.</p>
-        </div>
-        <div class="button-row">
-            <button class="button button-primary" type="button" disabled>Nouveau detenu</button>
-            <button class="button" type="button" disabled>Exporter</button>
-        </div>
+        <p>Consultez les dossiers, statuts et niveaux de securite des detenus.</p>
     </section>
 
-    <section class="metric-strip page-metrics" aria-label="Synthese detenus">
-        <article class="metric-card metric-card-dark">
-            <svg class="metric-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-7 9a7 7 0 0 1 14 0H5Z"/></svg>
-            <div>
-                <p class="metric-label">Dossiers</p>
-                <p class="metric-value">{{ stats.total }}</p>
-                <p class="metric-meta">Total en base</p>
-            </div>
+    <section class="stat-grid">
+        <article class="stat-tile">
+            <p class="stat-label">Dossiers</p>
+            <p class="stat-value">{{ stats.total }}</p>
+            <p class="stat-hint">Total en base</p>
         </article>
-        <article class="metric-card">
-            <div>
-                <p class="metric-label">Incarceres</p>
-                <p class="metric-value">{{ stats.incarcerated }}</p>
-                <p class="metric-meta">Population active</p>
-            </div>
+        <article class="stat-tile">
+            <p class="stat-label">Incarceres</p>
+            <p class="stat-value">{{ stats.incarcerated }}</p>
+            <p class="stat-hint">Population active</p>
         </article>
-        <article class="metric-card">
-            <div>
-                <p class="metric-label">Sortis</p>
-                <p class="metric-value">{{ stats.released }}</p>
-                <p class="metric-meta">Dossiers clotures</p>
-            </div>
+        <article class="stat-tile">
+            <p class="stat-label">Sortis</p>
+            <p class="stat-value">{{ stats.released }}</p>
+            <p class="stat-hint">Dossiers clotures</p>
         </article>
-        <article class="metric-card">
-            <div>
-                <p class="metric-label">Transferes</p>
-                <p class="metric-value">{{ stats.externalTransfers }}</p>
-                <p class="metric-meta">Transferts externes</p>
-            </div>
+        <article class="stat-tile">
+            <p class="stat-label">Transferes</p>
+            <p class="stat-value">{{ stats.externalTransfers }}</p>
+            <p class="stat-hint">Transferts externes</p>
         </article>
     </section>
 
-    <section class="filter-bar" aria-label="Filtres detenus">
-        <label>
-            UID
-            <input type="search" placeholder="Rechercher un UID" disabled>
-        </label>
-        <label>
-            Statut
-            <select disabled>
-                <option>Tous les statuts</option>
-            </select>
-        </label>
-        <label>
-            Niveau
-            <select disabled>
-                <option>Tous les niveaux</option>
-            </select>
-        </label>
-        <button class="button" type="button" disabled>Filtrer</button>
-    </section>
-
-    <section class="entity-layout">
-        <article class="panel entity-list-panel">
-        <div class="panel-header">
+    <section class="content-grid content-grid-2">
+        <article class="panel">
             <h2>Liste des detenus</h2>
-            <span class="tag">{{ databaseReady ? 'Base disponible' : 'Migration requise' }}</span>
-        </div>
-        <div class="table-wrap">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th scope="col">UID</th>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Statut</th>
-                        <th scope="col">Securite</th>
-                        <th scope="col">Arrivee</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for inmate in inmates %}
-                    <tr>
-                        <th scope="row">{{ inmate.uid }}</th>
-                        <td>
-                            <span class="entity-name">{{ inmate.fullName }}</span>
-                        </td>
-                        <td><span class="status-badge status-{{ inmate.status|lower|replace({'_': '-'}) }}">{{ inmate.status }}</span></td>
-                        <td><span class="severity-pill level-{{ inmate.securityLevel|lower }}">{{ inmate.securityLevel }}</span></td>
-                        <td>{{ inmate.arrivalDate ? inmate.arrivalDate|date('d/m/Y') : '-' }}</td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td class="empty-state" colspan="5">Aucun detenu a afficher pour le moment.</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+
+            {% if inmates is empty %}
+                <p class="panel-empty">Aucun detenu a afficher pour le moment.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">UID</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Statut</th>
+                                <th scope="col">Securite</th>
+                                <th scope="col">Arrivee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for inmate in inmates %}
+                                <tr>
+                                    <td>{{ inmate.uid }}</td>
+                                    <td>{{ inmate.fullName }}</td>
+                                    <td><span class="badge {{ statusClasses[inmate.status] ?? 'badge-neutral' }}">{{ inmate.status|lower|replace({'_': ' '})|capitalize }}</span></td>
+                                    <td>{{ inmate.securityLevel|lower|capitalize }}</td>
+                                    <td>{{ inmate.arrivalDate ? inmate.arrivalDate|date('d/m/Y') : '-' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
         </article>
 
-        <aside class="panel insight-panel">
-            <div class="panel-header">
-                <h2>Repartition</h2>
-                <span class="tag">Statuts</span>
+        <article class="panel">
+            <h2>Repartition</h2>
+            <div class="panel-side">
+                <div>
+                    <div class="panel-side-row"><span>Incarceres</span><strong>{{ stats.incarcerated }}</strong></div>
+                    <div class="progress-track"><span style="width: {{ stats.total > 0 ? (stats.incarcerated / stats.total * 100)|round : 0 }}%"></span></div>
+                </div>
+                <div>
+                    <div class="panel-side-row"><span>Sortis</span><strong>{{ stats.released }}</strong></div>
+                    <div class="progress-track"><span style="width: {{ stats.total > 0 ? (stats.released / stats.total * 100)|round : 0 }}%"></span></div>
+                </div>
+                <div>
+                    <div class="panel-side-row"><span>Transferes</span><strong>{{ stats.externalTransfers }}</strong></div>
+                    <div class="progress-track is-warning"><span style="width: {{ stats.total > 0 ? (stats.externalTransfers / stats.total * 100)|round : 0 }}%"></span></div>
+                </div>
             </div>
-            <div class="insight-stack">
-                <div class="insight-row">
-                    <span>Incarceres</span>
-                    <strong>{{ stats.incarcerated }}</strong>
-                </div>
-                <div class="progress-track"><span style="width: {{ stats.total > 0 ? (stats.incarcerated / stats.total * 100)|round : 0 }}%"></span></div>
-                <div class="insight-row">
-                    <span>Sortis</span>
-                    <strong>{{ stats.released }}</strong>
-                </div>
-                <div class="progress-track is-muted"><span style="width: {{ stats.total > 0 ? (stats.released / stats.total * 100)|round : 0 }}%"></span></div>
-                <div class="insight-row">
-                    <span>Transferes</span>
-                    <strong>{{ stats.externalTransfers }}</strong>
-                </div>
-                <div class="progress-track is-warning"><span style="width: {{ stats.total > 0 ? (stats.externalTransfers / stats.total * 100)|round : 0 }}%"></span></div>
-            </div>
-        </aside>
+        </article>
     </section>
 {% endblock %}

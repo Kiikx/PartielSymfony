@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Assignment;
+use App\Entity\Building;
 use App\Entity\Cell;
 use App\Entity\Inmate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -38,5 +39,21 @@ class AssignmentRepository extends ServiceEntityRepository
             ->setParameter('cell', $cell)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function countActive(?Building $building = null): int
+    {
+        $qb = $this->createQueryBuilder('assignment')
+            ->select('COUNT(assignment.id)')
+            ->andWhere('assignment.endAt IS NULL');
+
+        if ($building !== null) {
+            $qb->innerJoin('assignment.cell', 'cell')
+                ->innerJoin('cell.wing', 'wing')
+                ->andWhere('wing.building = :building')
+                ->setParameter('building', $building);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 }

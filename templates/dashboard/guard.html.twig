@@ -2,23 +2,21 @@
 
 {% block title %}Surveillance - PAS{% endblock %}
 {% block page_eyebrow %}Espace surveillant{% endblock %}
-{% block page_title %}Tablette surveillant{% endblock %}
+{% block page_title %}Suivi terrain{% endblock %}
 
 {% block app_body %}
+    {{ include('dashboard/_alerts.html.twig') }}
+
+    <section class="content-grid content-grid-2">
+        {{ include('dashboard/_today_activities.html.twig') }}
+        {{ include('dashboard/_recent_incidents.html.twig') }}
+    </section>
+
     <section class="content-grid">
-        <article class="panel">
-            <h2>Pointage</h2>
-            <p>Acces rapide aux controles par UID et zones assignees.</p>
-        </article>
-
-        <article class="panel">
-            <h2>Incidents</h2>
-            <p>Creation et suivi des signalements terrain ouverts.</p>
-        </article>
-
-        <article class="panel">
-            <h2>Mouvements</h2>
-            <p>Consultation des affectations et transferts en cours.</p>
+        <article class="panel panel-cta">
+            <h2>Tablette terrain</h2>
+            <p>Recherche d'un detenu par numero d'ecrou et pointage des activites depuis la tablette.</p>
+            <a class="button button-primary" href="{{ path('app_guard_tablet') }}">Ouvrir la tablette</a>
         </article>
     </section>
 {% endblock %}
