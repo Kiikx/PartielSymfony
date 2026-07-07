@@ -2132,6 +2132,135 @@ select:disabled {
     font-size: 16px;
 }
 
+.tablet-search {
+    padding: 20px;
+}
+
+.tablet-result-card {
+    display: grid;
+    gap: 14px;
+    margin: 0 20px 20px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(65, 105, 255, 0.08), transparent 38%), #ffffff;
+}
+
+.tablet-result-card h3 {
+    margin: 4px 0 0;
+    color: #11172d;
+    font-size: 24px;
+}
+
+.tablet-result {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+}
+
+.tablet-result div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.tablet-result div:last-child {
+    border-bottom: 0;
+}
+
+.tablet-result dt {
+    color: #68758b;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.tablet-result dd {
+    margin: 0;
+    color: #11172d;
+    font-weight: 900;
+    text-align: right;
+}
+
+.tablet-real-form {
+    padding: 20px;
+}
+
+.tablet-zone {
+    min-height: 138px;
+    display: grid;
+    align-content: center;
+    gap: 6px;
+    padding: 20px;
+}
+
+.tablet-zone strong {
+    color: #11172d;
+    font-size: 26px;
+}
+
+.tablet-zone span {
+    color: #68758b;
+    font-weight: 800;
+}
+
+.panel-empty,
+.tablet-not-found {
+    margin: 0;
+    padding: 20px;
+    color: #68758b;
+    font-weight: 800;
+}
+
+.tablet-not-found {
+    margin: 0 20px 20px;
+    border: 1px solid rgba(180, 35, 24, 0.22);
+    border-radius: 8px;
+    color: var(--danger);
+    background: rgba(180, 35, 24, 0.06);
+}
+
+.activity-list {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.activity-item {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.activity-item:last-child {
+    border-bottom: 0;
+}
+
+.activity-time {
+    color: #275dff;
+    font-weight: 900;
+}
+
+.activity-label {
+    color: #11172d;
+    font-weight: 900;
+}
+
+.activity-meta {
+    color: #68758b;
+    font-size: 13px;
+    font-weight: 800;
+    text-align: right;
+}
+
 @media (max-width: 1080px) {
     .mobile-menu {
         position: sticky;

@@ -4,6 +4,15 @@
 
 {% block body %}
     {% set currentRoute = app.request.attributes.get('_route') %}
+    {% set dashboardRoute = 'app_home' %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {% set dashboardRoute = 'app_admin_dashboard' %}
+    {% elseif is_granted('ROLE_MANAGER') %}
+        {% set dashboardRoute = 'app_manager_dashboard' %}
+    {% elseif is_granted('ROLE_GUARD') %}
+        {% set dashboardRoute = 'app_guard_dashboard' %}
+    {% endif %}
+    {% set dashboardRoutes = ['app_home', 'app_admin_dashboard', 'app_manager_dashboard', 'app_guard_dashboard'] %}
 
     <details class="mobile-menu">
         <summary aria-label="Ouvrir la navigation">
@@ -12,7 +21,7 @@
             <span></span>
         </summary>
         <nav class="mobile-nav" aria-label="Navigation mobile">
-            <a class="side-link {{ currentRoute in ['app_home', 'app_dashboard'] ? 'is-active' }}" href="{{ path('app_home') }}">Tableau de bord</a>
+            <a class="side-link {{ currentRoute in dashboardRoutes ? 'is-active' }}" href="{{ path(dashboardRoute) }}">Tableau de bord</a>
             <a class="side-link {{ currentRoute starts with 'app_inmate' ? 'is-active' }}" href="{{ path('app_inmate_index') }}">Detenus</a>
             <a class="side-link {{ currentRoute starts with 'app_structure' ? 'is-active' }}" href="{{ path('app_structure_cells') }}">Cellules</a>
             <a class="side-link {{ currentRoute starts with 'app_incident' ? 'is-active' }}" href="{{ path('app_incident_index') }}">Incidents</a>
@@ -21,7 +30,7 @@
 
     <div class="app-shell">
         <aside class="app-sidebar" aria-label="Navigation principale">
-            <a class="brand" href="{{ path('app_home') }}">
+            <a class="brand" href="{{ path(dashboardRoute) }}">
                 <img class="brand-logo" src="{{ asset('logo.png') }}" alt="PAS">
                 <span class="brand-copy">
                     <strong>Prison</strong>
@@ -30,7 +39,7 @@
             </a>
 
             <nav class="app-nav">
-                <a class="side-link {{ currentRoute in ['app_home', 'app_dashboard'] ? 'is-active' }}" href="{{ path('app_home') }}">
+                <a class="side-link {{ currentRoute in dashboardRoutes ? 'is-active' }}" href="{{ path(dashboardRoute) }}">
                     <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h7V4H4v9Zm0 7h7v-5H4v5Zm9 0h7v-9h-7v9Zm0-16v5h7V4h-7Z"/></svg>
                     Tableau de bord
                 </a>
@@ -90,7 +99,7 @@
         </div>
     </div>
 
-    <a class="tablet-launcher {{ currentRoute starts with 'app_tablet' ? 'is-active' }}" href="{{ path('app_tablet_guard') }}" aria-label="Acces tablette detenu">
+    <a class="tablet-launcher {{ currentRoute in ['app_tablet_guard', 'app_guard_tablet'] ? 'is-active' }}" href="{{ path('app_tablet_guard') }}" aria-label="Acces tablette detenu">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 3v14h10V5H7Zm4 15h2v1h-2v-1Z"/></svg>
     </a>
 {% endblock %}

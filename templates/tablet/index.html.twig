@@ -12,63 +12,107 @@
 {% block page_title %}Tablette terrain{% endblock %}
 
 {% block app_body %}
-    <section class="content-grid content-grid-2">
-        <article class="panel">
-            <h2>Recherche detenu</h2>
+    <section class="tablet-command-grid">
+        <article class="panel tablet-command">
+            <div class="panel-header">
+                <h2>Recherche detenu</h2>
+                <span class="tag">{{ searchedUid ? 'Recherche active' : 'UID requis' }}</span>
+            </div>
 
-            <form class="tablet-search" method="get" action="{{ path('app_guard_tablet') }}">
-                <label for="tablet-uid">Numero d'ecrou (UID)</label>
-                <div class="tablet-search-row">
+            <form class="quick-check tablet-search" method="get" action="{{ path('app_guard_tablet') }}">
+                <label for="tablet-uid">
+                    Numero d'ecrou
                     <input id="tablet-uid" type="text" name="uid" value="{{ searchedUid }}" placeholder="Ex : ECR-00042" autocomplete="off" autofocus>
-                    <button class="button button-primary" type="submit">Rechercher</button>
-                </div>
+                </label>
+                <button class="button button-primary" type="submit">Rechercher</button>
             </form>
 
             {% if searchedUid is not empty %}
                 {% if inmate %}
-                    <dl class="tablet-result">
-                        <div><dt>Detenu</dt><dd>{{ inmate.fullName }}</dd></div>
-                        <div><dt>UID</dt><dd>{{ inmate.uid }}</dd></div>
-                        <div><dt>Statut</dt><dd>{{ inmate.status|lower|replace({'_': ' '})|capitalize }}</dd></div>
+                    <div class="tablet-result-card">
                         <div>
-                            <dt>Cellule actuelle</dt>
-                            <dd>
-                                {% if activeAssignment and activeAssignment.cell %}
-                                    {{ activeAssignment.cell.number }}
-                                    {%- if activeAssignment.cell.wing %} ({{ activeAssignment.cell.wing.name }}){% endif %}
-                                {% else %}
-                                    Aucune affectation active
-                                {% endif %}
-                            </dd>
+                            <span class="eyebrow">Dossier trouve</span>
+                            <h3>{{ inmate.fullName }}</h3>
                         </div>
-                    </dl>
-
-                    {% if checkInForm %}
-                        <h2>Pointer une activite</h2>
-                        {{ form_start(checkInForm, { action: path('app_tablet_checkin'), attr: { class: 'auth-form' } }) }}
-                            <div class="form-field">{{ form_row(checkInForm.activity) }}</div>
-                            <div class="form-field">{{ form_row(checkInForm.status) }}</div>
-                            {{ form_widget(checkInForm.inmateId) }}
-                            <button class="button button-primary" type="submit">Enregistrer le pointage</button>
-                        {{ form_end(checkInForm) }}
-                    {% elseif inmate %}
-                        <p class="panel-empty">Aucune activite planifiee aujourd'hui a pointer.</p>
-                    {% endif %}
+                        <dl class="tablet-result">
+                            <div><dt>UID</dt><dd>{{ inmate.uid }}</dd></div>
+                            <div><dt>Statut</dt><dd>{{ inmate.status|lower|replace({'_': ' '})|capitalize }}</dd></div>
+                            <div>
+                                <dt>Cellule</dt>
+                                <dd>
+                                    {% if activeAssignment and activeAssignment.cell %}
+                                        {{ activeAssignment.cell.number }}
+                                        {%- if activeAssignment.cell.wing %} ({{ activeAssignment.cell.wing.name }}){% endif %}
+                                    {% else %}
+                                        Aucune affectation active
+                                    {% endif %}
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
                 {% else %}
                     <p class="tablet-not-found" role="status">Aucun detenu trouve pour l'UID "{{ searchedUid }}".</p>
                 {% endif %}
             {% endif %}
         </article>
 
-        <article class="panel">
-            <h2>Ma zone</h2>
-            {% if assignedZone %}
-                <p>Zone assignee : <strong>{{ assignedZone.name }}</strong>{% if assignedZone.building %} ({{ assignedZone.building.name }}){% endif %}.</p>
-            {% else %}
-                <p class="panel-empty">Aucune zone ne vous est assignee.</p>
-            {% endif %}
+        <article class="panel tablet-command">
+            <div class="panel-header">
+                <h2>Pointage activite</h2>
+                <span class="tag">{{ checkInForm ? 'Disponible' : 'En attente' }}</span>
+            </div>
 
-            <h2>Activites du jour</h2>
+            {% if checkInForm %}
+                {{ form_start(checkInForm, { action: path('app_tablet_checkin'), attr: { class: 'tablet-form-preview tablet-real-form' } }) }}
+                    <div class="form-field">{{ form_row(checkInForm.activity) }}</div>
+                    <div class="form-field">{{ form_row(checkInForm.status) }}</div>
+                    {{ form_widget(checkInForm.inmateId) }}
+                    <button class="button button-primary" type="submit">Enregistrer le pointage</button>
+                {{ form_end(checkInForm) }}
+            {% elseif searchedUid is not empty and inmate %}
+                <p class="panel-empty">Aucune activite planifiee aujourd'hui a pointer.</p>
+            {% else %}
+                <p class="panel-empty">Recherchez un detenu pour afficher les pointages disponibles.</p>
+            {% endif %}
+        </article>
+    </section>
+
+    <section class="tablet-ops-grid">
+        <article class="panel tablet-services">
+            <div class="panel-header">
+                <h2>Ma zone</h2>
+                <span class="tag">Affectation</span>
+            </div>
+            <div class="tablet-zone">
+                {% if assignedZone %}
+                    <strong>{{ assignedZone.name }}</strong>
+                    {% if assignedZone.building %}<span>{{ assignedZone.building.name }}</span>{% endif %}
+                {% else %}
+                    <p class="panel-empty">Aucune zone ne vous est assignee.</p>
+                {% endif %}
+            </div>
+        </article>
+
+        <article class="panel tablet-services">
+            <div class="panel-header">
+                <h2>Nouvelle activite</h2>
+                <span class="tag">Rapide</span>
+            </div>
+            {{ form_start(activityForm, { action: path('app_tablet_activity_new', { uid: searchedUid }), attr: { class: 'tablet-form-preview tablet-real-form' } }) }}
+                <div class="form-field">{{ form_row(activityForm.type) }}</div>
+                <div class="form-field">{{ form_row(activityForm.label) }}</div>
+                <div class="form-field">{{ form_row(activityForm.location) }}</div>
+                <button class="button button-secondary" type="submit">Ajouter</button>
+            {{ form_end(activityForm) }}
+        </article>
+    </section>
+
+    <section class="tablet-ops-grid">
+        <article class="panel">
+            <div class="panel-header">
+                <h2>Activites du jour</h2>
+                <span class="tag">{{ todayActivities|length }} activite(s)</span>
+            </div>
             {% if todayActivities is empty %}
                 <p class="panel-empty">Aucune activite planifiee aujourd'hui.</p>
             {% else %}
@@ -77,19 +121,28 @@
                         <li class="activity-item">
                             <span class="activity-time">{{ activity.scheduledAt|date('H:i') }}</span>
                             <span class="activity-label">{{ activity.label }}</span>
-                            <span class="activity-meta">{{ activity.participations|length }} pointage(s)</span>
+                            <span class="activity-meta">{{ activity.type }}{% if activity.location %} - {{ activity.location }}{% endif %}</span>
                         </li>
                     {% endfor %}
                 </ul>
             {% endif %}
+        </article>
 
-            <h2>Nouvelle activite</h2>
-            {{ form_start(activityForm, { action: path('app_tablet_activity_new', { uid: searchedUid }), attr: { class: 'auth-form' } }) }}
-                <div class="form-field">{{ form_row(activityForm.type) }}</div>
-                <div class="form-field">{{ form_row(activityForm.label) }}</div>
-                <div class="form-field">{{ form_row(activityForm.location) }}</div>
-                <button class="button button-secondary" type="submit">Ajouter</button>
-            {{ form_end(activityForm) }}
+        <article class="panel">
+            <div class="panel-header">
+                <h2>Incidents ouverts</h2>
+                <span class="tag">{{ openIncidents|length }} recent(s)</span>
+            </div>
+            <ul class="alert-list">
+                {% for incident in openIncidents %}
+                    <li class="alert-item">
+                        <span class="alert-title">{{ incident.title }}</span>
+                        <span class="alert-meta">{{ incident.severity }} - {{ incident.occurredAt|date('d/m H:i') }}</span>
+                    </li>
+                {% else %}
+                    <li class="empty-state">Aucun incident recent.</li>
+                {% endfor %}
+            </ul>
         </article>
     </section>
 {% endblock %}
