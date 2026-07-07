@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }} - PAS{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">{{ eyebrow }}</span>
+            <h1>{{ title }}</h1>
+            <p>{{ description }}</p>
+        </div>
+        <a class="button" href="{{ path('app_home') }}">Retour dashboard</a>
+    </section>
+
+    <section class="panel entity-list-panel">
+        <div class="panel-header">
+            <h2>Donnees</h2>
+            <span class="tag">{{ rows|length }} ligne(s)</span>
+        </div>
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        {% for header in headers %}
+                            <th scope="col">{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                        <tr>
+                            {% for value in row %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td class="empty-state" colspan="{{ headers|length }}">Aucune donnee disponible.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

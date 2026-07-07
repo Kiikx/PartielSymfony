@@ -5,9 +5,10 @@
 {% block auth_body %}
     <section class="auth-panel" aria-labelledby="login-title">
         <header class="auth-header">
+            <img class="auth-logo" src="{{ asset('logo.png') }}" alt="PAS">
             <p class="auth-kicker">PAS</p>
             <h1 class="auth-title" id="login-title">Connexion securisee</h1>
-            <p class="auth-subtitle">Acces reserve aux administrateurs, managers et surveillants autorises.</p>
+            <p class="auth-subtitle">Acces reserve au personnel autorise.</p>
         </header>
 
         <form class="auth-form" method="post" action="{{ path('app_login') }}">

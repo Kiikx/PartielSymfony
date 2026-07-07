@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier incident {{ incident.id }} - PAS{% endblock %}
+{% block page_title %}Modifier incident{% endblock %}
+
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Incident {{ incident.id }}</span>
+            <h1>Modifier le signalement</h1>
+            <p>Formulaire pre-rempli depuis le journal des incidents.</p>
+        </div>
+        <a class="button" href="{{ path('app_incident_show', {id: incident.id}) }}">Retour fiche</a>
+    </section>
+
+    <section class="form-layout">
+        <form class="panel form-panel">
+            <div class="panel-header"><h2>Signalement</h2><span class="tag">Edition</span></div>
+            <div class="form-grid">
+                <label>Titre <input type="text" name="title" value="{{ incident.title }}"></label>
+                <label>Cellule / lieu <input type="text" name="location" value="{{ incident.cell ? incident.cell.number : '' }}"></label>
+                <label>Gravite <input type="text" name="severity" value="{{ incident.severity }}"></label>
+                <label>Statut <input type="text" name="status" value="{{ incident.status }}"></label>
+                <label>Date <input type="datetime-local" name="occurredAt" value="{{ incident.occurredAt|date('Y-m-d\\TH:i') }}"></label>
+                <label class="form-wide">Description <textarea name="description" rows="5">{{ incident.description }}</textarea></label>
+            </div>
+            <div class="form-actions"><button class="button button-primary" type="button" disabled>Enregistrer</button><span class="form-state">POST back a brancher</span></div>
+        </form>
+    </section>
+{% endblock %}

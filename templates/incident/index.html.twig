@@ -3,7 +3,7 @@
 {% block title %}Incidents - PAS{% endblock %}
 {% block page_title %}Incidents{% endblock %}
 
-{% block body %}
+{% block dashboard_body %}
     <section class="page-head">
         <div>
             <span class="eyebrow">Surete</span>
@@ -11,7 +11,7 @@
             <p>Suivez les signalements existants, leur gravite et leur statut de traitement.</p>
         </div>
         <div class="button-row">
-            <button class="button button-primary" type="button" disabled>Declarer</button>
+            <a class="button button-primary" href="{{ path('app_incident_new') }}">Declarer</a>
             <a class="button" href="{{ path('app_tablet_guard') }}">Mode tablette</a>
         </div>
     </section>
@@ -54,6 +54,7 @@
                         <th scope="col">Statut</th>
                         <th scope="col">Lieu</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,10 +65,14 @@
                         <td><span class="status-badge status-{{ incident.status|lower|replace({'_': '-'}) }}">{{ incident.status }}</span></td>
                         <td>{{ incident.cell ? incident.cell.number : '-' }}</td>
                         <td>{{ incident.occurredAt|date('d/m/Y H:i') }}</td>
+                        <td class="table-actions">
+                            <a class="table-link" href="{{ path('app_incident_show', {id: incident.id}) }}">Voir</a>
+                            <a class="table-link" href="{{ path('app_incident_edit', {id: incident.id}) }}">Modifier</a>
+                        </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td class="empty-state" colspan="5">Aucun incident a afficher pour le moment.</td>
+                        <td class="empty-state" colspan="6">Aucun incident a afficher pour le moment.</td>
                     </tr>
                 {% endfor %}
                 </tbody>

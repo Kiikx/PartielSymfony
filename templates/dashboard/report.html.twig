@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapport - PAS{% endblock %}
+{% block page_title %}Rapport complet{% endblock %}
+
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Synthese</span>
+            <h1>Rapport operationnel</h1>
+            <p>Indicateurs globaux consolides depuis la base.</p>
+        </div>
+        <a class="button" href="{{ path('app_home') }}">Retour dashboard</a>
+    </section>
+
+    <section class="metric-strip page-metrics">
+        <article class="metric-card metric-card-dark"><div><p class="metric-label">Detenus</p><p class="metric-value">{{ inmates }}</p><p class="metric-meta">Dossiers</p></div></article>
+        <article class="metric-card"><div><p class="metric-label">Cellules</p><p class="metric-value">{{ cells }}</p><p class="metric-meta">Structure</p></div></article>
+        <article class="metric-card"><div><p class="metric-label">Incidents</p><p class="metric-value">{{ incidents }}</p><p class="metric-meta">Journal</p></div></article>
+        <article class="metric-card"><div><p class="metric-label">Critiques</p><p class="metric-value">{{ criticalIncidents }}</p><p class="metric-meta">Priorite haute</p></div></article>
+    </section>
+{% endblock %}

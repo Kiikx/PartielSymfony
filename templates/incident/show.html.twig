@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Incident {{ incident.id }} - PAS{% endblock %}
+{% block page_title %}Fiche incident{% endblock %}
+
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Incident {{ incident.id }}</span>
+            <h1>{{ incident.title }}</h1>
+            <p>{{ incident.cell ? 'Lieu : ' ~ incident.cell.number : 'Lieu non renseigne' }}</p>
+        </div>
+        <div class="button-row">
+            <a class="button button-primary" href="{{ path('app_incident_edit', {id: incident.id}) }}">Modifier</a>
+            <a class="button" href="{{ path('app_incident_index') }}">Retour incidents</a>
+        </div>
+    </section>
+
+    <section class="detail-grid">
+        <article class="panel detail-panel">
+            <div class="panel-header"><h2>Signalement</h2><span class="tag">{{ incident.status }}</span></div>
+            <dl class="detail-list">
+                <div><dt>Gravite</dt><dd>{{ incident.severity }}</dd></div>
+                <div><dt>Date</dt><dd>{{ incident.occurredAt|date('d/m/Y H:i') }}</dd></div>
+                <div><dt>Cellule</dt><dd>{{ incident.cell ? incident.cell.number : '-' }}</dd></div>
+                <div><dt>Detenus lies</dt><dd>{{ incident.inmates|length }}</dd></div>
+            </dl>
+        </article>
+        <article class="panel detail-panel">
+            <div class="panel-header"><h2>Description</h2><span class="tag">Compte rendu</span></div>
+            <p class="detail-text">{{ incident.description }}</p>
+        </article>
+    </section>
+{% endblock %}

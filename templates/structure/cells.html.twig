@@ -3,7 +3,7 @@
 {% block title %}Cellules - PAS{% endblock %}
 {% block page_title %}Cellules{% endblock %}
 
-{% block body %}
+{% block dashboard_body %}
     <section class="page-head">
         <div>
             <span class="eyebrow">Structure penitentiaire</span>
@@ -11,8 +11,8 @@
             <p>Suivez les capacites, disponibilites et cellules indisponibles depuis les donnees en base.</p>
         </div>
         <div class="button-row">
-            <button class="button button-primary" type="button" disabled>Nouvelle cellule</button>
-            <button class="button" type="button" disabled>Voir batiments</button>
+            <a class="button button-primary" href="{{ path('app_structure_cell_new') }}">Nouvelle cellule</a>
+            <a class="button" href="{{ path('app_building_index') }}">Voir batiments</a>
         </div>
     </section>
 
@@ -66,6 +66,7 @@
                         <th scope="col">Batiment</th>
                         <th scope="col">Capacite</th>
                         <th scope="col">Statut</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,10 +77,14 @@
                         <td>{{ cell.wing and cell.wing.building ? cell.wing.building.name : '-' }}</td>
                         <td>{{ cell.capacity }}</td>
                         <td><span class="status-badge status-{{ cell.status|lower }}">{{ cell.status }}</span></td>
+                        <td class="table-actions">
+                            <a class="table-link" href="{{ path('app_structure_cell_show', {id: cell.id}) }}">Voir</a>
+                            <a class="table-link" href="{{ path('app_structure_cell_edit', {id: cell.id}) }}">Modifier</a>
+                        </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td class="empty-state" colspan="5">Aucune cellule a afficher pour le moment.</td>
+                        <td class="empty-state" colspan="6">Aucune cellule a afficher pour le moment.</td>
                     </tr>
                 {% endfor %}
                 </tbody>

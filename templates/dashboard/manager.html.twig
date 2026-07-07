@@ -5,20 +5,38 @@
 {% block page_title %}Pilotage du batiment{% endblock %}
 
 {% block app_body %}
+    <section class="role-head">
+        <span class="eyebrow">Pilotage operationnel</span>
+        <h2>Suivi du batiment et des equipes</h2>
+        <p>Vue de synthese pour organiser les capacites, alertes et activites.</p>
+    </section>
+
     <section class="content-grid">
-        <article class="panel">
+        <article class="panel role-card">
+            <span class="role-card-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V3h16v18H4Zm4-12h3V6H8v3Zm5 0h3V6h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Z"/></svg>
+            </span>
             <h2>Occupation</h2>
             <p>Suivi des capacites, affectations et mouvements recents.</p>
+            <a class="role-action" href="{{ path('app_structure_cells') }}">Voir occupation</a>
         </article>
 
-        <article class="panel">
+        <article class="panel role-card">
+            <span class="role-card-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 20h20L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V8h2v5Z"/></svg>
+            </span>
             <h2>Incidents</h2>
             <p>Traitement des signalements et priorisation des alertes.</p>
+            <a class="role-action" href="{{ path('app_incident_index') }}">Voir incidents</a>
         </article>
 
-        <article class="panel">
+        <article class="panel role-card">
+            <span class="role-card-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h2v2h6V3h2v2h3v16H4V5h3V3Zm-1 8v8h12v-8H6Zm0-4v2h12V7H6Z"/></svg>
+            </span>
             <h2>Activites</h2>
             <p>Organisation des activites et consultation des participations.</p>
+            <a class="role-action" href="{{ path('app_planning_index') }}">Voir planning</a>
         </article>
     </section>
 {% endblock %}

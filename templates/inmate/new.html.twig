@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau detenu - PAS{% endblock %}
+{% block page_title %}Nouveau detenu{% endblock %}
+
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Dossier detenu</span>
+            <h1>Creation d'un dossier</h1>
+            <p>Saisie structuree des informations d'identite et de statut.</p>
+        </div>
+        <a class="button" href="{{ path('app_inmate_index') }}">Retour liste</a>
+    </section>
+
+    <section class="form-layout">
+        <form class="panel form-panel">
+            <div class="panel-header">
+                <h2>Identite</h2>
+                <span class="tag">Saisie</span>
+            </div>
+            <div class="form-grid">
+                <label>UID <input type="text" name="uid" autocomplete="off"></label>
+                <label>Nom <input type="text" name="lastName"></label>
+                <label>Prenom <input type="text" name="firstName"></label>
+                <label>Date d'arrivee <input type="date" name="arrivalDate"></label>
+                <label>Statut
+                    <select name="status">
+                        <option>Incarcere</option>
+                        <option>Sorti</option>
+                        <option>Transfere externe</option>
+                    </select>
+                </label>
+                <label>Niveau securite
+                    <select name="securityLevel">
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                        <option>Critical</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-actions">
+                <button class="button button-primary" type="button" disabled>Enregistrer</button>
+                <span class="form-state">Sauvegarde back a raccorder</span>
+            </div>
+        </form>
+    </section>
+{% endblock %}

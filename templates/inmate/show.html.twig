@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ inmate.fullName }} - PAS{% endblock %}
+{% block page_title %}Dossier detenu{% endblock %}
+
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Dossier {{ inmate.uid }}</span>
+            <h1>{{ inmate.fullName }}</h1>
+            <p>Statut, niveau de securite et historique rattache au dossier.</p>
+        </div>
+        <div class="button-row">
+            <a class="button button-primary" href="{{ path('app_inmate_edit', {id: inmate.id}) }}">Modifier</a>
+            <a class="button" href="{{ path('app_inmate_index') }}">Retour liste</a>
+        </div>
+    </section>
+
+    <section class="detail-grid">
+        <article class="panel detail-panel">
+            <div class="panel-header"><h2>Identite</h2><span class="tag">{{ inmate.status }}</span></div>
+            <dl class="detail-list">
+                <div><dt>UID</dt><dd>{{ inmate.uid }}</dd></div>
+                <div><dt>Prenom</dt><dd>{{ inmate.firstName }}</dd></div>
+                <div><dt>Nom</dt><dd>{{ inmate.lastName }}</dd></div>
+                <div><dt>Naissance</dt><dd>{{ inmate.birthDate ? inmate.birthDate|date('d/m/Y') : '-' }}</dd></div>
+                <div><dt>Arrivee</dt><dd>{{ inmate.arrivalDate ? inmate.arrivalDate|date('d/m/Y') : '-' }}</dd></div>
+                <div><dt>Sortie</dt><dd>{{ inmate.releaseDate ? inmate.releaseDate|date('d/m/Y') : '-' }}</dd></div>
+            </dl>
+        </article>
+        <article class="panel detail-panel">
+            <div class="panel-header"><h2>Suivi</h2><span class="tag">{{ inmate.securityLevel }}</span></div>
+            <dl class="detail-list">
+                <div><dt>Affectations</dt><dd>{{ inmate.assignments|length }}</dd></div>
+                <div><dt>Transferts</dt><dd>{{ inmate.transfers|length }}</dd></div>
+                <div><dt>Incidents</dt><dd>{{ inmate.incidents|length }}</dd></div>
+                <div><dt>Activites</dt><dd>{{ inmate.activityParticipations|length }}</dd></div>
+            </dl>
+        </article>
+    </section>
+{% endblock %}

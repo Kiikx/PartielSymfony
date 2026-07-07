@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier cellule {{ cell.number }} - PAS{% endblock %}
+{% block page_title %}Modifier cellule{% endblock %}
+
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Cellule {{ cell.number }}</span>
+            <h1>Modifier la cellule</h1>
+            <p>Formulaire pre-rempli depuis la structure en base.</p>
+        </div>
+        <a class="button" href="{{ path('app_structure_cell_show', {id: cell.id}) }}">Retour fiche</a>
+    </section>
+
+    <section class="form-layout">
+        <form class="panel form-panel">
+            <div class="panel-header"><h2>Informations cellule</h2><span class="tag">Edition</span></div>
+            <div class="form-grid">
+                <label>Numero <input type="text" name="number" value="{{ cell.number }}"></label>
+                <label>Capacite <input type="number" name="capacity" min="1" value="{{ cell.capacity }}"></label>
+                <label>Statut <input type="text" name="status" value="{{ cell.status }}"></label>
+                <label>Aile <input type="text" name="wing" value="{{ cell.wing ? cell.wing.name : '' }}"></label>
+                <label class="form-wide">Batiment <input type="text" name="building" value="{{ cell.wing and cell.wing.building ? cell.wing.building.name : '' }}"></label>
+            </div>
+            <div class="form-actions"><button class="button button-primary" type="button" disabled>Enregistrer</button><span class="form-state">POST back a brancher</span></div>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cellule {{ cell.number }} - PAS{% endblock %}
+{% block page_title %}Fiche cellule{% endblock %}
+
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Cellule {{ cell.number }}</span>
+            <h1>{{ cell.wing and cell.wing.building ? cell.wing.building.name : 'Batiment non renseigne' }}</h1>
+            <p>Capacite, statut et rattachements operationnels.</p>
+        </div>
+        <div class="button-row">
+            <a class="button button-primary" href="{{ path('app_structure_cell_edit', {id: cell.id}) }}">Modifier</a>
+            <a class="button" href="{{ path('app_structure_cells') }}">Retour cellules</a>
+        </div>
+    </section>
+
+    <section class="detail-grid">
+        <article class="panel detail-panel">
+            <div class="panel-header"><h2>Structure</h2><span class="tag">{{ cell.status }}</span></div>
+            <dl class="detail-list">
+                <div><dt>Numero</dt><dd>{{ cell.number }}</dd></div>
+                <div><dt>Aile</dt><dd>{{ cell.wing ? cell.wing.name : '-' }}</dd></div>
+                <div><dt>Batiment</dt><dd>{{ cell.wing and cell.wing.building ? cell.wing.building.name : '-' }}</dd></div>
+                <div><dt>Capacite</dt><dd>{{ cell.capacity }}</dd></div>
+            </dl>
+        </article>
+        <article class="panel detail-panel">
+            <div class="panel-header"><h2>Activite</h2><span class="tag">Base actuelle</span></div>
+            <dl class="detail-list">
+                <div><dt>Affectations</dt><dd>{{ cell.assignments|length }}</dd></div>
+                <div><dt>Incidents</dt><dd>{{ cell.incidents|length }}</dd></div>
+                <div><dt>Transferts entrants</dt><dd>{{ cell.incomingTransfers|length }}</dd></div>
+                <div><dt>Transferts sortants</dt><dd>{{ cell.outgoingTransfers|length }}</dd></div>
+            </dl>
+        </article>
+    </section>
+{% endblock %}

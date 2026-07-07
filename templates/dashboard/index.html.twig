@@ -3,7 +3,7 @@
 {% block title %}Tableau de bord - PAS{% endblock %}
 {% block page_title %}{% if app.user %}Bonjour, {{ app.user.fullName }}{% else %}Vue d'ensemble{% endif %}{% endblock %}
 
-{% block body %}
+{% block dashboard_body %}
     <section class="metric-strip" aria-label="Indicateurs principaux">
         <article class="metric-card metric-card-dark">
             <svg class="metric-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-7 9a7 7 0 0 1 14 0H5Z"/></svg>
@@ -56,7 +56,7 @@
                         <p class="empty-state map-empty">Aucun batiment renseigne en base.</p>
                     {% endfor %}
                     {% if buildingOccupancy is not empty %}
-                        <div class="map-controls" aria-hidden="true"><span>+</span><span>-</span><span>◎</span></div>
+                        <div class="map-controls" aria-hidden="true"><span>+</span><span>-</span><span>o</span></div>
                     {% endif %}
                 </div>
             </article>
@@ -128,7 +128,7 @@
                         <li class="empty-state">Aucune activite programmee aujourd'hui.</li>
                     {% endfor %}
                 </ul>
-                <span class="wide-link is-disabled">Voir tout le planning</span>
+                <a class="wide-link" href="{{ path('app_planning_index') }}">Voir tout le planning</a>
             </article>
 
             <article class="panel stats-panel">
@@ -145,7 +145,7 @@
                         <li><span class="legend-dot gray"></span>Affectations <strong>{{ movementStats.assignments }}</strong></li>
                     </ul>
                 </div>
-                <span class="wide-link is-disabled">Voir le rapport complet</span>
+                <a class="wide-link" href="{{ path('app_report_index') }}">Voir le rapport complet</a>
             </article>
         </div>
 
@@ -181,7 +181,7 @@
             <article class="panel activity-summary">
                 <div class="panel-header">
                     <h2>Activites en cours</h2>
-                    <span class="panel-link is-disabled">Voir tout</span>
+                    <a class="panel-link" href="{{ path('app_planning_index') }}">Voir tout</a>
                 </div>
                 <div class="summary-grid">
                     {% for activity in activitySummary %}
@@ -195,7 +195,7 @@
             <article class="panel camera-panel">
                 <div class="panel-header">
                     <h2>Cameras en direct</h2>
-                    <span class="panel-link is-disabled">Voir toutes</span>
+                    <a class="panel-link" href="{{ path('app_camera_index') }}">Voir toutes</a>
                 </div>
                 <div class="camera-grid">
                     <p class="empty-state">Aucun flux camera configure en base.</p>

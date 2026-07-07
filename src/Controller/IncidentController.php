@@ -10,6 +10,28 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class IncidentController extends AbstractController
 {
+    #[Route('/incidents/new', name: 'app_incident_new', methods: ['GET'])]
+    public function new(): Response
+    {
+        return $this->render('incident/new.html.twig');
+    }
+
+    #[Route('/incidents/{id<\d+>}/edit', name: 'app_incident_edit', methods: ['GET'])]
+    public function edit(Incident $incident): Response
+    {
+        return $this->render('incident/edit.html.twig', [
+            'incident' => $incident,
+        ]);
+    }
+
+    #[Route('/incidents/{id<\d+>}', name: 'app_incident_show', methods: ['GET'])]
+    public function show(Incident $incident): Response
+    {
+        return $this->render('incident/show.html.twig', [
+            'incident' => $incident,
+        ]);
+    }
+
     #[Route('/incidents', name: 'app_incident_index')]
     public function index(EntityManagerInterface $entityManager): Response
     {

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ inmate.fullName }} - PAS{% endblock %}
+{% block page_title %}Modifier detenu{% endblock %}
+
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Dossier {{ inmate.uid }}</span>
+            <h1>Modifier {{ inmate.fullName }}</h1>
+            <p>Formulaire pre-rempli depuis les donnees en base.</p>
+        </div>
+        <a class="button" href="{{ path('app_inmate_show', {id: inmate.id}) }}">Retour dossier</a>
+    </section>
+
+    <section class="form-layout">
+        <form class="panel form-panel">
+            <div class="panel-header"><h2>Identite</h2><span class="tag">Edition</span></div>
+            <div class="form-grid">
+                <label>UID <input type="text" name="uid" value="{{ inmate.uid }}"></label>
+                <label>Nom <input type="text" name="lastName" value="{{ inmate.lastName }}"></label>
+                <label>Prenom <input type="text" name="firstName" value="{{ inmate.firstName }}"></label>
+                <label>Date de naissance <input type="date" name="birthDate" value="{{ inmate.birthDate ? inmate.birthDate|date('Y-m-d') : '' }}"></label>
+                <label>Date d'arrivee <input type="date" name="arrivalDate" value="{{ inmate.arrivalDate ? inmate.arrivalDate|date('Y-m-d') : '' }}"></label>
+                <label>Date de sortie <input type="date" name="releaseDate" value="{{ inmate.releaseDate ? inmate.releaseDate|date('Y-m-d') : '' }}"></label>
+                <label>Statut <input type="text" name="status" value="{{ inmate.status }}"></label>
+                <label>Niveau securite <input type="text" name="securityLevel" value="{{ inmate.securityLevel }}"></label>
+            </div>
+            <div class="form-actions"><button class="button button-primary" type="button" disabled>Enregistrer</button><span class="form-state">POST back a brancher</span></div>
+        </form>
+    </section>
+{% endblock %}

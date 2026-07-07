@@ -3,7 +3,7 @@
 {% block title %}Detenus - PAS{% endblock %}
 {% block page_title %}Detenus{% endblock %}
 
-{% block body %}
+{% block dashboard_body %}
     <section class="page-head">
         <div>
             <span class="eyebrow">Dossiers detenus</span>
@@ -11,8 +11,8 @@
             <p>Consultez les dossiers, statuts et niveaux de securite remontes par la base.</p>
         </div>
         <div class="button-row">
-            <button class="button button-primary" type="button" disabled>Nouveau detenu</button>
-            <button class="button" type="button" disabled>Exporter</button>
+            <a class="button button-primary" href="{{ path('app_inmate_new') }}">Nouveau detenu</a>
+            <a class="button" href="{{ path('app_inmate_export') }}">Exporter</a>
         </div>
     </section>
 
@@ -48,25 +48,31 @@
         </article>
     </section>
 
-    <section class="filter-bar" aria-label="Filtres detenus">
+    <form class="filter-bar" method="get" action="{{ path('app_inmate_index') }}" aria-label="Filtres detenus">
         <label>
             UID
-            <input type="search" placeholder="Rechercher un UID" disabled>
+            <input type="search" name="uid" value="{{ filters.uid }}" placeholder="Rechercher un UID">
         </label>
         <label>
             Statut
-            <select disabled>
-                <option>Tous les statuts</option>
+            <select name="status">
+                <option value="">Tous les statuts</option>
+                {% for status in statuses %}
+                    <option value="{{ status }}" {{ filters.status == status ? 'selected' }}>{{ status }}</option>
+                {% endfor %}
             </select>
         </label>
         <label>
             Niveau
-            <select disabled>
-                <option>Tous les niveaux</option>
+            <select name="securityLevel">
+                <option value="">Tous les niveaux</option>
+                {% for level in securityLevels %}
+                    <option value="{{ level }}" {{ filters.securityLevel == level ? 'selected' }}>{{ level }}</option>
+                {% endfor %}
             </select>
         </label>
-        <button class="button" type="button" disabled>Filtrer</button>
-    </section>
+        <button class="button" type="submit">Filtrer</button>
+    </form>
 
     <section class="entity-layout">
         <article class="panel entity-list-panel">
@@ -83,6 +89,7 @@
                         <th scope="col">Statut</th>
                         <th scope="col">Securite</th>
                         <th scope="col">Arrivee</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,10 +102,14 @@
                         <td><span class="status-badge status-{{ inmate.status|lower|replace({'_': '-'}) }}">{{ inmate.status }}</span></td>
                         <td><span class="severity-pill level-{{ inmate.securityLevel|lower }}">{{ inmate.securityLevel }}</span></td>
                         <td>{{ inmate.arrivalDate ? inmate.arrivalDate|date('d/m/Y') : '-' }}</td>
+                        <td class="table-actions">
+                            <a class="table-link" href="{{ path('app_inmate_show', {id: inmate.id}) }}">Voir</a>
+                            <a class="table-link" href="{{ path('app_inmate_edit', {id: inmate.id}) }}">Modifier</a>
+                        </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td class="empty-state" colspan="5">Aucun detenu a afficher pour le moment.</td>
+                        <td class="empty-state" colspan="6">Aucun detenu a afficher pour le moment.</td>
                     </tr>
                 {% endfor %}
                 </tbody>
