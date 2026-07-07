@@ -62,4 +62,32 @@ class CellRepository extends ServiceEntityRepository
             ->andWhere('wing.building = :building')
             ->setParameter('building', $building);
     }
+
+    /**
+     * Cells with the AVAILABLE status and at least one free spot, ordered by
+     * building/wing so choice lists can be grouped without extra queries.
+     */
+    public function createAvailableForAssignmentQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('cell')
+            ->innerJoin('cell.wing', 'wing')
+            ->innerJoin('wing.building', 'building')
+            ->leftJoin('cell.assignments', 'assignment', 'WITH', 'assignment.endAt IS NULL')
+            ->addSelect('wing', 'building')
+            ->andWhere('cell.status = :available')
+            ->setParameter('available', Cell::STATUS_AVAILABLE)
+            ->groupBy('cell.id')
+            ->having('COUNT(assignment.id) < cell.capacity')
+            ->orderBy('building.name', 'ASC')
+            ->addOrderBy('wing.name', 'ASC')
+            ->addOrderBy('cell.number', 'ASC');
+    }
+
+    /**
+     * @return list<Cell>
+     */
+    public function findAvailableForAssignment(): array
+    {
+        return $this->createAvailableForAssignmentQueryBuilder()->getQuery()->getResult();
+    }
 }

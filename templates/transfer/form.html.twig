@@ -1,0 +1,51 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}Nouveau transfert - PAS{% endblock %}
+{% block page_eyebrow %}Mouvements{% endblock %}
+{% block page_title %}Nouveau transfert{% endblock %}
+
+{% block app_body %}
+    <article class="panel">
+        {{ form_start(form, { attr: { class: 'auth-form', id: 'transfer-form' } }) }}
+            <div class="form-field">{{ form_row(form.inmate) }}</div>
+            {{ form_row(form.type) }}
+            {{ form_row(form.targetCell) }}
+            {{ form_row(form.externalDestination) }}
+            <div class="form-field">{{ form_row(form.reason) }}</div>
+
+            <div class="button-row">
+                <button class="button button-primary" type="submit">Transferer</button>
+                <a class="button button-secondary" href="{{ path('app_inmate_index') }}">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </article>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('transfer-form');
+            if (!form) {
+                return;
+            }
+
+            var internalField = form.querySelector('.transfer-field-internal');
+            var externalField = form.querySelector('.transfer-field-external');
+            var radios = form.querySelectorAll('.transfer-type-toggle input[type="radio"]');
+
+            function sync() {
+                var checked = form.querySelector('.transfer-type-toggle input[type="radio"]:checked');
+                var isExternal = checked && checked.value === 'EXTERNE';
+
+                internalField.style.display = isExternal ? 'none' : '';
+                externalField.style.display = isExternal ? '' : 'none';
+            }
+
+            radios.forEach(function (radio) {
+                radio.addEventListener('change', sync);
+            });
+
+            sync();
+        });
+    </script>
+{% endblock %}

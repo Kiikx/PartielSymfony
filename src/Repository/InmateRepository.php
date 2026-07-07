@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Inmate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -60,5 +61,49 @@ class InmateRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Incarcerated inmates with no active (ongoing) assignment, eligible for a new one.
+     */
+    public function createAssignableQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('inmate')
+            ->andWhere('inmate.status = :status')
+            ->andWhere('NOT EXISTS (
+                SELECT 1 FROM App\Entity\Assignment assignment
+                WHERE assignment.inmate = inmate AND assignment.endAt IS NULL
+            )')
+            ->setParameter('status', Inmate::STATUS_INCARCERATED)
+            ->orderBy('inmate.lastName', 'ASC');
+    }
+
+    /**
+     * @return list<Inmate>
+     */
+    public function findAssignable(): array
+    {
+        return $this->createAssignableQueryBuilder()->getQuery()->getResult();
+    }
+
+    /**
+     * Inmates currently holding an active assignment, eligible for a transfer.
+     */
+    public function createTransferableQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('inmate')
+            ->andWhere('EXISTS (
+                SELECT 1 FROM App\Entity\Assignment assignment
+                WHERE assignment.inmate = inmate AND assignment.endAt IS NULL
+            )')
+            ->orderBy('inmate.lastName', 'ASC');
+    }
+
+    /**
+     * @return list<Inmate>
+     */
+    public function findTransferable(): array
+    {
+        return $this->createTransferableQueryBuilder()->getQuery()->getResult();
     }
 }

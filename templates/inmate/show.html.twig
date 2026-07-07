@@ -17,6 +17,11 @@
         {% if is_granted('ROLE_MANAGER') %}
             <div class="button-row">
                 <a class="button button-secondary" href="{{ path('app_inmate_edit', { id: inmate.id }) }}">Modifier</a>
+                {% if inmate.status == 'INCARCERE' and inmate.assignments|filter(a => a.isActive)|length == 0 %}
+                    <a class="button button-primary" href="{{ path('app_assignment_new', { inmate: inmate.id }) }}">Affecter</a>
+                {% elseif inmate.assignments|filter(a => a.isActive)|length > 0 %}
+                    <a class="button button-primary" href="{{ path('app_transfer_new', { inmate: inmate.id }) }}">Transferer</a>
+                {% endif %}
             </div>
         {% endif %}
     </section>

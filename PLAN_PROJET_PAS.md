@@ -6,8 +6,8 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 - Source de verite fonctionnelle : `Sujet.md`.
 - Le plan ci-dessous sert de feuille de route operationnelle et doit rester aligne avec les criteres du sujet.
-- Branche de travail courante : `feature/back-office-dashboard`.
-- Priorite immediate : Phase 5 back-office Twig (layout + dashboard faits, pages de gestion a suivre).
+- Branche de travail courante : `feature/inmate-management`.
+- Priorite immediate : Phase 5B (Commits 19-21) en cours ; 19 et 20 termines, 21 termine, reste 22-24 (Phase 5C : tablette complete, incidents/audit, admin utilisateurs).
 
 ## Rappels des criteres du sujet
 
@@ -177,11 +177,12 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Historique cellule (affectations passees et en cours).
   - [x] CRUD admin des referentiels principaux : `Building`, `Wing`, `Cell` (`BuildingType`, `WingType`, `CellType`), creation/modification `ROLE_ADMIN`, suppression bloquee si des enfants existent (pas de cascade destructive).
 
-- [ ] Commit 21 - `Ajouter les formulaires d affectation et transfert`
-  - [ ] Formulaire affectation dynamique.
-  - [ ] Cellules disponibles selon batiment/aile/capacite.
-  - [ ] Formulaire transfert interne/externe.
-  - [ ] Validation serveur complete.
+- [x] Commit 21 - `Ajouter les formulaires d affectation et transfert`
+  - [x] Formulaire affectation dynamique (`AssignmentRequestType`, non lie a l'entite, delegue au `AssignmentService` existant).
+  - [x] Cellules disponibles selon batiment/aile/capacite (`CellRepository::createAvailableForAssignmentQueryBuilder`, groupe par batiment/aile dans le select).
+  - [x] Formulaire transfert interne/externe (`TransferRequestType`), bascule des champs via JS selon le type choisi.
+  - [x] Validation serveur complete : contraintes de formulaire + regles metier de `TransferService`/`AssignmentService` (exceptions capturees et affichees).
+  - [x] Boutons "Affecter" / "Transferer" sur la fiche detenu selon son etat d'affectation.
 
 - [ ] Commit 22 - `Ajouter les vues activites et tablette surveillant`
   - [ ] Interface tablette surveillant.
