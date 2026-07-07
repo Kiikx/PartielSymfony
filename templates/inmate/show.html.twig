@@ -1,0 +1,144 @@
+{% extends 'layout/app.html.twig' %}
+
+{% set statusClasses = {
+    'INCARCERE': 'badge-medium',
+    'SORTI': 'badge-low',
+    'TRANSFERE_EXTERNE': 'badge-high',
+    'PERMISSION_MEDICALE': 'badge-neutral',
+} %}
+
+{% block title %}{{ inmate.fullName }} - PAS{% endblock %}
+{% block page_eyebrow %}Dossier detenu{% endblock %}
+{% block page_title %}{{ inmate.fullName }}{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>UID {{ inmate.uid }} - <span class="badge {{ statusClasses[inmate.status] ?? 'badge-neutral' }}">{{ inmate.status|lower|replace({'_': ' '})|capitalize }}</span></p>
+        {% if is_granted('ROLE_MANAGER') %}
+            <div class="button-row">
+                <a class="button button-secondary" href="{{ path('app_inmate_edit', { id: inmate.id }) }}">Modifier</a>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="content-grid content-grid-2">
+        <article class="panel">
+            <h2>Identite</h2>
+            <div class="panel-side">
+                <div class="panel-side-row"><span>Nom complet</span><strong>{{ inmate.fullName }}</strong></div>
+                <div class="panel-side-row"><span>Date de naissance</span><strong>{{ inmate.birthDate ? inmate.birthDate|date('d/m/Y') : '-' }}</strong></div>
+                <div class="panel-side-row"><span>Niveau de securite</span><strong>{{ inmate.securityLevel|lower|capitalize }}</strong></div>
+                <div class="panel-side-row"><span>Arrivee</span><strong>{{ inmate.arrivalDate ? inmate.arrivalDate|date('d/m/Y') : '-' }}</strong></div>
+                <div class="panel-side-row"><span>Sortie</span><strong>{{ inmate.releaseDate ? inmate.releaseDate|date('d/m/Y') : '-' }}</strong></div>
+            </div>
+        </article>
+
+        <article class="panel">
+            <h2>Cellule actuelle</h2>
+            {% set activeAssignment = inmate.assignments|filter(a => a.isActive)|first %}
+            {% if activeAssignment %}
+                <div class="panel-side">
+                    <div class="panel-side-row"><span>Cellule</span><strong>{{ activeAssignment.cell.number }}</strong></div>
+                    <div class="panel-side-row"><span>Aile</span><strong>{{ activeAssignment.cell.wing ? activeAssignment.cell.wing.name : '-' }}</strong></div>
+                    <div class="panel-side-row"><span>Depuis</span><strong>{{ activeAssignment.startAt|date('d/m/Y') }}</strong></div>
+                </div>
+            {% else %}
+                <p class="panel-empty">Aucune affectation active.</p>
+            {% endif %}
+        </article>
+    </section>
+
+    <section class="content-grid content-grid-2">
+        <article class="panel">
+            <h2>Historique des affectations</h2>
+            {% if inmate.assignments is empty %}
+                <p class="panel-empty">Aucune affectation enregistree.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cellule</th>
+                                <th scope="col">Debut</th>
+                                <th scope="col">Fin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for assignment in inmate.assignments %}
+                                <tr>
+                                    <td>{{ assignment.cell.number }}</td>
+                                    <td>{{ assignment.startAt|date('d/m/Y') }}</td>
+                                    <td>{{ assignment.endAt ? assignment.endAt|date('d/m/Y') : '-' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </article>
+
+        <article class="panel">
+            <h2>Historique des transferts</h2>
+            {% if inmate.transfers is empty %}
+                <p class="panel-empty">Aucun transfert enregistre.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Type</th>
+                                <th scope="col">Depuis</th>
+                                <th scope="col">Vers</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transfer in inmate.transfers %}
+                                <tr>
+                                    <td>{{ transfer.type|lower|capitalize }}</td>
+                                    <td>{{ transfer.fromCell ? transfer.fromCell.number : '-' }}</td>
+                                    <td>{{ transfer.toCell ? transfer.toCell.number : (transfer.externalDestination ?: '-') }}</td>
+                                    <td>{{ transfer.scheduledAt|date('d/m/Y') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </article>
+    </section>
+
+    <section class="content-grid content-grid-2">
+        <article class="panel">
+            <h2>Activites</h2>
+            {% if inmate.activityParticipations is empty %}
+                <p class="panel-empty">Aucune participation enregistree.</p>
+            {% else %}
+                <ul class="activity-list">
+                    {% for participation in inmate.activityParticipations %}
+                        <li class="activity-item">
+                            <span class="activity-time">{{ participation.activity.scheduledAt|date('d/m H:i') }}</span>
+                            <span class="activity-label">{{ participation.activity.label }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </article>
+
+        <article class="panel">
+            <h2>Incidents lies</h2>
+            {% if inmate.incidents is empty %}
+                <p class="panel-empty">Aucun incident lie a ce detenu.</p>
+            {% else %}
+                <ul class="activity-list">
+                    {% for incident in inmate.incidents %}
+                        <li class="activity-item">
+                            <span class="activity-time">{{ incident.occurredAt|date('d/m/Y') }}</span>
+                            <span class="activity-label">{{ incident.title }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </article>
+    </section>
+{% endblock %}

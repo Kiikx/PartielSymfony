@@ -35,4 +35,30 @@ class InmateRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * @return list<Inmate>
+     */
+    public function search(?string $uid, ?string $status, ?string $securityLevel): array
+    {
+        $qb = $this->createQueryBuilder('inmate')
+            ->orderBy('inmate.arrivalDate', 'DESC');
+
+        if ($uid !== null && $uid !== '') {
+            $qb->andWhere('inmate.uid LIKE :uid')
+                ->setParameter('uid', '%'.mb_strtoupper(trim($uid)).'%');
+        }
+
+        if ($status !== null && $status !== '') {
+            $qb->andWhere('inmate.status = :status')
+                ->setParameter('status', $status);
+        }
+
+        if ($securityLevel !== null && $securityLevel !== '') {
+            $qb->andWhere('inmate.securityLevel = :securityLevel')
+                ->setParameter('securityLevel', $securityLevel);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

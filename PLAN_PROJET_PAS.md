@@ -162,12 +162,13 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Deux `TabletController` en conflit ; fusionnes en un seul controleur securise (`/guard/tablet` et `/tablet`).
   - [x] `HomeController` simplifie en redirection par role (l'ancien dashboard dedie faisait doublon avec `DashboardService`).
 
-- [ ] Commit 19 - `Ajouter les pages de gestion des detenus`
-  - [ ] Liste detenus avec recherche UID.
-  - [ ] Filtres statut/niveau.
-  - [ ] Fiche detenu.
-  - [ ] Formulaire creation/modification.
-  - [ ] Historique affectations, activites, incidents.
+- [x] Commit 19 - `Ajouter les pages de gestion des detenus`
+  - [x] Liste detenus avec recherche UID.
+  - [x] Filtres statut/niveau.
+  - [x] Fiche detenu.
+  - [x] Formulaire creation/modification (premier formulaire dynamique Symfony du projet, `InmateType`).
+  - [x] Historique affectations, transferts, activites, incidents (relations existantes de `Inmate`).
+  - [x] Acces : consultation `ROLE_GUARD`, creation/modification `ROLE_MANAGER`.
 
 - [ ] Commit 20 - `Ajouter les pages de structure penitentiaire`
   - [ ] Liste batiments/ailes/cellules.
