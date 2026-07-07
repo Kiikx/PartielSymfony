@@ -82,6 +82,16 @@ Vider le cache:
 docker compose exec app php bin/console cache:clear
 ```
 
+Lancer les verifications qualite:
+
+```bash
+docker compose exec app ./vendor/bin/phpunit
+docker compose exec app ./vendor/bin/phpstan analyse --no-progress
+docker compose exec app php bin/console lint:yaml config --env=test
+docker compose exec app php bin/console lint:twig templates --env=test
+docker compose exec app php bin/console lint:container --env=test
+```
+
 Entrer dans le conteneur applicatif:
 
 ```bash
@@ -106,3 +116,56 @@ docker compose down -v
 - `docker-compose.yml`: service web Symfony et base MySQL.
 - `docker/vhost.conf`: virtual host Apache pointant vers `public/`.
 - `docker/entrypoint.sh`: installe automatiquement les dependances si `vendor/` est absent.
+
+## Deploiement production Infomaniak
+
+Le site de production doit pointer vers le dossier `public/` du projet Symfony.
+
+```text
+Document root: ~/sites/ESGI-4IWA-Symfony-PAS.davidmgr.fr/PartielSymfony/public
+URL publique: https://esgi-4iwa-symfony-pas.davidmgr.fr
+```
+
+Variables minimales a definir dans `.env.local` sur le serveur:
+
+```dotenv
+APP_ENV=prod
+APP_DEBUG=0
+APP_SECRET=change-me
+DATABASE_URL="mysql://USER:PASSWORD@HOST:3306/DATABASE?charset=utf8mb4"
+```
+
+Commandes de mise a jour:
+
+```bash
+git pull origin main
+APP_ENV=prod APP_DEBUG=0 composer install --no-dev --optimize-autoloader
+APP_ENV=prod APP_DEBUG=0 php bin/console doctrine:migrations:migrate --no-interaction
+APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
+APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup
+```
+
+Creation d'un administrateur sans fixtures:
+
+```bash
+APP_ENV=prod APP_DEBUG=0 php bin/console app:create-admin-user admin@pas.test 'Password123!' David Mgr --super-admin --service=Direction
+```
+
+Les fixtures de demonstration utilisent `DoctrineFixturesBundle`, installe en dependance de developpement. Pour les charger ponctuellement sur une base de demonstration:
+
+```bash
+APP_ENV=dev APP_DEBUG=0 php bin/console doctrine:fixtures:load --no-interaction
+```
+
+Cette commande purge la base avant de charger les donnees.
+
+## Integration continue
+
+Le workflow GitHub Actions `.github/workflows/ci.yml` s'execute sur chaque pull request et chaque push sur `main`.
+
+Il lance:
+
+- validation Composer;
+- lint YAML, Twig et container Symfony;
+- analyse statique PHPStan;
+- tests PHPUnit.

@@ -245,28 +245,28 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [ ] Tester creation incident API.
   - [ ] Tester formulaire affectation dynamique.
 
-- [ ] Commit 31 - `Ajouter le workflow de qualite et tests`
-  - [ ] Ajouter workflow CI.
-  - [ ] Installer dependances.
-  - [ ] Lancer lint container/config/Twig.
-  - [ ] Lancer PHPStan niveau 5.
-  - [ ] Lancer PHPUnit.
+- [x] Commit 31 - `Ajouter le workflow de qualite et tests`
+  - [x] Ajouter workflow CI.
+  - [x] Installer dependances.
+  - [x] Lancer lint container/config/Twig.
+  - [x] Lancer PHPStan niveau 5.
+  - [x] Lancer PHPUnit.
 
 ## Phase 9 - Documentation et livraison
 
-- [ ] Commit 32 - `Completer le guide d installation et d utilisation`
-  - [ ] Prerequis Docker et hors Docker.
-  - [ ] Configuration `.env.local`.
-  - [ ] Commandes database, migrations, fixtures.
-  - [ ] Commandes tests/qualite.
-  - [ ] Identifiants de demo.
+- [x] Commit 32 - `Completer le guide d installation et d utilisation`
+  - [x] Prerequis Docker et hors Docker.
+  - [x] Configuration `.env.local`.
+  - [x] Commandes database, migrations, fixtures.
+  - [x] Commandes tests/qualite.
+  - [x] Identifiants de demo.
   - [ ] Architecture du projet.
 
-- [ ] Commit 33 - `Ajouter les notes de deploiement`
-  - [ ] Choisir plateforme de deploiement.
-  - [ ] Documenter variables d'environnement de production.
-  - [ ] Ajouter URL publique si disponible.
-  - [ ] Documenter limites connues.
+- [x] Commit 33 - `Ajouter les notes de deploiement`
+  - [x] Choisir plateforme de deploiement.
+  - [x] Documenter variables d'environnement de production.
+  - [x] Ajouter URL publique si disponible.
+  - [x] Documenter limites connues.
 
 - [ ] Commit 34 - `Preparer la livraison finale du projet`
   - [ ] Verifier criteres d'acceptation.
@@ -287,5 +287,5 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 - [ ] Les endpoints API repondent en JSON.
 - [x] Les notifications email sont historisees.
 - [ ] HttpClient est utilise via un service testable.
-- [ ] La CI passe.
-- [ ] Le README permet a une personne externe de lancer le projet.
+- [x] La CI passe.
+- [x] Le README permet a une personne externe de lancer le projet.
