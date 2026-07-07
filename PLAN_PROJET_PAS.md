@@ -6,8 +6,8 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 - Source de verite fonctionnelle : `Sujet.md`.
 - Le plan ci-dessous sert de feuille de route operationnelle et doit rester aligne avec les criteres du sujet.
-- Branche de travail courante : `feature/inmate-management`.
-- Priorite immediate : Phase 5B (Commits 19-21) en cours ; 19 et 20 termines, 21 termine, reste 22-24 (Phase 5C : tablette complete, incidents/audit, admin utilisateurs).
+- Branche de travail courante : `feature/incidents-audit-pages`.
+- Priorite immediate : finaliser le Commit 23 (incidents/audit), puis enchainer sur le Commit 24 (administration utilisateurs).
 
 ## Rappels des criteres du sujet
 
@@ -190,11 +190,11 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Gestion activites : formulaire rapide `ActivityQuickType` couvrant tous les types (`CANTINE`, `PROMENADE`, `ATELIER`, etc.).
   - [x] UX rapide et responsive : reutilise le layout responsive existant, formulaires courts en 2 colonnes desktop / 1 colonne tablette.
 
-- [ ] Commit 23 - `Ajouter les pages incidents et audit`
-  - [ ] Liste incidents avec filtres.
-  - [ ] Creation incident.
-  - [ ] Traitement incident selon role.
-  - [ ] Journal d'audit filtre par utilisateur, entite, action, date.
+- [x] Commit 23 - `Ajouter les pages incidents et audit`
+  - [x] Liste incidents avec filtres.
+  - [x] Creation incident.
+  - [x] Traitement incident selon role.
+  - [x] Journal d'audit filtre par utilisateur, entite, action, date.
 
 - [ ] Commit 24 - `Ajouter l administration des utilisateurs`
   - [ ] Liste utilisateurs.

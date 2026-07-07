@@ -519,6 +519,38 @@ a {
     font-size: 16px;
 }
 
+.detail-grid {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+}
+
+.detail-grid div {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 10px;
+}
+
+.detail-grid div:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.detail-grid dt {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.detail-grid dd {
+    margin: 0;
+    font-weight: 700;
+    text-align: right;
+}
+
 .progress-track {
     height: 8px;
     border-radius: 999px;

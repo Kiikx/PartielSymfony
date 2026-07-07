@@ -1,0 +1,22 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}Traiter incident - PAS{% endblock %}
+{% block page_eyebrow %}Surete{% endblock %}
+{% block page_title %}Traiter l'incident{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>{{ incident.title }} - statut actuel : {{ incident.status|lower|replace({'_': ' '})|capitalize }}.</p>
+    </section>
+
+    <article class="panel">
+        {{ form_start(form, { attr: { class: 'auth-form' } }) }}
+            <div class="form-field">{{ form_row(form.status) }}</div>
+
+            <div class="button-row">
+                <button class="button button-primary" type="submit">Mettre a jour</button>
+                <a class="button button-secondary" href="{{ path('app_incident_show', { id: incident.id }) }}">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </article>
+{% endblock %}

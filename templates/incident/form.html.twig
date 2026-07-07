@@ -1,0 +1,27 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}Nouvel incident - PAS{% endblock %}
+{% block page_eyebrow %}Surete{% endblock %}
+{% block page_title %}Signaler un incident{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>Renseignez les elements essentiels du signalement. Les incidents eleves et critiques notifieront automatiquement les managers concernes.</p>
+    </section>
+
+    <article class="panel">
+        {{ form_start(form, { attr: { class: 'auth-form' } }) }}
+            <div class="form-field">{{ form_row(form.title) }}</div>
+            <div class="form-field">{{ form_row(form.description) }}</div>
+            <div class="form-field">{{ form_row(form.severity) }}</div>
+            <div class="form-field">{{ form_row(form.occurredAt) }}</div>
+            <div class="form-field">{{ form_row(form.cell) }}</div>
+            <div class="form-field">{{ form_row(form.inmates) }}</div>
+
+            <div class="button-row">
+                <button class="button button-primary" type="submit">Enregistrer</button>
+                <a class="button button-secondary" href="{{ path('app_incident_index') }}">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </article>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'layout/app.html.twig' %}
+
+{% set statusClasses = {
+    'BROUILLON': 'badge-neutral',
+    'OUVERT': 'badge-high',
+    'EN_TRAITEMENT': 'badge-medium',
+    'CLOS': 'badge-low',
+} %}
+{% set severityClasses = {
+    'FAIBLE': 'badge-low',
+    'MOYENNE': 'badge-medium',
+    'ELEVEE': 'badge-high',
+    'CRITIQUE': 'badge-critical',
+} %}
+
+{% block title %}Incident #{{ incident.id }} - PAS{% endblock %}
+{% block page_eyebrow %}Surete{% endblock %}
+{% block page_title %}{{ incident.title }}{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>{{ incident.description }}</p>
+        <div class="button-row">
+            {% if is_granted('incident.edit', incident) %}
+                <a class="button button-primary" href="{{ path('app_incident_process', { id: incident.id }) }}">Traiter</a>
+            {% endif %}
+            <a class="button button-secondary" href="{{ path('app_incident_index') }}">Retour</a>
+        </div>
+    </section>
+
+    <section class="content-grid content-grid-2">
+        <article class="panel">
+            <h2>Informations</h2>
+            <dl class="detail-grid">
+                <div>
+                    <dt>Gravite</dt>
+                    <dd><span class="badge {{ severityClasses[incident.severity] ?? 'badge-neutral' }}">{{ incident.severity|lower|capitalize }}</span></dd>
+                </div>
+                <div>
+                    <dt>Statut</dt>
+                    <dd><span class="badge {{ statusClasses[incident.status] ?? 'badge-neutral' }}">{{ incident.status|lower|replace({'_': ' '})|capitalize }}</span></dd>
+                </div>
+                <div>
+                    <dt>Cellule</dt>
+                    <dd>{{ incident.cell ? incident.cell.number : 'Hors cellule' }}</dd>
+                </div>
+                <div>
+                    <dt>Signale par</dt>
+                    <dd>{{ incident.reportedBy ? incident.reportedBy.fullName : '-' }}</dd>
+                </div>
+                <div>
+                    <dt>Date</dt>
+                    <dd>{{ incident.occurredAt|date('d/m/Y H:i') }}</dd>
+                </div>
+            </dl>
+        </article>
+
+        <article class="panel">
+            <h2>Detenus impliques</h2>
+            {% if incident.inmates is empty %}
+                <p class="panel-empty">Aucun detenu associe a ce signalement.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">UID</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for inmate in incident.inmates %}
+                                <tr>
+                                    <td><a href="{{ path('app_inmate_show', { id: inmate.id }) }}">{{ inmate.uid }}</a></td>
+                                    <td>{{ inmate.fullName }}</td>
+                                    <td>{{ inmate.status|lower|replace({'_': ' '})|capitalize }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </article>
+    </section>
+{% endblock %}

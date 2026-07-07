@@ -21,11 +21,19 @@
     <section class="page-head">
         <p>Suivez les signalements existants, leur gravite et leur statut de traitement.</p>
         <div class="button-row">
+            {% if is_granted('incident.create') %}
+                <a class="button button-primary" href="{{ path('app_incident_new') }}">Nouvel incident</a>
+            {% endif %}
             <a class="button button-secondary" href="{{ path('app_guard_tablet') }}">Mode tablette</a>
         </div>
     </section>
 
     <section class="stat-grid">
+        <article class="stat-tile">
+            <p class="stat-label">Visibles</p>
+            <p class="stat-value">{{ stats.total }}</p>
+            <p class="stat-hint">Selon vos droits</p>
+        </article>
         <article class="stat-tile">
             <p class="stat-label">Ouverts</p>
             <p class="stat-value">{{ stats.open }}</p>
@@ -34,12 +42,7 @@
         <article class="stat-tile">
             <p class="stat-label">En traitement</p>
             <p class="stat-value">{{ stats.processing }}</p>
-            <p class="stat-hint">Suivi en cours</p>
-        </article>
-        <article class="stat-tile">
-            <p class="stat-label">Clos</p>
-            <p class="stat-value">{{ stats.closed }}</p>
-            <p class="stat-hint">Resolus</p>
+            <p class="stat-hint">Suivi actif</p>
         </article>
         <article class="stat-tile">
             <p class="stat-label">Critiques</p>
@@ -47,6 +50,46 @@
             <p class="stat-hint">Priorite maximale</p>
         </article>
     </section>
+
+    <article class="panel">
+        <form class="filter-bar" method="get" action="{{ path('app_incident_index') }}">
+            <label>
+                Recherche
+                <input type="search" name="text" value="{{ filters.text }}" placeholder="Titre ou description">
+            </label>
+            <label>
+                Statut
+                <select name="status">
+                    <option value="">Tous</option>
+                    {% for status in statuses %}
+                        <option value="{{ status }}" {{ filters.status == status ? 'selected' }}>{{ status|lower|replace({'_': ' '})|capitalize }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                Gravite
+                <select name="severity">
+                    <option value="">Toutes</option>
+                    {% for severity in severities %}
+                        <option value="{{ severity }}" {{ filters.severity == severity ? 'selected' }}>{{ severity|lower|capitalize }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                Cellule
+                <select name="cell">
+                    <option value="">Toutes</option>
+                    {% for cell in cells %}
+                        <option value="{{ cell.id }}" {{ filters.cell == cell.id ? 'selected' }}>{{ cell.number }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <button class="button button-secondary" type="submit">Filtrer</button>
+            {% if filters.text or filters.status or filters.severity or filters.cell %}
+                <a class="button button-secondary" href="{{ path('app_incident_index') }}">Reinitialiser</a>
+            {% endif %}
+        </form>
+    </article>
 
     <article class="panel">
         <h2>Journal incidents</h2>
@@ -63,16 +106,24 @@
                             <th scope="col">Statut</th>
                             <th scope="col">Cellule</th>
                             <th scope="col">Date</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for incident in incidents %}
                             <tr>
-                                <td>{{ incident.title }}</td>
+                                <td><a href="{{ path('app_incident_show', { id: incident.id }) }}">{{ incident.title }}</a></td>
                                 <td><span class="badge {{ severityClasses[incident.severity] ?? 'badge-neutral' }}">{{ incident.severity|lower|capitalize }}</span></td>
                                 <td><span class="badge {{ statusClasses[incident.status] ?? 'badge-neutral' }}">{{ incident.status|lower|replace({'_': ' '})|capitalize }}</span></td>
                                 <td>{{ incident.cell ? incident.cell.number : '-' }}</td>
                                 <td>{{ incident.occurredAt|date('d/m/Y H:i') }}</td>
+                                <td>
+                                    {% if is_granted('incident.edit', incident) %}
+                                        <a href="{{ path('app_incident_process', { id: incident.id }) }}">Traiter</a>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
