@@ -3,32 +3,69 @@
 {% block body_class %}app-page{% endblock %}
 
 {% block body %}
+    {% set currentRoute = app.request.attributes.get('_route') %}
+
+    <details class="mobile-menu">
+        <summary aria-label="Ouvrir la navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </summary>
+        <nav class="mobile-nav" aria-label="Navigation mobile">
+            <a class="side-link {{ currentRoute in ['app_home', 'app_dashboard'] ? 'is-active' }}" href="{{ path('app_home') }}">Tableau de bord</a>
+            <a class="side-link {{ currentRoute starts with 'app_inmate' ? 'is-active' }}" href="{{ path('app_inmate_index') }}">Detenus</a>
+            <a class="side-link {{ currentRoute starts with 'app_structure' ? 'is-active' }}" href="{{ path('app_structure_cells') }}">Cellules</a>
+            <a class="side-link {{ currentRoute starts with 'app_incident' ? 'is-active' }}" href="{{ path('app_incident_index') }}">Incidents</a>
+        </nav>
+    </details>
+
     <div class="app-shell">
         <aside class="app-sidebar" aria-label="Navigation principale">
-            <a class="app-brand" href="{{ path('app_home') }}">
-                <span class="app-brand-mark">PAS</span>
-                <span class="app-brand-text">Pilotage penitentiaire</span>
+            <a class="brand" href="{{ path('app_home') }}">
+                <img class="brand-logo" src="{{ asset('logo.png') }}" alt="PAS">
+                <span class="brand-copy">
+                    <strong>Prison</strong>
+                    <small>Administrator System</small>
+                </span>
             </a>
 
             <nav class="app-nav">
+                <a class="side-link {{ currentRoute in ['app_home', 'app_dashboard'] ? 'is-active' }}" href="{{ path('app_home') }}">
+                    <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h7V4H4v9Zm0 7h7v-5H4v5Zm9 0h7v-9h-7v9Zm0-16v5h7V4h-7Z"/></svg>
+                    Tableau de bord
+                </a>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_admin_dashboard') }}">Administration</a>
-                    <a href="{{ path('app_user_index') }}">Utilisateurs</a>
+                    <a class="side-link {{ currentRoute == 'app_admin_dashboard' ? 'is-active' }}" href="{{ path('app_admin_dashboard') }}">
+                        <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5.2 3.4 9.9 8 11 4.6-1.1 8-5.8 8-11V5l-8-3Zm1 14h-2v-2h2v2Zm0-4h-2V7h2v5Z"/></svg>
+                        Administration
+                    </a>
                 {% endif %}
 
                 {% if is_granted('ROLE_MANAGER') %}
-                    <a href="{{ path('app_manager_dashboard') }}">Management</a>
-                    <a href="{{ path('app_building_index') }}">Batiments</a>
-                    <a href="{{ path('app_audit_index') }}">Audit</a>
+                    <a class="side-link {{ currentRoute == 'app_manager_dashboard' ? 'is-active' }}" href="{{ path('app_manager_dashboard') }}">
+                        <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5V3Zm3 13h2V9H8v7Zm3 0h2V6h-2v10Zm3 0h2v-4h-2v4Z"/></svg>
+                        Management
+                    </a>
                 {% endif %}
 
                 {% if is_granted('ROLE_GUARD') %}
-                    <a href="{{ path('app_guard_dashboard') }}">Surveillance</a>
-                    <a href="{{ path('app_guard_tablet') }}">Tablette terrain</a>
-                    <a href="{{ path('app_inmate_index') }}">Detenus</a>
-                    <a href="{{ path('app_structure_cells') }}">Cellules</a>
-                    <a href="{{ path('app_incident_index') }}">Incidents</a>
+                    <a class="side-link {{ currentRoute == 'app_guard_dashboard' ? 'is-active' }}" href="{{ path('app_guard_dashboard') }}">
+                        <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 3v14h10V5H7Zm4 15h2v1h-2v-1Z"/></svg>
+                        Surveillance
+                    </a>
                 {% endif %}
+                <a class="side-link {{ currentRoute starts with 'app_inmate' ? 'is-active' }}" href="{{ path('app_inmate_index') }}">
+                    <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-7 9a7 7 0 0 1 14 0H5Z"/></svg>
+                    Detenus
+                </a>
+                <a class="side-link {{ currentRoute starts with 'app_structure' ? 'is-active' }}" href="{{ path('app_structure_cells') }}">
+                    <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V3h16v18H4Zm4-12h3V6H8v3Zm5 0h3V6h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Z"/></svg>
+                    Cellules
+                </a>
+                <a class="side-link {{ currentRoute starts with 'app_incident' ? 'is-active' }}" href="{{ path('app_incident_index') }}">
+                    <svg class="side-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 20h20L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V8h2v5Z"/></svg>
+                    Incidents
+                </a>
             </nav>
         </aside>
 
@@ -48,14 +85,12 @@
             </header>
 
             <main class="app-content">
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="flash flash-{{ label }}" role="status">{{ message }}</div>
-                    {% endfor %}
-                {% endfor %}
-
                 {% block app_body %}{% endblock %}
             </main>
         </div>
     </div>
+
+    <a class="tablet-launcher {{ currentRoute starts with 'app_tablet' ? 'is-active' }}" href="{{ path('app_tablet_guard') }}" aria-label="Acces tablette detenu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 3v14h10V5H7Zm4 15h2v1h-2v-1Z"/></svg>
+    </a>
 {% endblock %}

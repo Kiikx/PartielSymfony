@@ -1,21 +1,34 @@
-{% extends 'layout/app.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}{{ cell.id ? 'Modifier' : 'Nouvelle' }} cellule - PAS{% endblock %}
-{% block page_eyebrow %}Structure penitentiaire{% endblock %}
-{% block page_title %}{{ cell.id ? 'Modifier la cellule' : 'Nouvelle cellule' }}{% endblock %}
+{% block page_title %}{{ cell.id ? 'Modifier cellule' : 'Nouvelle cellule' }}{% endblock %}
 
-{% block app_body %}
-    <article class="panel">
-        {{ form_start(form, { attr: { class: 'auth-form' } }) }}
-            <div class="form-field">{{ form_row(form.number) }}</div>
-            <div class="form-field">{{ form_row(form.capacity) }}</div>
-            <div class="form-field">{{ form_row(form.status) }}</div>
-            <div class="form-field">{{ form_row(form.wing) }}</div>
+{% block dashboard_body %}
+    <section class="page-head">
+        <div>
+            <span class="eyebrow">Structure</span>
+                <h1>{{ cell.id ? 'Modifier la cellule ' ~ cell.number : "Creation d'une cellule" }}</h1>
+            <p>Parametrage d'une cellule, de son aile et de sa capacite.</p>
+        </div>
+        <a class="button" href="{{ path('app_structure_cells') }}">Retour cellules</a>
+    </section>
 
-            <div class="button-row">
+    <section class="form-layout">
+        {{ form_start(form, { attr: { class: 'panel form-panel' } }) }}
+            <div class="panel-header">
+                <h2>Informations cellule</h2>
+                <span class="tag">Referentiel</span>
+            </div>
+            <div class="form-grid">
+                <div class="form-field">{{ form_row(form.number) }}</div>
+                <div class="form-field">{{ form_row(form.capacity) }}</div>
+                <div class="form-field">{{ form_row(form.status) }}</div>
+                <div class="form-field">{{ form_row(form.wing) }}</div>
+            </div>
+            <div class="form-actions">
                 <button class="button button-primary" type="submit">Enregistrer</button>
-                <a class="button button-secondary" href="{{ cell.id ? path('app_cell_show', { id: cell.id }) : path('app_structure_cells') }}">Annuler</a>
+                <a class="button" href="{{ cell.id ? path('app_cell_show', {id: cell.id}) : path('app_structure_cells') }}">Annuler</a>
             </div>
         {{ form_end(form) }}
-    </article>
+    </section>
 {% endblock %}

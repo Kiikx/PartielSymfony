@@ -2,21 +2,41 @@
 
 {% block title %}Surveillance - PAS{% endblock %}
 {% block page_eyebrow %}Espace surveillant{% endblock %}
-{% block page_title %}Suivi terrain{% endblock %}
+{% block page_title %}Surveillance terrain{% endblock %}
 
 {% block app_body %}
-    {{ include('dashboard/_alerts.html.twig') }}
-
-    <section class="content-grid content-grid-2">
-        {{ include('dashboard/_today_activities.html.twig') }}
-        {{ include('dashboard/_recent_incidents.html.twig') }}
+    <section class="role-head">
+        <span class="eyebrow">Surveillance terrain</span>
+        <h2>Actions rapides surveillant</h2>
+        <p>Acces aux operations de controle, suivi des incidents et mouvements.</p>
     </section>
 
     <section class="content-grid">
-        <article class="panel panel-cta">
-            <h2>Tablette terrain</h2>
-            <p>Recherche d'un detenu par numero d'ecrou et pointage des activites depuis la tablette.</p>
-            <a class="button button-primary" href="{{ path('app_guard_tablet') }}">Ouvrir la tablette</a>
+        <article class="panel role-card">
+            <span class="role-card-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 0 1 5.16 10.45l4.44 4.45-1.4 1.4-4.45-4.44A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"/></svg>
+            </span>
+            <h2>Pointage</h2>
+            <p>Acces rapide aux controles par UID et zones assignees.</p>
+            <a class="role-action" href="{{ path('app_inmate_index') }}">Chercher detenu</a>
+        </article>
+
+        <article class="panel role-card">
+            <span class="role-card-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 20h20L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V8h2v5Z"/></svg>
+            </span>
+            <h2>Incidents</h2>
+            <p>Creation et suivi des signalements terrain ouverts.</p>
+            <a class="role-action" href="{{ path('app_incident_new') }}">Declarer</a>
+        </article>
+
+        <article class="panel role-card">
+            <span class="role-card-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v2H7V7Zm0 4h7v2H7v-2Zm-3 9V4a2 2 0 0 1 2-2h10l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Zm11-16v4h4"/></svg>
+            </span>
+            <h2>Mouvements</h2>
+            <p>Consultation des affectations et transferts en cours.</p>
+            <a class="role-action" href="{{ path('app_structure_cells') }}">Voir cellules</a>
         </article>
     </section>
 {% endblock %}

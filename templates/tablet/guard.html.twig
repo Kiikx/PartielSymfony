@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tablette detenu - PAS{% endblock %}
+{% block page_title %}Acces tablette detenu{% endblock %}
+
+{% block dashboard_body %}
+    <section class="tablet-portal">
+        <article class="tablet-login-panel">
+            <div class="tablet-device-frame">
+                <div class="tablet-device-top">
+                    <span></span>
+                </div>
+                <div class="tablet-login-card">
+                    <img src="{{ asset('logo.png') }}" alt="PAS" class="tablet-login-logo">
+                    <div>
+                        <span class="eyebrow">Espace detenu</span>
+                        <h1>Connexion aux services tablette</h1>
+                        <p>Acces via numero d'ecrou et mot de passe defini par le detenu.</p>
+                    </div>
+                    <div class="tablet-form-preview" aria-label="Formulaire de connexion detenu">
+                        <label>
+                            Numero d'ecrou
+                            <input type="text" placeholder="Saisir le numero d'ecrou" disabled>
+                        </label>
+                        <label>
+                            Mot de passe
+                            <input type="password" placeholder="Mot de passe personnel" disabled>
+                        </label>
+                        <button class="button button-primary" type="button" disabled>Se connecter</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <aside class="tablet-services">
+            <article class="panel">
+                <div class="panel-header">
+                    <h2>Services prevus</h2>
+                    <span class="tag">Apres authentification</span>
+                </div>
+                <div class="service-grid">
+                    <span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM6.2 6l.7 4h8.7l1.6-4h-11ZM4 3h2l.3 1h13l-3 8H7.2l.3 2H18v2H6l-2-13Z"/></svg>
+                        Cantine
+                    </span>
+                    <span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v16l-7-3-7 3V5a2 2 0 0 1 2-2Zm0 3v12l5-2.1 5 2.1V6H7Z"/></svg>
+                        Demandes
+                    </span>
+                    <span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h2v2h6V3h2v2h3v16H4V5h3V3Zm-1 8v8h12v-8H6Zm0-4v2h12V7H6Z"/></svg>
+                        Rendez-vous
+                    </span>
+                    <span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4v12h4v4l5-4h7V4Zm-2 2v8h-5.7L10 15.8V14H6V6h12Z"/></svg>
+                        Messages autorises
+                    </span>
+                </div>
+            </article>
+
+            <article class="panel">
+                <div class="panel-header">
+                    <h2>Activites du jour</h2>
+                    <span class="tag">{{ databaseReady ? 'Base actuelle' : 'Migration requise' }}</span>
+                </div>
+                <ul class="alert-list">
+                    {% for activity in todayActivities %}
+                        <li class="alert-item">
+                            <span class="alert-title">{{ activity.label }}</span>
+                            <span class="alert-meta">{{ activity.type }} - {{ activity.scheduledAt|date('H:i') }}{% if activity.location %} - {{ activity.location }}{% endif %}</span>
+                        </li>
+                    {% else %}
+                        <li class="empty-state">Aucune activite programmee aujourd'hui.</li>
+                    {% endfor %}
+                </ul>
+            </article>
+        </aside>
+    </section>
+{% endblock %}

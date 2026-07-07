@@ -2,23 +2,41 @@
 
 {% block title %}Administration - PAS{% endblock %}
 {% block page_eyebrow %}Espace administrateur{% endblock %}
-{% block page_title %}Vue d'ensemble de l'etablissement{% endblock %}
+{% block page_title %}Administration{% endblock %}
 
 {% block app_body %}
-    {{ include('dashboard/_alerts.html.twig') }}
-    {{ include('dashboard/_stat_tiles.html.twig') }}
-
-    <section class="content-grid content-grid-2">
-        {{ include('dashboard/_recent_incidents.html.twig') }}
-        {{ include('dashboard/_recent_transfers.html.twig') }}
+    <section class="role-head">
+        <span class="eyebrow">Administration centrale</span>
+        <h2>Parametrage et controle du systeme</h2>
+        <p>Acces aux modules sensibles reserves aux comptes administrateurs.</p>
     </section>
 
-    <section class="content-grid content-grid-2">
-        {{ include('dashboard/_today_activities.html.twig') }}
+    <section class="content-grid">
+        <article class="panel role-card">
+            <span class="role-card-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11a3 3 0 1 0-2.83-4h-2.34A3 3 0 1 0 8 11a5 5 0 0 0-5 5v3h8v-3a5 5 0 0 0-3-4.58A3 3 0 0 0 8 11h8Zm0 0a5 5 0 0 0-5 5v3h10v-3a5 5 0 0 0-5-5Z"/></svg>
+            </span>
+            <h2>Utilisateurs</h2>
+            <p>Gestion des comptes, roles et acces au systeme.</p>
+            <a class="role-action" href="{{ path('app_audit_index') }}">Voir traces</a>
+        </article>
 
-        <article class="panel">
-            <h2>Administration</h2>
-            <p>Gestion des comptes, des referentiels (batiments, ailes, cellules) et consultation du journal d'audit.</p>
+        <article class="panel role-card">
+            <span class="role-card-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V3h16v18H4Zm4-12h3V6H8v3Zm5 0h3V6h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Zm-5 5h3v-3H8v3Zm5 0h3v-3h-3v3Z"/></svg>
+            </span>
+            <h2>Referentiels</h2>
+            <p>Batiments, ailes, cellules et parametres operationnels.</p>
+            <a class="role-action" href="{{ path('app_structure_cells') }}">Ouvrir cellules</a>
+        </article>
+
+        <article class="panel role-card">
+            <span class="role-card-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v2H7V7Zm0 4h7v2H7v-2Zm-3 9V4a2 2 0 0 1 2-2h10l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Zm11-16v4h4"/></svg>
+            </span>
+            <h2>Audit</h2>
+            <p>Consultation des actions sensibles et des traces applicatives.</p>
+            <a class="role-action" href="{{ path('app_audit_index') }}">Ouvrir audit</a>
         </article>
     </section>
 {% endblock %}
