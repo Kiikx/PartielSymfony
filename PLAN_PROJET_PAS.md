@@ -6,8 +6,8 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 - Source de verite fonctionnelle : `Sujet.md`.
 - Le plan ci-dessous sert de feuille de route operationnelle et doit rester aligne avec les criteres du sujet.
-- Branche de travail courante : `feature/incidents-audit-pages`.
-- Priorite immediate : finaliser le Commit 23 (incidents/audit), puis enchainer sur le Commit 24 (administration utilisateurs).
+- Branche de travail courante : `feature/user-administration`.
+- Priorite immediate : finaliser le Commit 24 (administration utilisateurs), puis basculer sur la Phase 6 API JSON.
 
 ## Rappels des criteres du sujet
 
@@ -196,12 +196,13 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Traitement incident selon role.
   - [x] Journal d'audit filtre par utilisateur, entite, action, date.
 
-- [ ] Commit 24 - `Ajouter l administration des utilisateurs`
-  - [ ] Liste utilisateurs.
-  - [ ] Creation/modification.
-  - [ ] Roles.
-  - [ ] Activation/desactivation.
-  - [ ] Hash password.
+- [x] Commit 24 - `Ajouter l administration des utilisateurs`
+  - [x] Liste utilisateurs.
+  - [x] Creation/modification.
+  - [x] Roles.
+  - [x] Activation/desactivation.
+  - [x] Hash password.
+  - [x] Commande de creation admin pour la production sans fixtures dev.
 
 ## Phase 6 - API JSON
 

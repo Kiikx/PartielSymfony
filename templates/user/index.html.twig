@@ -1,0 +1,83 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}Utilisateurs - PAS{% endblock %}
+{% block page_eyebrow %}Administration{% endblock %}
+{% block page_title %}Utilisateurs{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>Administrez les comptes, profils et droits d'acces au back-office PAS.</p>
+        <div class="button-row">
+            <a class="button button-primary" href="{{ path('app_user_new') }}">Nouvel utilisateur</a>
+        </div>
+    </section>
+
+    <section class="stat-grid">
+        <article class="stat-tile">
+            <p class="stat-label">Comptes</p>
+            <p class="stat-value">{{ stats.total }}</p>
+            <p class="stat-hint">Total</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Actifs</p>
+            <p class="stat-value">{{ stats.active }}</p>
+            <p class="stat-hint">Connexion autorisee</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Managers</p>
+            <p class="stat-value">{{ stats.managers }}</p>
+            <p class="stat-hint">Pilotage batiment</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Surveillants</p>
+            <p class="stat-value">{{ stats.guards }}</p>
+            <p class="stat-hint">Terrain</p>
+        </article>
+    </section>
+
+    <article class="panel">
+        <h2>Comptes applicatifs</h2>
+
+        {% if userRows is empty %}
+            <p class="panel-empty">Aucun compte utilisateur.</p>
+        {% else %}
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Profil</th>
+                            <th scope="col">Statut</th>
+                            <th scope="col">Rattachement</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in userRows %}
+                            {% set user = row.user %}
+                            <tr>
+                                <td>{{ user.fullName }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ row.profileLabel }}</td>
+                                <td><span class="badge {{ user.active ? 'badge-low' : 'badge-neutral' }}">{{ user.active ? 'Actif' : 'Inactif' }}</span></td>
+                                <td>{{ row.attachmentLabel }}</td>
+                                <td>
+                                    <div class="button-row">
+                                        <a class="button button-secondary" href="{{ path('app_user_edit', { id: user.id }) }}">Modifier</a>
+                                        <form method="post" action="{{ path('app_user_toggle', { id: user.id }) }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('toggle-user-' ~ user.id) }}">
+                                            <button class="button button-secondary" type="submit">
+                                                {{ user.active ? 'Desactiver' : 'Activer' }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}

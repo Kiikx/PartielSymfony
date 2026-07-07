@@ -13,6 +13,7 @@
             <nav class="app-nav">
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app_admin_dashboard') }}">Administration</a>
+                    <a href="{{ path('app_user_index') }}">Utilisateurs</a>
                 {% endif %}
 
                 {% if is_granted('ROLE_MANAGER') %}

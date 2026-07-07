@@ -46,6 +46,7 @@ security:
         - { path: '^/api/v1/dashboard', roles: ROLE_MANAGER }
         - { path: '^/api/v1', roles: ROLE_GUARD }
         - { path: '^/admin', roles: ROLE_ADMIN }
+        - { path: '^/users', roles: ROLE_ADMIN }
         - { path: '^/manager', roles: ROLE_MANAGER }
         - { path: '^/guard', roles: ROLE_GUARD }
         - { path: '^/tablet', roles: ROLE_GUARD }
