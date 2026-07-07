@@ -61,6 +61,31 @@ final class IncidentServiceTest extends TestCase
         self::assertSame('INCIDENT_CLOSED', $persisted[1]->getAction());
     }
 
+    public function testUpdateStatusCreatesDedicatedAuditLog(): void
+    {
+        $actor = $this->createActor();
+        $incident = (new Incident())
+            ->setTitle('Incident test')
+            ->setDescription('Description')
+            ->setSeverity(Incident::SEVERITY_MEDIUM)
+            ->setStatus(Incident::STATUS_OPEN);
+        $persisted = [];
+        $entityManager = $this->createTransactionalEntityManager($persisted);
+
+        (new IncidentService($entityManager, new AuditLogger(), $this->createStub(IncidentNotificationCreatorInterface::class)))
+            ->updateStatus($incident, Incident::STATUS_PROCESSING, $actor);
+
+        self::assertSame(Incident::STATUS_PROCESSING, $incident->getStatus());
+        self::assertSame($incident, $persisted[0]);
+        self::assertInstanceOf(AuditLog::class, $persisted[1]);
+        self::assertSame('INCIDENT_STATUS_UPDATED', $persisted[1]->getAction());
+        self::assertSame([
+            'fromStatus' => Incident::STATUS_OPEN,
+            'toStatus' => Incident::STATUS_PROCESSING,
+            'severity' => Incident::SEVERITY_MEDIUM,
+        ], $persisted[1]->getDetails());
+    }
+
     /**
      * @param list<object> $persisted
      */

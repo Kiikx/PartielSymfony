@@ -1,0 +1,98 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}Audit - PAS{% endblock %}
+{% block page_eyebrow %}Controle interne{% endblock %}
+{% block page_title %}Journal d'audit{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>Consultez les actions sensibles journalisees par les services metier et les workflows operationnels.</p>
+    </section>
+
+    <article class="panel">
+        <form class="filter-bar" method="get" action="{{ path('app_audit_index') }}">
+            <label>
+                Utilisateur
+                <select name="actor">
+                    <option value="">Tous</option>
+                    {% for user in users %}
+                        <option value="{{ user.id }}" {{ filters.actor == user.id ? 'selected' }}>{{ user.fullName ?: user.email }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                Action
+                <select name="action">
+                    <option value="">Toutes</option>
+                    {% for action in actions %}
+                        <option value="{{ action }}" {{ filters.action == action ? 'selected' }}>{{ action }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                Entite
+                <select name="entityClass">
+                    <option value="">Toutes</option>
+                    {% for entityClass in entityClasses %}
+                        <option value="{{ entityClass }}" {{ filters.entityClass == entityClass ? 'selected' }}>{{ entityClass }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                Depuis
+                <input type="date" name="from" value="{{ filters.from }}">
+            </label>
+            <label>
+                Jusqu'au
+                <input type="date" name="to" value="{{ filters.to }}">
+            </label>
+            <button class="button button-secondary" type="submit">Filtrer</button>
+            {% if filters.actor or filters.action or filters.entityClass or filters.from or filters.to %}
+                <a class="button button-secondary" href="{{ path('app_audit_index') }}">Reinitialiser</a>
+            {% endif %}
+        </form>
+    </article>
+
+    <article class="panel">
+        <h2>Evenements</h2>
+
+        {% if auditLogs is empty %}
+            <p class="panel-empty">Aucun evenement ne correspond a ces criteres.</p>
+        {% else %}
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Utilisateur</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Entite</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for auditLog in auditLogs %}
+                            <tr>
+                                <td>{{ auditLog.createdAt|date('d/m/Y H:i') }}</td>
+                                <td>{{ auditLog.actor ? auditLog.actor.fullName : '-' }}</td>
+                                <td><span class="badge badge-neutral">{{ auditLog.action }}</span></td>
+                                <td>{{ auditLog.entityClass }}</td>
+                                <td>{{ auditLog.entityId ?: '-' }}</td>
+                                <td>
+                                    {% if auditLog.details is empty %}
+                                        -
+                                    {% else %}
+                                        <code>{{ auditLog.details|json_encode }}</code>
+                                    {% endif %}
+                                </td>
+                                <td>{{ auditLog.ipAddress ?: '-' }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}
