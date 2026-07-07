@@ -6,8 +6,8 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 - Source de verite fonctionnelle : `Sujet.md`.
 - Le plan ci-dessous sert de feuille de route operationnelle et doit rester aligne avec les criteres du sujet.
-- Branche de travail courante : `feature/incidents-audit-pages`.
-- Priorite immediate : finaliser le Commit 23 (incidents/audit), puis enchainer sur le Commit 24 (administration utilisateurs).
+- Branche de travail courante : `feature/user-administration`.
+- Priorite immediate : finaliser le Commit 24 (administration utilisateurs), puis basculer sur la Phase 6 API JSON.
 
 ## Rappels des criteres du sujet
 
@@ -196,12 +196,13 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Traitement incident selon role.
   - [x] Journal d'audit filtre par utilisateur, entite, action, date.
 
-- [ ] Commit 24 - `Ajouter l administration des utilisateurs`
-  - [ ] Liste utilisateurs.
-  - [ ] Creation/modification.
-  - [ ] Roles.
-  - [ ] Activation/desactivation.
-  - [ ] Hash password.
+- [x] Commit 24 - `Ajouter l administration des utilisateurs`
+  - [x] Liste utilisateurs.
+  - [x] Creation/modification.
+  - [x] Roles.
+  - [x] Activation/desactivation.
+  - [x] Hash password.
+  - [x] Commande de creation admin pour la production sans fixtures dev.
 
 ## Phase 6 - API JSON
 
@@ -220,12 +221,12 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 7 - Fixtures et donnees de demonstration
 
-- [ ] Commit 27 - `Ajouter les fixtures de demonstration`
-  - [ ] Comptes `admin@pas.test`, `manager@pas.test`, `guard@pas.test`.
-  - [ ] Mot de passe documente dans README.
-  - [ ] 2 batiments, 4 ailes, 20 cellules.
-  - [ ] 50 detenus avec UID unique.
-  - [ ] Affectations, transferts, activites, incidents, audit logs.
+- [x] Commit 27 - `Ajouter les fixtures de demonstration`
+  - [x] Comptes `admin@pas.test`, `manager@pas.test`, `guard@pas.test`.
+  - [x] Mot de passe documente dans README.
+  - [x] 2 batiments, 4 ailes, 20 cellules.
+  - [x] 50 detenus avec UID unique.
+  - [x] Affectations, transferts, activites, incidents, audit logs.
 
 ## Phase 8 - Tests et qualite
 

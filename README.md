@@ -45,12 +45,20 @@ docker compose exec app php bin/console doctrine:migrations:migrate --no-interac
 docker compose exec app php bin/console doctrine:fixtures:load --no-interaction
 ```
 
-Les fixtures creent une structure minimale et trois comptes de test.
+Les fixtures creent une base de demonstration complete: 2 batiments, 4 ailes, 20 cellules, 50 detenus, affectations, transferts, activites, incidents et audit.
 
 ```text
 Admin: admin@pas.test
 Manager: manager@pas.test
 Surveillant: guard@pas.test
+Mot de passe commun: Password123!
+```
+
+Comptes supplementaires disponibles dans les fixtures:
+
+```text
+Manager Seine Est: manager.seine@pas.test
+Surveillant Paris: guard.paris@pas.test
 Mot de passe commun: Password123!
 ```
 

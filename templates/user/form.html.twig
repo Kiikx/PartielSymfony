@@ -1,0 +1,38 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}{{ user ? 'Modifier utilisateur' : 'Nouvel utilisateur' }} - PAS{% endblock %}
+{% block page_eyebrow %}Administration{% endblock %}
+{% block page_title %}{{ user ? 'Modifier un compte' : 'Nouvel utilisateur' }}{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>Renseignez les informations communes puis les champs specifiques au profil choisi. En edition, le profil reste verrouille pour conserver le type Doctrine.</p>
+    </section>
+
+    <article class="panel">
+        {{ form_start(form, { attr: { class: 'auth-form' } }) }}
+            <div class="form-field">{{ form_row(form.profileType) }}</div>
+            <div class="form-field">{{ form_row(form.email) }}</div>
+            <div class="form-field">{{ form_row(form.firstName) }}</div>
+            <div class="form-field">{{ form_row(form.lastName) }}</div>
+            <div class="form-field">{{ form_row(form.plainPassword) }}</div>
+            <div class="form-field">{{ form_row(form.isActive) }}</div>
+
+            <h2>Champs administrateur</h2>
+            <div class="form-field">{{ form_row(form.service) }}</div>
+            <div class="form-field">{{ form_row(form.superAdmin) }}</div>
+
+            <h2>Champs manager</h2>
+            <div class="form-field">{{ form_row(form.managedBuilding) }}</div>
+
+            <h2>Champs surveillant</h2>
+            <div class="form-field">{{ form_row(form.badgeNumber) }}</div>
+            <div class="form-field">{{ form_row(form.assignedZone) }}</div>
+
+            <div class="button-row">
+                <button class="button button-primary" type="submit">Enregistrer</button>
+                <a class="button button-secondary" href="{{ path('app_user_index') }}">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </article>
+{% endblock %}
