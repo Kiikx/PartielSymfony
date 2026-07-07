@@ -184,11 +184,11 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Validation serveur complete : contraintes de formulaire + regles metier de `TransferService`/`AssignmentService` (exceptions capturees et affichees).
   - [x] Boutons "Affecter" / "Transferer" sur la fiche detenu selon son etat d'affectation.
 
-- [ ] Commit 22 - `Ajouter les vues activites et tablette surveillant`
-  - [ ] Interface tablette surveillant.
-  - [ ] Pointage activite par UID/zone.
-  - [ ] Gestion activites : cantine, promenade, atelier.
-  - [ ] UX rapide et responsive.
+- [x] Commit 22 - `Ajouter les vues activites et tablette surveillant`
+  - [x] Interface tablette surveillant (`/guard/tablet`).
+  - [x] Pointage activite par UID/zone (`ActivityParticipationService`, cree ou met a jour la participation).
+  - [x] Gestion activites : formulaire rapide `ActivityQuickType` couvrant tous les types (`CANTINE`, `PROMENADE`, `ATELIER`, etc.).
+  - [x] UX rapide et responsive : reutilise le layout responsive existant, formulaires courts en 2 colonnes desktop / 1 colonne tablette.
 
 - [ ] Commit 23 - `Ajouter les pages incidents et audit`
   - [ ] Liste incidents avec filtres.
