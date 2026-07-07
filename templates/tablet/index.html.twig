@@ -1,5 +1,12 @@
 {% extends 'layout/app.html.twig' %}
 
+{% set statusBadges = {
+    'PRESENT': 'badge-low',
+    'ABSENT': 'badge-high',
+    'EXCUSE': 'badge-medium',
+    'REFUS': 'badge-neutral',
+} %}
+
 {% block title %}Tablette terrain - PAS{% endblock %}
 {% block page_eyebrow %}Espace surveillant{% endblock %}
 {% block page_title %}Tablette terrain{% endblock %}
@@ -35,6 +42,18 @@
                             </dd>
                         </div>
                     </dl>
+
+                    {% if checkInForm %}
+                        <h2>Pointer une activite</h2>
+                        {{ form_start(checkInForm, { action: path('app_tablet_checkin'), attr: { class: 'auth-form' } }) }}
+                            <div class="form-field">{{ form_row(checkInForm.activity) }}</div>
+                            <div class="form-field">{{ form_row(checkInForm.status) }}</div>
+                            {{ form_widget(checkInForm.inmateId) }}
+                            <button class="button button-primary" type="submit">Enregistrer le pointage</button>
+                        {{ form_end(checkInForm) }}
+                    {% elseif inmate %}
+                        <p class="panel-empty">Aucune activite planifiee aujourd'hui a pointer.</p>
+                    {% endif %}
                 {% else %}
                     <p class="tablet-not-found" role="status">Aucun detenu trouve pour l'UID "{{ searchedUid }}".</p>
                 {% endif %}
@@ -49,13 +68,28 @@
                 <p class="panel-empty">Aucune zone ne vous est assignee.</p>
             {% endif %}
 
-            <h2>Pointage activite</h2>
-            <p class="panel-empty">Le pointage des participations arrive dans une prochaine version.</p>
-            <div class="tablet-actions" aria-hidden="true">
-                {% for type in activityTypes %}
-                    <button class="button button-secondary" type="button" disabled>{{ type|lower|replace({'_': ' '})|capitalize }}</button>
-                {% endfor %}
-            </div>
+            <h2>Activites du jour</h2>
+            {% if todayActivities is empty %}
+                <p class="panel-empty">Aucune activite planifiee aujourd'hui.</p>
+            {% else %}
+                <ul class="activity-list">
+                    {% for activity in todayActivities %}
+                        <li class="activity-item">
+                            <span class="activity-time">{{ activity.scheduledAt|date('H:i') }}</span>
+                            <span class="activity-label">{{ activity.label }}</span>
+                            <span class="activity-meta">{{ activity.participations|length }} pointage(s)</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <h2>Nouvelle activite</h2>
+            {{ form_start(activityForm, { action: path('app_tablet_activity_new', { uid: searchedUid }), attr: { class: 'auth-form' } }) }}
+                <div class="form-field">{{ form_row(activityForm.type) }}</div>
+                <div class="form-field">{{ form_row(activityForm.label) }}</div>
+                <div class="form-field">{{ form_row(activityForm.location) }}</div>
+                <button class="button button-secondary" type="submit">Ajouter</button>
+            {{ form_end(activityForm) }}
         </article>
     </section>
 {% endblock %}
