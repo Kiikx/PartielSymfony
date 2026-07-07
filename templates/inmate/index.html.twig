@@ -1,0 +1,94 @@
+{% extends 'layout/app.html.twig' %}
+
+{% set statusClasses = {
+    'INCARCERE': 'badge-medium',
+    'SORTI': 'badge-low',
+    'TRANSFERE_EXTERNE': 'badge-high',
+    'PERMISSION_MEDICALE': 'badge-neutral',
+} %}
+
+{% block title %}Detenus - PAS{% endblock %}
+{% block page_eyebrow %}Dossiers detenus{% endblock %}
+{% block page_title %}Detenus{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>Consultez les dossiers, statuts et niveaux de securite des detenus.</p>
+    </section>
+
+    <section class="stat-grid">
+        <article class="stat-tile">
+            <p class="stat-label">Dossiers</p>
+            <p class="stat-value">{{ stats.total }}</p>
+            <p class="stat-hint">Total en base</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Incarceres</p>
+            <p class="stat-value">{{ stats.incarcerated }}</p>
+            <p class="stat-hint">Population active</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Sortis</p>
+            <p class="stat-value">{{ stats.released }}</p>
+            <p class="stat-hint">Dossiers clotures</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Transferes</p>
+            <p class="stat-value">{{ stats.externalTransfers }}</p>
+            <p class="stat-hint">Transferts externes</p>
+        </article>
+    </section>
+
+    <section class="content-grid content-grid-2">
+        <article class="panel">
+            <h2>Liste des detenus</h2>
+
+            {% if inmates is empty %}
+                <p class="panel-empty">Aucun detenu a afficher pour le moment.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">UID</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Statut</th>
+                                <th scope="col">Securite</th>
+                                <th scope="col">Arrivee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for inmate in inmates %}
+                                <tr>
+                                    <td>{{ inmate.uid }}</td>
+                                    <td>{{ inmate.fullName }}</td>
+                                    <td><span class="badge {{ statusClasses[inmate.status] ?? 'badge-neutral' }}">{{ inmate.status|lower|replace({'_': ' '})|capitalize }}</span></td>
+                                    <td>{{ inmate.securityLevel|lower|capitalize }}</td>
+                                    <td>{{ inmate.arrivalDate ? inmate.arrivalDate|date('d/m/Y') : '-' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </article>
+
+        <article class="panel">
+            <h2>Repartition</h2>
+            <div class="panel-side">
+                <div>
+                    <div class="panel-side-row"><span>Incarceres</span><strong>{{ stats.incarcerated }}</strong></div>
+                    <div class="progress-track"><span style="width: {{ stats.total > 0 ? (stats.incarcerated / stats.total * 100)|round : 0 }}%"></span></div>
+                </div>
+                <div>
+                    <div class="panel-side-row"><span>Sortis</span><strong>{{ stats.released }}</strong></div>
+                    <div class="progress-track"><span style="width: {{ stats.total > 0 ? (stats.released / stats.total * 100)|round : 0 }}%"></span></div>
+                </div>
+                <div>
+                    <div class="panel-side-row"><span>Transferes</span><strong>{{ stats.externalTransfers }}</strong></div>
+                    <div class="progress-track is-warning"><span style="width: {{ stats.total > 0 ? (stats.externalTransfers / stats.total * 100)|round : 0 }}%"></span></div>
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock %}

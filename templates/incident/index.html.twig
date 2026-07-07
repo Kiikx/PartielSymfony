@@ -1,0 +1,83 @@
+{% extends 'layout/app.html.twig' %}
+
+{% set statusClasses = {
+    'BROUILLON': 'badge-neutral',
+    'OUVERT': 'badge-high',
+    'EN_TRAITEMENT': 'badge-medium',
+    'CLOS': 'badge-low',
+} %}
+{% set severityClasses = {
+    'FAIBLE': 'badge-low',
+    'MOYENNE': 'badge-medium',
+    'ELEVEE': 'badge-high',
+    'CRITIQUE': 'badge-critical',
+} %}
+
+{% block title %}Incidents - PAS{% endblock %}
+{% block page_eyebrow %}Surete{% endblock %}
+{% block page_title %}Incidents{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>Suivez les signalements existants, leur gravite et leur statut de traitement.</p>
+        <div class="button-row">
+            <a class="button button-secondary" href="{{ path('app_guard_tablet') }}">Mode tablette</a>
+        </div>
+    </section>
+
+    <section class="stat-grid">
+        <article class="stat-tile">
+            <p class="stat-label">Ouverts</p>
+            <p class="stat-value">{{ stats.open }}</p>
+            <p class="stat-hint">A traiter</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">En traitement</p>
+            <p class="stat-value">{{ stats.processing }}</p>
+            <p class="stat-hint">Suivi en cours</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Clos</p>
+            <p class="stat-value">{{ stats.closed }}</p>
+            <p class="stat-hint">Resolus</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Critiques</p>
+            <p class="stat-value">{{ stats.critical }}</p>
+            <p class="stat-hint">Priorite maximale</p>
+        </article>
+    </section>
+
+    <article class="panel">
+        <h2>Journal incidents</h2>
+
+        {% if incidents is empty %}
+            <p class="panel-empty">Aucun incident a afficher pour le moment.</p>
+        {% else %}
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Gravite</th>
+                            <th scope="col">Statut</th>
+                            <th scope="col">Cellule</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for incident in incidents %}
+                            <tr>
+                                <td>{{ incident.title }}</td>
+                                <td><span class="badge {{ severityClasses[incident.severity] ?? 'badge-neutral' }}">{{ incident.severity|lower|capitalize }}</span></td>
+                                <td><span class="badge {{ statusClasses[incident.status] ?? 'badge-neutral' }}">{{ incident.status|lower|replace({'_': ' '})|capitalize }}</span></td>
+                                <td>{{ incident.cell ? incident.cell.number : '-' }}</td>
+                                <td>{{ incident.occurredAt|date('d/m/Y H:i') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}

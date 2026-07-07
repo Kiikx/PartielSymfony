@@ -22,6 +22,9 @@
                 {% if is_granted('ROLE_GUARD') %}
                     <a href="{{ path('app_guard_dashboard') }}">Surveillance</a>
                     <a href="{{ path('app_guard_tablet') }}">Tablette terrain</a>
+                    <a href="{{ path('app_inmate_index') }}">Detenus</a>
+                    <a href="{{ path('app_structure_cells') }}">Cellules</a>
+                    <a href="{{ path('app_incident_index') }}">Incidents</a>
                 {% endif %}
             </nav>
         </aside>

@@ -1,0 +1,94 @@
+{% extends 'layout/app.html.twig' %}
+
+{% set statusClasses = {
+    'AVAILABLE': 'badge-low',
+    'FULL': 'badge-high',
+    'MAINTENANCE': 'badge-medium',
+    'CLOSED': 'badge-neutral',
+} %}
+
+{% block title %}Cellules - PAS{% endblock %}
+{% block page_eyebrow %}Structure penitentiaire{% endblock %}
+{% block page_title %}Batiments, ailes et cellules{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>Suivez les capacites, disponibilites et cellules indisponibles.</p>
+    </section>
+
+    <section class="stat-grid">
+        <article class="stat-tile">
+            <p class="stat-label">Cellules</p>
+            <p class="stat-value">{{ stats.cells }}</p>
+            <p class="stat-hint">{{ stats.buildings }} batiment(s), {{ stats.wings }} aile(s)</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Disponibles</p>
+            <p class="stat-value">{{ stats.available }}</p>
+            <p class="stat-hint">Statut disponible</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Pleines</p>
+            <p class="stat-value">{{ stats.full }}</p>
+            <p class="stat-hint">Occupation complete</p>
+        </article>
+        <article class="stat-tile">
+            <p class="stat-label">Maintenance</p>
+            <p class="stat-value">{{ stats.maintenance }}</p>
+            <p class="stat-hint">Indisponibles</p>
+        </article>
+    </section>
+
+    <section class="content-grid content-grid-2">
+        <article class="panel">
+            <h2>Etat des cellules</h2>
+            <div class="panel-side">
+                <div>
+                    <div class="panel-side-row"><span>Disponibles</span><strong>{{ stats.available }}</strong></div>
+                    <div class="progress-track"><span style="width: {{ stats.cells > 0 ? (stats.available / stats.cells * 100)|round : 0 }}%"></span></div>
+                </div>
+                <div>
+                    <div class="panel-side-row"><span>Pleines</span><strong>{{ stats.full }}</strong></div>
+                    <div class="progress-track is-danger"><span style="width: {{ stats.cells > 0 ? (stats.full / stats.cells * 100)|round : 0 }}%"></span></div>
+                </div>
+                <div>
+                    <div class="panel-side-row"><span>Maintenance</span><strong>{{ stats.maintenance }}</strong></div>
+                    <div class="progress-track is-warning"><span style="width: {{ stats.cells > 0 ? (stats.maintenance / stats.cells * 100)|round : 0 }}%"></span></div>
+                </div>
+            </div>
+        </article>
+
+        <article class="panel">
+            <h2>Inventaire cellules</h2>
+
+            {% if cells is empty %}
+                <p class="panel-empty">Aucune cellule a afficher pour le moment.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cellule</th>
+                                <th scope="col">Aile</th>
+                                <th scope="col">Batiment</th>
+                                <th scope="col">Capacite</th>
+                                <th scope="col">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cell in cells %}
+                                <tr>
+                                    <td>{{ cell.number }}</td>
+                                    <td>{{ cell.wing ? cell.wing.name : '-' }}</td>
+                                    <td>{{ cell.wing and cell.wing.building ? cell.wing.building.name : '-' }}</td>
+                                    <td>{{ cell.capacity }}</td>
+                                    <td><span class="badge {{ statusClasses[cell.status] ?? 'badge-neutral' }}">{{ cell.status|lower|capitalize }}</span></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </article>
+    </section>
+{% endblock %}
