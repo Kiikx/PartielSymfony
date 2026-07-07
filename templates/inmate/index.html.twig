@@ -14,6 +14,11 @@
 {% block app_body %}
     <section class="page-head">
         <p>Consultez les dossiers, statuts et niveaux de securite des detenus.</p>
+        {% if is_granted('ROLE_MANAGER') %}
+            <div class="button-row">
+                <a class="button button-primary" href="{{ path('app_inmate_new') }}">Nouveau detenu</a>
+            </div>
+        {% endif %}
     </section>
 
     <section class="stat-grid">
@@ -39,12 +44,43 @@
         </article>
     </section>
 
+    <article class="panel">
+        <form class="filter-bar" method="get" action="{{ path('app_inmate_index') }}">
+            <label>
+                UID
+                <input type="search" name="uid" value="{{ filters.uid }}" placeholder="Rechercher un UID">
+            </label>
+            <label>
+                Statut
+                <select name="status">
+                    <option value="">Tous les statuts</option>
+                    {% for status in statuses %}
+                        <option value="{{ status }}" {{ filters.status == status ? 'selected' }}>{{ status|lower|replace({'_': ' '})|capitalize }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                Niveau
+                <select name="securityLevel">
+                    <option value="">Tous les niveaux</option>
+                    {% for level in securityLevels %}
+                        <option value="{{ level }}" {{ filters.securityLevel == level ? 'selected' }}>{{ level|lower|capitalize }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <button class="button button-secondary" type="submit">Filtrer</button>
+            {% if filters.uid or filters.status or filters.securityLevel %}
+                <a class="button button-secondary" href="{{ path('app_inmate_index') }}">Reinitialiser</a>
+            {% endif %}
+        </form>
+    </article>
+
     <section class="content-grid content-grid-2">
         <article class="panel">
             <h2>Liste des detenus</h2>
 
             {% if inmates is empty %}
-                <p class="panel-empty">Aucun detenu a afficher pour le moment.</p>
+                <p class="panel-empty">Aucun detenu ne correspond a ces criteres.</p>
             {% else %}
                 <div class="table-wrap">
                     <table class="data-table">
@@ -60,7 +96,7 @@
                         <tbody>
                             {% for inmate in inmates %}
                                 <tr>
-                                    <td>{{ inmate.uid }}</td>
+                                    <td><a href="{{ path('app_inmate_show', { id: inmate.id }) }}">{{ inmate.uid }}</a></td>
                                     <td>{{ inmate.fullName }}</td>
                                     <td><span class="badge {{ statusClasses[inmate.status] ?? 'badge-neutral' }}">{{ inmate.status|lower|replace({'_': ' '})|capitalize }}</span></td>
                                     <td>{{ inmate.securityLevel|lower|capitalize }}</td>

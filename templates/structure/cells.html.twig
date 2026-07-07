@@ -14,6 +14,14 @@
 {% block app_body %}
     <section class="page-head">
         <p>Suivez les capacites, disponibilites et cellules indisponibles.</p>
+        {% if is_granted('ROLE_MANAGER') %}
+            <div class="button-row">
+                <a class="button button-secondary" href="{{ path('app_building_index') }}">Batiments</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="button button-primary" href="{{ path('app_cell_new') }}">Nouvelle cellule</a>
+                {% endif %}
+            </div>
+        {% endif %}
     </section>
 
     <section class="stat-grid">
@@ -78,7 +86,7 @@
                         <tbody>
                             {% for cell in cells %}
                                 <tr>
-                                    <td>{{ cell.number }}</td>
+                                    <td><a href="{{ path('app_cell_show', { id: cell.id }) }}">{{ cell.number }}</a></td>
                                     <td>{{ cell.wing ? cell.wing.name : '-' }}</td>
                                     <td>{{ cell.wing and cell.wing.building ? cell.wing.building.name : '-' }}</td>
                                     <td>{{ cell.capacity }}</td>

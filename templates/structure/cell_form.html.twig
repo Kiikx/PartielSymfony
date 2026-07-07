@@ -1,0 +1,21 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}{{ cell.id ? 'Modifier' : 'Nouvelle' }} cellule - PAS{% endblock %}
+{% block page_eyebrow %}Structure penitentiaire{% endblock %}
+{% block page_title %}{{ cell.id ? 'Modifier la cellule' : 'Nouvelle cellule' }}{% endblock %}
+
+{% block app_body %}
+    <article class="panel">
+        {{ form_start(form, { attr: { class: 'auth-form' } }) }}
+            <div class="form-field">{{ form_row(form.number) }}</div>
+            <div class="form-field">{{ form_row(form.capacity) }}</div>
+            <div class="form-field">{{ form_row(form.status) }}</div>
+            <div class="form-field">{{ form_row(form.wing) }}</div>
+
+            <div class="button-row">
+                <button class="button button-primary" type="submit">Enregistrer</button>
+                <a class="button button-secondary" href="{{ cell.id ? path('app_cell_show', { id: cell.id }) : path('app_structure_cells') }}">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </article>
+{% endblock %}

@@ -6,8 +6,8 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 - Source de verite fonctionnelle : `Sujet.md`.
 - Le plan ci-dessous sert de feuille de route operationnelle et doit rester aligne avec les criteres du sujet.
-- Branche de travail courante : `feature/back-office-dashboard`.
-- Priorite immediate : Phase 5 back-office Twig (layout + dashboard faits, pages de gestion a suivre).
+- Branche de travail courante : `feature/inmate-management`.
+- Priorite immediate : Phase 5B (Commits 19-21) en cours ; 19 et 20 termines, 21 termine, reste 22-24 (Phase 5C : tablette complete, incidents/audit, admin utilisateurs).
 
 ## Rappels des criteres du sujet
 
@@ -162,25 +162,27 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
   - [x] Deux `TabletController` en conflit ; fusionnes en un seul controleur securise (`/guard/tablet` et `/tablet`).
   - [x] `HomeController` simplifie en redirection par role (l'ancien dashboard dedie faisait doublon avec `DashboardService`).
 
-- [ ] Commit 19 - `Ajouter les pages de gestion des detenus`
-  - [ ] Liste detenus avec recherche UID.
-  - [ ] Filtres statut/niveau.
-  - [ ] Fiche detenu.
-  - [ ] Formulaire creation/modification.
-  - [ ] Historique affectations, activites, incidents.
+- [x] Commit 19 - `Ajouter les pages de gestion des detenus`
+  - [x] Liste detenus avec recherche UID.
+  - [x] Filtres statut/niveau.
+  - [x] Fiche detenu.
+  - [x] Formulaire creation/modification (premier formulaire dynamique Symfony du projet, `InmateType`).
+  - [x] Historique affectations, transferts, activites, incidents (relations existantes de `Inmate`).
+  - [x] Acces : consultation `ROLE_GUARD`, creation/modification `ROLE_MANAGER`.
 
-- [ ] Commit 20 - `Ajouter les pages de structure penitentiaire`
-  - [ ] Liste batiments/ailes/cellules.
-  - [ ] Fiche cellule.
-  - [ ] Occupants actifs.
-  - [ ] Historique cellule.
-  - [ ] CRUD admin des referentiels principaux.
+- [x] Commit 20 - `Ajouter les pages de structure penitentiaire`
+  - [x] Liste batiments/ailes/cellules (`/buildings`, fiche batiment avec ses ailes, `/cells`).
+  - [x] Fiche cellule (`/cells/{id}`).
+  - [x] Occupants actifs.
+  - [x] Historique cellule (affectations passees et en cours).
+  - [x] CRUD admin des referentiels principaux : `Building`, `Wing`, `Cell` (`BuildingType`, `WingType`, `CellType`), creation/modification `ROLE_ADMIN`, suppression bloquee si des enfants existent (pas de cascade destructive).
 
-- [ ] Commit 21 - `Ajouter les formulaires d affectation et transfert`
-  - [ ] Formulaire affectation dynamique.
-  - [ ] Cellules disponibles selon batiment/aile/capacite.
-  - [ ] Formulaire transfert interne/externe.
-  - [ ] Validation serveur complete.
+- [x] Commit 21 - `Ajouter les formulaires d affectation et transfert`
+  - [x] Formulaire affectation dynamique (`AssignmentRequestType`, non lie a l'entite, delegue au `AssignmentService` existant).
+  - [x] Cellules disponibles selon batiment/aile/capacite (`CellRepository::createAvailableForAssignmentQueryBuilder`, groupe par batiment/aile dans le select).
+  - [x] Formulaire transfert interne/externe (`TransferRequestType`), bascule des champs via JS selon le type choisi.
+  - [x] Validation serveur complete : contraintes de formulaire + regles metier de `TransferService`/`AssignmentService` (exceptions capturees et affichees).
+  - [x] Boutons "Affecter" / "Transferer" sur la fiche detenu selon son etat d'affectation.
 
 - [ ] Commit 22 - `Ajouter les vues activites et tablette surveillant`
   - [ ] Interface tablette surveillant.

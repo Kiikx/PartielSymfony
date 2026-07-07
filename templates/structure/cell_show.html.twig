@@ -1,0 +1,85 @@
+{% extends 'layout/app.html.twig' %}
+
+{% set statusClasses = {
+    'AVAILABLE': 'badge-low',
+    'FULL': 'badge-high',
+    'MAINTENANCE': 'badge-medium',
+    'CLOSED': 'badge-neutral',
+} %}
+
+{% block title %}Cellule {{ cell.number }} - PAS{% endblock %}
+{% block page_eyebrow %}Structure penitentiaire{% endblock %}
+{% block page_title %}Cellule {{ cell.number }}{% endblock %}
+
+{% block app_body %}
+    <section class="page-head">
+        <p>
+            {{ cell.wing ? cell.wing.name : '-' }}
+            {% if cell.wing and cell.wing.building %} - {{ cell.wing.building.name }}{% endif %}
+            - <span class="badge {{ statusClasses[cell.status] ?? 'badge-neutral' }}">{{ cell.status|lower|capitalize }}</span>
+        </p>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="button-row">
+                <a class="button button-secondary" href="{{ path('app_cell_edit', { id: cell.id }) }}">Modifier</a>
+                <form method="post" action="{{ path('app_cell_delete', { id: cell.id }) }}" onsubmit="return confirm('Supprimer cette cellule ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete-cell-' ~ cell.id) }}">
+                    <button class="button button-secondary" type="submit">Supprimer</button>
+                </form>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="content-grid content-grid-2">
+        <article class="panel">
+            <h2>Capacite</h2>
+            <div class="panel-side">
+                <div class="panel-side-row"><span>Capacite</span><strong>{{ cell.capacity }}</strong></div>
+                <div class="panel-side-row"><span>Occupants actifs</span><strong>{{ activeAssignments|length }}</strong></div>
+            </div>
+        </article>
+
+        <article class="panel">
+            <h2>Occupants actifs</h2>
+            {% if activeAssignments is empty %}
+                <p class="panel-empty">Aucun occupant actuellement.</p>
+            {% else %}
+                <ul class="activity-list">
+                    {% for assignment in activeAssignments %}
+                        <li class="activity-item">
+                            <span class="activity-label"><a href="{{ path('app_inmate_show', { id: assignment.inmate.id }) }}">{{ assignment.inmate.fullName }}</a></span>
+                            <span class="activity-meta">depuis le {{ assignment.startAt|date('d/m/Y') }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </article>
+    </section>
+
+    <article class="panel">
+        <h2>Historique de la cellule</h2>
+        {% if history is empty %}
+            <p class="panel-empty">Aucune affectation enregistree.</p>
+        {% else %}
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Detenu</th>
+                            <th scope="col">Debut</th>
+                            <th scope="col">Fin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for assignment in history %}
+                            <tr>
+                                <td><a href="{{ path('app_inmate_show', { id: assignment.inmate.id }) }}">{{ assignment.inmate.fullName }}</a></td>
+                                <td>{{ assignment.startAt|date('d/m/Y') }}</td>
+                                <td>{{ assignment.endAt ? assignment.endAt|date('d/m/Y') : '-' }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}

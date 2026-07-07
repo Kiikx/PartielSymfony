@@ -41,6 +41,33 @@ class AssignmentRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * @return list<Assignment>
+     */
+    public function findActiveForCell(Cell $cell): array
+    {
+        return $this->createQueryBuilder('assignment')
+            ->andWhere('assignment.cell = :cell')
+            ->andWhere('assignment.endAt IS NULL')
+            ->setParameter('cell', $cell)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return list<Assignment>
+     */
+    public function findHistoryForCell(Cell $cell, int $limit = 20): array
+    {
+        return $this->createQueryBuilder('assignment')
+            ->andWhere('assignment.cell = :cell')
+            ->setParameter('cell', $cell)
+            ->orderBy('assignment.startAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function countActive(?Building $building = null): int
     {
         $qb = $this->createQueryBuilder('assignment')

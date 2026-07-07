@@ -1,0 +1,25 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}{{ inmate.id ? 'Modifier' : 'Nouveau' }} detenu - PAS{% endblock %}
+{% block page_eyebrow %}Dossiers detenus{% endblock %}
+{% block page_title %}{{ inmate.id ? 'Modifier le dossier' : 'Nouveau detenu' }}{% endblock %}
+
+{% block app_body %}
+    <article class="panel">
+        {{ form_start(form, { attr: { class: 'auth-form' } }) }}
+            <div class="form-field">{{ form_row(form.uid) }}</div>
+            <div class="form-field">{{ form_row(form.firstName) }}</div>
+            <div class="form-field">{{ form_row(form.lastName) }}</div>
+            <div class="form-field">{{ form_row(form.birthDate) }}</div>
+            <div class="form-field">{{ form_row(form.arrivalDate) }}</div>
+            <div class="form-field">{{ form_row(form.releaseDate) }}</div>
+            <div class="form-field">{{ form_row(form.securityLevel) }}</div>
+            <div class="form-field">{{ form_row(form.status) }}</div>
+
+            <div class="button-row">
+                <button class="button button-primary" type="submit">Enregistrer</button>
+                <a class="button button-secondary" href="{{ inmate.id ? path('app_inmate_show', { id: inmate.id }) : path('app_inmate_index') }}">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </article>
+{% endblock %}

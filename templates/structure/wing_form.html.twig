@@ -1,0 +1,20 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}{{ wing.id ? 'Modifier' : 'Nouvelle' }} aile - PAS{% endblock %}
+{% block page_eyebrow %}Structure penitentiaire{% endblock %}
+{% block page_title %}{{ wing.id ? 'Modifier l\'aile' : 'Nouvelle aile' }}{% endblock %}
+
+{% block app_body %}
+    <article class="panel">
+        {{ form_start(form, { attr: { class: 'auth-form' } }) }}
+            <div class="form-field">{{ form_row(form.name) }}</div>
+            <div class="form-field">{{ form_row(form.floor) }}</div>
+            <div class="form-field">{{ form_row(form.building) }}</div>
+
+            <div class="button-row">
+                <button class="button button-primary" type="submit">Enregistrer</button>
+                <a class="button button-secondary" href="{{ path('app_building_show', { id: building.id }) }}">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </article>
+{% endblock %}

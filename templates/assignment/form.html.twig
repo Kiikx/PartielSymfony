@@ -1,0 +1,20 @@
+{% extends 'layout/app.html.twig' %}
+
+{% block title %}Nouvelle affectation - PAS{% endblock %}
+{% block page_eyebrow %}Mouvements{% endblock %}
+{% block page_title %}Nouvelle affectation{% endblock %}
+
+{% block app_body %}
+    <article class="panel">
+        {{ form_start(form, { attr: { class: 'auth-form' } }) }}
+            <div class="form-field">{{ form_row(form.inmate) }}</div>
+            <div class="form-field">{{ form_row(form.cell) }}</div>
+            <div class="form-field">{{ form_row(form.reason) }}</div>
+
+            <div class="button-row">
+                <button class="button button-primary" type="submit">Affecter</button>
+                <a class="button button-secondary" href="{{ path('app_inmate_index') }}">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </article>
+{% endblock %}
