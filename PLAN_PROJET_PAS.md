@@ -221,12 +221,12 @@ Ce plan decoupe le cahier des charges en etapes livrables. Chaque bloc correspon
 
 ## Phase 7 - Fixtures et donnees de demonstration
 
-- [ ] Commit 27 - `Ajouter les fixtures de demonstration`
-  - [ ] Comptes `admin@pas.test`, `manager@pas.test`, `guard@pas.test`.
-  - [ ] Mot de passe documente dans README.
-  - [ ] 2 batiments, 4 ailes, 20 cellules.
-  - [ ] 50 detenus avec UID unique.
-  - [ ] Affectations, transferts, activites, incidents, audit logs.
+- [x] Commit 27 - `Ajouter les fixtures de demonstration`
+  - [x] Comptes `admin@pas.test`, `manager@pas.test`, `guard@pas.test`.
+  - [x] Mot de passe documente dans README.
+  - [x] 2 batiments, 4 ailes, 20 cellules.
+  - [x] 50 detenus avec UID unique.
+  - [x] Affectations, transferts, activites, incidents, audit logs.
 
 ## Phase 8 - Tests et qualite
 
