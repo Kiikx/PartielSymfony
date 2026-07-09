@@ -1,5 +1,13 @@
 # PartielSymfony
 
+## Membres du groupe
+
+| Pseudo GitHub | Nom | Prenom |
+| --- | --- | --- |
+| kiikx | GONCALVEZ | Killian |
+| daruii | MEGUIRA | David |
+| inessben | BEN AISSA | Iness |
+
 Projet Symfony initialise et dockerise.
 
 ## Prerequis
